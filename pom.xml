@@ -1,0 +1,71 @@
+<project
+ xmlns="http://maven.apache.org/POM/4.0.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>at.porscheinformatik.angular-spring-heroes</groupId>
+  <artifactId>heroes-parent</artifactId>
+  <version>1.0.0.BUILD-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Angular Spring Heroes</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+  </properties>
+
+  <modules>
+    <module>heroes-backend</module>
+    <module>heroes-frontend</module>
+    <module>heroes-webapp</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.spring.platform</groupId>
+        <artifactId>platform-bom</artifactId>
+        <version>Brussels-SR3</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>1.5.2.RELEASE</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <version>1.3</version>
+          <configuration>
+            <nodeVersion>v6.11.0</nodeVersion>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>cz.habarta.typescript-generator</groupId>
+          <artifactId>typescript-generator-maven-plugin</artifactId>
+          <version>1.19.294</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.1</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
