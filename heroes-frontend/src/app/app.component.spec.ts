@@ -2,7 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
-import { HeroDetailComponent } from './heroes/hero-detail.component';
+import { HeroDetailComponent } from './heroes/hero-detail/hero-detail.component';
 import { FormsModule } from '@angular/forms';
 import { HeroService } from './heroes/hero.service';
 
