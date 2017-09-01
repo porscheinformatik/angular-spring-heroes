@@ -1,5 +1,5 @@
-import { ParamMap, ActivatedRoute } from '@angular/router';
-import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { HeroService } from '../hero.service';
 
@@ -8,7 +8,7 @@ import { HeroService } from '../hero.service';
   templateUrl: './hero-detail.component.html',
   styleUrls: ['./hero-detail.component.css']
 })
-export class HeroDetailComponent {
+export class HeroDetailComponent implements OnInit {
   @Input() hero: Hero;
 
   constructor(private heroService: HeroService, private route: ActivatedRoute,
@@ -21,6 +21,10 @@ export class HeroDetailComponent {
 
   goBack() {
     this.location.back();
+  }
+
+  onSave() {
+    this.heroService.update(this.hero);
   }
 
 }
