@@ -26,7 +26,7 @@
       <dependency>
         <groupId>io.spring.platform</groupId>
         <artifactId>platform-bom</artifactId>
-        <version>Brussels-SR3</version>
+        <version>Brussels-SR6</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -39,14 +39,15 @@
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>1.5.2.RELEASE</version>
+          <version>1.5.9.RELEASE</version>
         </plugin>
         <plugin>
           <groupId>com.github.eirslett</groupId>
           <artifactId>frontend-maven-plugin</artifactId>
           <version>1.6</version>
           <configuration>
-            <nodeVersion>v8.9.0</nodeVersion>
+            <nodeVersion>v8.9.1</nodeVersion>
+            <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
           </configuration>
         </plugin>
         <plugin>
