@@ -1,6 +1,6 @@
 <h2>My Heroes</h2>
 <div>
-  <label for="heroName">Hero name:</label> <input id="heroName" #heroName />
+  <label for="heroName">Hero name:</label> <input id="heroName" #heroName (keyup.enter)="add(heroName.value); heroName.value=''"/>
   <button (click)="add(heroName.value); heroName.value=''">
     Add
   </button>

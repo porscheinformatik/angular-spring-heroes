@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class HeroesComponent implements OnInit {
   heroes: Hero[];
-  selectedHero : Hero;
+  selectedHero: Hero;
 
   constructor(private heroService: HeroService, private router: Router) { }
 
