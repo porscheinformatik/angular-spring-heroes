@@ -1,0 +1,4 @@
+${info.application.name}
+Version:     ${info.application.version}
+Spring Boot: ${spring-boot.version}
+Angular:     TODO

@@ -33,7 +33,7 @@ public class HeroController {
 
   @GetMapping("/{id}")
   public Hero get(@PathVariable("id") Integer id) {
-    return heroRepository.findOne(id);
+    return heroRepository.findById(id).orElse(null);
   }
 
   @PostMapping
@@ -48,7 +48,7 @@ public class HeroController {
 
   @DeleteMapping("/{id}")
   public Hero delete(@PathVariable("id") Integer id) {
-    Hero hero = heroRepository.findOne(id);
+    Hero hero = heroRepository.findById(id).orElse(null);
     if (hero != null) {
       heroRepository.delete(hero);
     }
