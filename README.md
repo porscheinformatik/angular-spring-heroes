@@ -1,5 +1,9 @@
 # Angular Spring Heroes
 
+[![Travis Build Status](https://travis-ci.org/porscheinformatik/angular-spring-heroes.svg?branch=master)](https://travis-ci.org/porscheinformatik/angular-spring-heroes)
+[![Docker Build Status](https://img.shields.io/docker/build/porscheinformatik/angular-spring-heroes.svg)](https://hub.docker.com/r/porscheinformatik/angular-spring-heroes/builds/)
+[![license](https://img.shields.io/github/license/porscheinformatik/angular-spring-heroes.svg)]()
+
 This projects shows the integration of Angular with a Spring Boot backend.
 
 ## Build
