@@ -1,14 +1,19 @@
 package heroes;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MainController {
 
-  @RequestMapping({"/", "/heroes", "/dashboard", "/detail/*"})
+  @GetMapping({"/", "/heroes", "/dashboard", "/detail/*"})
   public String index() {
     return "forward:/index.html";
+  }
+
+  @GetMapping("/lala")
+  public String lala() {
+    throw new RuntimeException("lala");
   }
 
 }
