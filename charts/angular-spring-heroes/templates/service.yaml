@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "angular-spring-heroes.fullname" . }}
+  labels:
+    app: {{ template "angular-spring-heroes.name" . }}
+    chart: {{ template "angular-spring-heroes.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "angular-spring-heroes.name" . }}
+    release: {{ .Release.Name }}
