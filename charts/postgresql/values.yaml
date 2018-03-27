@@ -1,0 +1,52 @@
+# Default values for postgresql.
+
+## Create a database user
+## Default: postgres
+# postgresUser:
+## Default: random 10 character string
+# postgresPassword:
+
+## Create a database
+## Default: the postgres user
+# postgresDatabase:
+
+image:
+  repository: centos/postgresql-95-centos7
+  tag: 9.5
+  pullPolicy: IfNotPresent
+
+## Persist data to a persitent volume
+persistence:
+  enabled: true
+
+  ## A manually managed Persistent Volume and Claim
+  ## Requires persistence.enabled: true
+  ## If defined, PVC must be created manually before volume will be bound
+  # existingClaim:
+
+  ## database data Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+  accessMode: ReadWriteOnce
+  size: 8Gi
+  subPath: "postgresql-db"
+  mountPath: /var/lib/postgresql/data/pgdata
+
+resources:
+  limits:
+   cpu: 500m
+   memory: 512Mi
+  requests:
+   cpu: 100m
+   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

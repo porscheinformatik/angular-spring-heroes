@@ -1,0 +1,4 @@
+dependencies:
+  - name: postgresql
+    repository: "file://../postgresql"
+    version: ">0.1.0"
