@@ -1,3 +1,4 @@
+{{- $postgresqlName := include "postgresql.fullname" . -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -26,17 +27,17 @@ spec:
           {{- if .Values.postgresql.enabled }}
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://{{ template "postgresql.fullname" . }}/{{ .Values.postgresql.postgresDatabase }}
+              value: jdbc:postgresql://{{ $postgresqlName }}/{{ .Values.postgresql.postgresDatabase }}
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
                   key: postgres-user
-                  name: {{ template "postgresql.fullname" . }}
+                  name: {{ $postgresqlName }}
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: postgres-password
-                  name: {{ template "postgresql.fullname" . }}
+                  name: {{ $postgresqlName }}
           {{- end }}
           ports:
             - name: http
