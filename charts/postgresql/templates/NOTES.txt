@@ -1,0 +1,8 @@
+  The following service(s) have been created in your project: {{ template "postgresql.fullname" . }}.
+
+         Username: {{ default "sampledb" .Values.postgresUser }}
+         Password: look at secret {{ template "postgresql.fullname" . }} for the password
+    Database Name: {{ default "sampledb" .Values.postgresDatabase }}
+   Connection URL: postgresql://{{ template "postgresql.fullname" . }}:5432/
+
+  For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/blob/master/9.5.

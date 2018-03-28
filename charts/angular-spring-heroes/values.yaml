@@ -1,0 +1,30 @@
+# Default values for angular-spring-heroes.
+
+replicaCount: 2
+
+image:
+  repository: porscheinformatik/angular-spring-heroes
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 8080
+
+route:
+  enabled: true
+  # host: fullhostname.example.com
+  # basename: example.com
+
+postgresql:
+  enabled: false
+  postgresUser: heroes
+  postgresDatabase: heroes
+
+resources:
+  limits:
+   cpu: 500m
+   memory: 512Mi
+  requests:
+   cpu: 100m
+   memory: 256Mi
