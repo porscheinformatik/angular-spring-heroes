@@ -23,6 +23,21 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.postgresql.enabled }}
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://{{ template "postgresql.fullname" . }}/{{ .Values.postgresql.postgresDatabase }}
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: postgres-user
+                  name: {{ template "postgresql.fullname" . }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: postgres-password
+                  name: {{ template "postgresql.fullname" . }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 8080

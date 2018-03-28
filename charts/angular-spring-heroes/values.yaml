@@ -16,6 +16,11 @@ route:
   # host: fullhostname.example.com
   # basename: example.com
 
+postgresql:
+  enabled: false
+  postgresUser: heroes
+  postgresDatabase: heroes
+
 resources:
   limits:
    cpu: 500m
