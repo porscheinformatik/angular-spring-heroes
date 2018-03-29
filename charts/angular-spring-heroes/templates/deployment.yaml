@@ -1,4 +1,3 @@
-{{- $postgresqlName := include "postgresql.fullname" . -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -25,6 +24,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.postgresql.enabled }}
+          {{- $postgresqlName := include "postgresql.fullname" . -}}
           env:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://{{ $postgresqlName }}/{{ .Values.postgresql.postgresDatabase }}
