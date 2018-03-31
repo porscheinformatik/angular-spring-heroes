@@ -9,6 +9,11 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
   selector:
     matchLabels:
       app: {{ template "angular-spring-heroes.name" . }}
@@ -24,20 +29,19 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.postgresql.enabled }}
-          {{- $postgresqlName := include "postgresql.fullname" . -}}
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://{{ $postgresqlName }}/{{ .Values.postgresql.postgresDatabase }}
+              value: jdbc:postgresql://{{ include "postgresql.fullname" . }}/{{ .Values.postgresql.postgresDatabase }}
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
                   key: postgres-user
-                  name: {{ $postgresqlName }}
+                  name: {{ include "postgresql.fullname" . }}
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: postgres-password
-                  name: {{ $postgresqlName }}
+                  name: {{ include "postgresql.fullname" . }}
           {{- end }}
           ports:
             - name: http
