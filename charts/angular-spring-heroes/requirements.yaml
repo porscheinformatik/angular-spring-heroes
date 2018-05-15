@@ -1,5 +1,5 @@
 dependencies:
   - name: postgresql
-    repository: "file://../postgresql"
+    repository: "https://porscheinformatik.github.io/helm-charts/"
     version: ">=1.0.0"
     condition: postgresql.enabled
