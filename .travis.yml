@@ -11,9 +11,10 @@ jobs:
     - stage: build
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t $DOCKER_ORG/angular-spring-heroes .
+      - export DOCKER_TAG=`if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then echo "pr-$TRAVIS_PULL_REQUEST"; elif [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+      - docker build -t $DOCKER_ORG/angular-spring-heroes:$DOCKER_TAG .
       - docker images
-      - docker push $DOCKER_ORG/angular-spring-heroes
+      - docker push $DOCKER_ORG/angular-spring-heroes:$DOCKER_TAG
     - stage: deploy-pr
       before_script:
       - curl -L -o oc.tgz https://github.com/openshift/origin/releases/download/v3.7.2/openshift-origin-client-tools-v3.7.2-282e43f-linux-64bit.tar.gz
@@ -29,4 +30,4 @@ jobs:
       - oc project ${OPENSHIFT_PROJECT}
       - helm init --upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --service-account tiller
       - helm dep up charts\angular-spring-heroes\
-      - helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install ${HELM_RELEASE} charts\angular-spring-heroes\
+      - helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install --set image.tag=${HELM_RELEASE} ${HELM_RELEASE} charts\angular-spring-heroes\
