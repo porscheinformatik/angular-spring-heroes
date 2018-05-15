@@ -33,7 +33,7 @@ jobs:
       - helm init --upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --service-account tiller
       - helm repo add porscheinformatik https://porscheinformatik.github.io/helm-charts/
       - helm dep up charts/angular-spring-heroes/
-      - helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install --set image.tag=${HELM_RELEASE} ${HELM_RELEASE} charts/angular-spring-heroes
+      - helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install --set image.tag=${DOCKER_TAG} ${HELM_RELEASE} charts/angular-spring-heroes
       - export APP_URL=https://`oc get route ${ROUTE_NAME} --template='{{ .spec.host }}'`
 
 after_success: |-
