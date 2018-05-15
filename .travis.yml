@@ -19,7 +19,7 @@ jobs:
       - curl -L -o oc.tgz https://github.com/openshift/origin/releases/download/v3.7.2/openshift-origin-client-tools-v3.7.2-282e43f-linux-64bit.tar.gz
       - tar --strip-components=1 -xzf oc.tgz
       - rm oc.tgz
-      - curl -L -o helm.tgz https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-windows-amd64.zip
+      - curl -L -o helm.tgz https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz
       - tar --strip-components=1 -xzf helm.tgz
       - rm helm.tgz
       - PATH=`pwd`:$PATH
