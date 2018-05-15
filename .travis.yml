@@ -29,5 +29,6 @@ jobs:
       - oc login ${OPENSHIFT_URL} --token=${OPENSHIFT_TOKEN}
       - oc project ${OPENSHIFT_PROJECT}
       - helm init --upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --service-account tiller
+      - helm repo add porscheinformatik https://porscheinformatik.github.io/helm-charts/
       - helm dep up charts/angular-spring-heroes/
       - helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install --set image.tag=${HELM_RELEASE} ${HELM_RELEASE} charts/angular-spring-heroes
