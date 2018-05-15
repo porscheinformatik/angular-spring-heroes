@@ -1,6 +1,11 @@
 dist: trusty
 sudo: required
 
+stages:
+  - build
+  - name: deploy-pr
+    if: type IN (pull_request)
+
 jobs:
   include:
     - stage: build
@@ -10,7 +15,6 @@ jobs:
       - docker images
       - docker push $DOCKER_ORG/angular-spring-heroes
     - stage: deploy-pr
-      if: type IN (pull_request) AND NOT fork
       script:
       - export HELM_RELEASE="pr-$TRAVIS_PULL_REQUEST"
       - oc login ${OPENSHIFT_URL} --token=${OPENSHIFT_TOKEN}
