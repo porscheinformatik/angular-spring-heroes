@@ -2,7 +2,7 @@ FROM maven:3.5-jdk-8 as build
 
 WORKDIR /usr/src/angular-spring-heroes
 COPY . /usr/src/angular-spring-heroes
-RUN mvn package
+RUN mvn install
 
 ###
 

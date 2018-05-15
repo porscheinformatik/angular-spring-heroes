@@ -1,4 +1,18 @@
-language: java
-jdk:
-  - oraclejdk8
-  - oraclejdk9
+dist: trusty
+sudo: required
+
+jobs:
+  include:
+    - stage: build
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t $DOCKER_ORG/angular-spring-heroes .
+      - docker images
+      - docker push $DOCKER_ORG/angular-spring-heroes
+    - stage: deploy-pr
+      if: type IN (pull_request) AND NOT fork
+      script:
+      - export HELM_RELEASE="pr-$TRAVIS_PULL_REQUEST"
+      - oc login ${OPENSHIFT_URL} --token=${OPENSHIFT_TOKEN}
+      - helm dep up charts\angular-spring-heroes\
+      - helm upgrade --install ${HELM_RELEASE} charts\angular-spring-heroes\
