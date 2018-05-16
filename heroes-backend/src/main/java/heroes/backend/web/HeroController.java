@@ -28,7 +28,7 @@ public class HeroController {
 
   @GetMapping
   public Iterable<Hero> listHeroes() {
-    return heroRepository.findAll();
+    return heroRepository.findAllByOrderByName();
   }
 
   @GetMapping("/{id}")
