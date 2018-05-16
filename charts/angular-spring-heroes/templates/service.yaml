@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ template "angular-spring-heroes.fullname" . }}
   labels:
-    app: {{ template "angular-spring-heroes.name" . }}
+    app: {{ .Release.Name }}
     chart: {{ template "angular-spring-heroes.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -15,5 +15,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ template "angular-spring-heroes.name" . }}
+    deployment: {{ template "angular-spring-heroes.name" . }}
     release: {{ .Release.Name }}

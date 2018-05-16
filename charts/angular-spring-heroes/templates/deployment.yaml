@@ -3,8 +3,9 @@ kind: Deployment
 metadata:
   name: {{ template "angular-spring-heroes.fullname" . }}
   labels:
-    app: {{ template "angular-spring-heroes.name" . }}
+    deployment: {{ template "angular-spring-heroes.name" . }}
     chart: {{ template "angular-spring-heroes.chart" . }}
+    app: {{ .Release.Name }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
@@ -16,14 +17,23 @@ spec:
       maxSurge: 25%
   selector:
     matchLabels:
-      app: {{ template "angular-spring-heroes.name" . }}
+      deployment: {{ template "angular-spring-heroes.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "angular-spring-heroes.name" . }}
+        deployment: {{ template "angular-spring-heroes.name" . }}
         release: {{ .Release.Name }}
     spec:
+      {{- if .Values.postgresql.enabled }}
+      initContainers:
+        - name: wait-for-postgres
+          image: busybox
+          command:
+            - "sh"
+            - "-c"
+            - "until nc {{ include "postgresql.fullname" . }} 5432 -z; do echo waiting for {{ include "postgresql.fullname" . }}; sleep 2; done;"
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
