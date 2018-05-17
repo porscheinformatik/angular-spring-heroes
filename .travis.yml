@@ -35,9 +35,9 @@ jobs:
       - helm dep up charts/angular-spring-heroes/
       - |-
         if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
-          helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install --wait --set replicaCount=1 --set image.tag=${HELM_RELEASE} ${HELM_RELEASE} charts/angular-spring-heroes
+          helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install --wait --set image.tag=${HELM_RELEASE} ${HELM_RELEASE} charts/angular-spring-heroes
           export APP_URL=https://`oc get route ${HELM_RELEASE}-angular-spring-heroes --template='{{ .spec.host }}'`
           curl -H "Authorization: token ${GITHUB_TOKEN}" -X POST -d "{\"body\": \"Deployed application to $APP_URL - please check and close PR when OK.\"}" "https://api.github.com/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments"
         else
-          helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install --wait --set postgresql.enabled=true angular-spring-heroes charts/angular-spring-heroes
+          helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install --wait --set postgresql.enabled=true --set replicaCount=2 angular-spring-heroes charts/angular-spring-heroes
         fi

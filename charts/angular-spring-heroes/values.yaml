@@ -1,6 +1,6 @@
 # Default values for angular-spring-heroes.
 
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: porscheinformatik/angular-spring-heroes
