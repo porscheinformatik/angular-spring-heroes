@@ -6,7 +6,7 @@ RUN mvn install
 
 ###
 
-FROM openjdk:8-jre-slim
+FROM adoptopenjdk/openjdk8:alpine
 
 EXPOSE 8080
 WORKDIR /opt/app-root
