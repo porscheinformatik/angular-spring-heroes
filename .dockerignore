@@ -1,0 +1,21 @@
+.git
+.gitignore
+.dockerignore
+.travis.yml
+
+charts/
+Dockerfile*
+
+# Build stuff
+**/target/
+
+# dependencies
+**/node_modules/
+**/node/
+
+# IDEs and editors
+**/.idea
+**/.project
+**/.classpath
+**/.settings
+**/*.iml
