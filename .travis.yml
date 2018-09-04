@@ -3,12 +3,19 @@ sudo: required
 language: bash
 
 stages:
-  - build
+  - name: verify
+    if: fork = true
+  - name: build
+    if: fork = false
   - name: deploy
-    if: branch = master OR type IN (pull_request)
+    if: branch = master OR (type = pull_request AND fork = false)
 
 jobs:
   include:
+    - stage: verify
+      script:
+      - docker build -t angular-spring-heroes .
+      - docker images
     - stage: build
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
