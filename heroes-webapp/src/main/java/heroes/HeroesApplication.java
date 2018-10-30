@@ -23,6 +23,7 @@ public class HeroesApplication {
   public CommandLineRunner carInit(HeroRepository heroRepository) {
     return strings -> {
       Stream.of(HeroesApplication.HEROES)
+        .filter(name -> !heroRepository.findByName(name).isPresent())
         .map(name -> new Hero(name))
         .forEach(heroRepository::save);
     };
