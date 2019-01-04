@@ -1,6 +1,0 @@
-dependencies:
-- name: postgresql
-  repository: https://porscheinformatik.github.io/helm-charts/
-  version: 1.0.0
-digest: sha256:d8b0f1a28f9ecdc8c83006a96daa48cb20ee24d9be13f4f471b43d906feccce7
-generated: 2018-05-16T14:53:01.5534158+02:00

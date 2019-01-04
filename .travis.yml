@@ -4,11 +4,8 @@ language: bash
 
 stages:
   - name: verify
-    if: fork = true
   - name: build
-    if: fork = false
-  - name: deploy
-    if: branch = master OR (type = pull_request AND fork = false)
+    if: branch = master
 
 jobs:
   include:
@@ -19,32 +16,6 @@ jobs:
     - stage: build
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - export DOCKER_TAG=`if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then echo "pr-$TRAVIS_PULL_REQUEST"; elif [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-      - docker build -t $DOCKER_ORG/angular-spring-heroes:$DOCKER_TAG .
+      - docker build -t $DOCKER_ORG/angular-spring-heroes .
       - docker images
-      - docker push $DOCKER_ORG/angular-spring-heroes:$DOCKER_TAG
-    - stage: deploy
-      before_script:
-      - curl -L -o oc.tgz https://github.com/openshift/origin/releases/download/v3.7.2/openshift-origin-client-tools-v3.7.2-282e43f-linux-64bit.tar.gz
-      - tar --strip-components=1 -xzf oc.tgz
-      - rm oc.tgz
-      - curl -L -o helm.tgz https://storage.googleapis.com/kubernetes-helm/helm-v2.11.0-linux-amd64.tar.gz
-      - tar --strip-components=1 -xzf helm.tgz
-      - rm helm.tgz
-      - PATH=`pwd`:$PATH
-      script:
-      - export HELM_RELEASE=`if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then echo "pr-$TRAVIS_PULL_REQUEST"; else echo "angular-spring-heroes"; fi`
-      - export ROUTE_NAME=`if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then echo "${HELM_RELEASE}-angular-spring-heroes"; else echo "angular-spring-heroes"; fi`
-      - oc login ${OPENSHIFT_URL} --token=${OPENSHIFT_TOKEN}
-      - oc project ${OPENSHIFT_PROJECT}
-      - helm init --upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --service-account tiller
-      - helm repo add porscheinformatik https://porscheinformatik.github.io/helm-charts/
-      - helm dep up charts/angular-spring-heroes/
-      - |-
-        if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
-          helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install --wait --set image.tag=${HELM_RELEASE} ${HELM_RELEASE} charts/angular-spring-heroes
-          export APP_URL=https://`oc get route ${HELM_RELEASE}-angular-spring-heroes --template='{{ .spec.host }}'`
-          curl -H "Authorization: token ${GITHUB_TOKEN}" -X POST -d "{\"body\": \"Deployed application to $APP_URL - please check and close PR when OK.\"}" "https://api.github.com/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments"
-        else
-          helm upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --install --wait --set postgresql.enabled=true --set replicaCount=2 angular-spring-heroes charts/angular-spring-heroes
-        fi
+      - docker push $DOCKER_ORG/angular-spring-heroes

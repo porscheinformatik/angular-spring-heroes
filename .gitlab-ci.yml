@@ -1,0 +1,82 @@
+image: docker.porscheinformatik.com/builders/default
+
+stages:
+  - build
+  - review
+  - production
+  - cleanup
+
+variables:
+  OPENSHIFT_SERVER: https://manage.ocp.porscheinformatik.cloud:8443/
+  OPENSHIFT_DOMAIN: int.ocp.porscheinformatik.cloud
+  OPENSHIFT_PROJECT: poi-user-koc
+  DOCKER_REGISTRY: docker.porscheinformatik.com
+  # Configure these variables in Secure Variables:
+  # DOCKER_REGISTRY_USER
+  # DOCKER_REGISTRY_PASSWORD
+  # OPENSHIFT_TOKEN
+
+before_script:
+  - docker login -u "$DOCKER_REGISTRY_USER" -p "$DOCKER_REGISTRY_PASSWORD" $DOCKER_REGISTRY
+
+build-master:
+  stage: build
+  script:
+    - docker build --pull -t "$DOCKER_REGISTRY/koc/angular-spring-heroes:$CI_COMMIT_REF_SLUG" .
+    - docker push "$DOCKER_REGISTRY/koc/angular-spring-heroes:$CI_COMMIT_REF_SLUG"
+
+.deploy: &deploy
+  before_script:
+    - oc login "$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN"
+    - oc project $OPENSHIFT_PROJECT
+    - helm init --upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --service-account tiller
+    - helm repo add porscheinformatik https://helm-charts.int.ocp.porscheinformatik.cloud
+  script:
+    - helm upgrade -i --tiller-namespace ${OPENSHIFT_PROJECT} $APP --set image.repository=$DOCKER_REGISTRY/koc/angular-spring-heroes --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.enabled=$POSTGRESQL_ENABLED --set postgresql.postgresUser=heroes --set postgresql.postgresDatabase=heroes porscheinformatik/web-application
+
+review:
+  <<: *deploy
+  stage: review
+  variables:
+    APP: ash-r-$CI_COMMIT_REF_SLUG
+    APP_HOST: $CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
+    POSTGRESQL_ENABLED: "false"
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: https://$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
+    on_stop: stop-review
+  only:
+    - branches
+  except:
+    - master
+
+production:
+  <<: *deploy
+  stage: production
+  variables:
+    APP: ash-prod
+    APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
+    POSTGRESQL_ENABLED: "true"
+  when: manual
+  environment:
+    name: production
+    url: https://$CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
+  only:
+    - master
+
+stop-review:
+  <<: *deploy
+  stage: cleanup
+  when: manual
+  variables:
+    GIT_STRATEGY: none
+    APP: ash-r-$CI_COMMIT_REF_SLUG
+  script:
+    - helm --tiller-namespace ${OPENSHIFT_PROJECT} delete $APP --purge
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    action: stop
+  only:
+    - branches
+  except:
+    - master

@@ -1,13 +1,13 @@
-FROM maven:3.5-jdk-8 as build
+FROM docker.porscheinformatik.com/builders/default as build
 
-WORKDIR /usr/src/angular-spring-heroes
+USER root
 COPY . /usr/src/angular-spring-heroes
-ENV CI=true
-RUN mvn install
+WORKDIR /usr/src/angular-spring-heroes
+RUN mvn -B install
 
 ###
 
-FROM openjdk:8-jre-slim
+FROM docker.porscheinformatik.com/java:8
 
 EXPOSE 8080
 WORKDIR /opt/app-root

@@ -37,7 +37,6 @@
           <configuration>
             <nodeVersion>v10.13.0</nodeVersion>
             <npmVersion>6.4.1</npmVersion>
-            <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
           </configuration>
         </plugin>
         <plugin>
