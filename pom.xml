@@ -43,7 +43,7 @@
         <plugin>
           <groupId>cz.habarta.typescript-generator</groupId>
           <artifactId>typescript-generator-maven-plugin</artifactId>
-          <version>2.10.466</version>
+          <version>2.11.472</version>
         </plugin>
       </plugins>
     </pluginManagement>
