@@ -1,7 +1,5 @@
 {
   "extends": [
-    "config:base",
-    ":pinAllExceptPeerDependencies",
-    "group:all"
+    "gitlab>eenv/renovate/renovate-config"
   ]
 }
