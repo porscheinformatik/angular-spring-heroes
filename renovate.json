@@ -1,5 +1,5 @@
 {
   "extends": [
-    "gitlab>eenv/renovate/renovate-config"
+    "github>porscheinformatik/renovate-config"
   ]
 }
