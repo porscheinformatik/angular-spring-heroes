@@ -43,7 +43,7 @@ build-master:
         echo "ash-$name"
       }
   script:
-    - helm upgrade -i --tiller-namespace ${OPENSHIFT_PROJECT} $(deploy_name) --set image.repository=$DOCKER_REGISTRY/koc/angular-spring-heroes --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.enabled=$POSTGRESQL_ENABLED --set postgresql.postgresUser=heroes --set postgresql.postgresDatabase=heroes porscheinformatik/web-application
+    - helm upgrade -i --tiller-namespace ${OPENSHIFT_PROJECT} $(deploy_name) --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.repository=$DOCKER_REGISTRY/koc/angular-spring-heroes --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.enabled=$POSTGRESQL_ENABLED --set postgresql.postgresUser=heroes --set postgresql.postgresDatabase=heroes porscheinformatik/web-application
 
 review:
   <<: *deploy
@@ -71,7 +71,7 @@ production:
     name: production
     url: https://$CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
   only:
-    - masterd
+    - master
 
 stop-review:
   <<: *deploy
