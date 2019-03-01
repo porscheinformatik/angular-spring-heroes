@@ -31,15 +31,25 @@ build-master:
     - oc project $OPENSHIFT_PROJECT
     - helm init --upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --service-account tiller
     - helm repo add porscheinformatik https://helm-charts.int.ocp.porscheinformatik.cloud
+    - |
+      function deploy_name() {
+        if [[ "$CI_COMMIT_REF_SLUG" == "master" ]]; then
+          name='prod'
+        else
+          name="$CI_COMMIT_REF_SLUG"
+        fi
+        name=${name:0:45}
+        name=${name%-}
+        echo "ash-$name"
+      }
   script:
-    - helm upgrade -i --tiller-namespace ${OPENSHIFT_PROJECT} $APP --set image.repository=$DOCKER_REGISTRY/koc/angular-spring-heroes --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.enabled=$POSTGRESQL_ENABLED --set postgresql.postgresUser=heroes --set postgresql.postgresDatabase=heroes porscheinformatik/web-application
+    - helm upgrade -i --tiller-namespace ${OPENSHIFT_PROJECT} $(deploy_name) --set image.repository=$DOCKER_REGISTRY/koc/angular-spring-heroes --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.enabled=$POSTGRESQL_ENABLED --set postgresql.postgresUser=heroes --set postgresql.postgresDatabase=heroes porscheinformatik/web-application
 
 review:
   <<: *deploy
   stage: review
   variables:
-    APP: ash-r-$CI_COMMIT_REF_SLUG
-    APP_HOST: $CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
+    APP_HOST: ash-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
     POSTGRESQL_ENABLED: "false"
   environment:
     name: review/$CI_COMMIT_REF_SLUG
@@ -54,7 +64,6 @@ production:
   <<: *deploy
   stage: production
   variables:
-    APP: ash-prod
     APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
     POSTGRESQL_ENABLED: "true"
   when: manual
@@ -62,7 +71,7 @@ production:
     name: production
     url: https://$CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
   only:
-    - master
+    - masterd
 
 stop-review:
   <<: *deploy
@@ -70,9 +79,8 @@ stop-review:
   when: manual
   variables:
     GIT_STRATEGY: none
-    APP: ash-r-$CI_COMMIT_REF_SLUG
   script:
-    - helm --tiller-namespace ${OPENSHIFT_PROJECT} delete $APP --purge
+    - helm --tiller-namespace ${OPENSHIFT_PROJECT} delete $(deploy_name) --purge
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     action: stop
