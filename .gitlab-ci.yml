@@ -53,7 +53,7 @@ review:
     POSTGRESQL_ENABLED: "false"
   environment:
     name: review/$CI_COMMIT_REF_SLUG
-    url: https://$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
+    url: https://ash-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
     on_stop: stop-review
   only:
     - branches
