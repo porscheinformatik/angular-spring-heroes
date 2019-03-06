@@ -2,8 +2,9 @@ image: docker.porscheinformatik.com/builders/default
 
 stages:
   - build
-  - review
-  - production
+  - deploy-review
+  - acceptence-tests
+  - deploy-production
   - cleanup
 
 variables:
@@ -45,9 +46,9 @@ build-master:
   script:
     - helm upgrade -i --tiller-namespace ${OPENSHIFT_PROJECT} $(deploy_name) --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.repository=$DOCKER_REGISTRY/koc/angular-spring-heroes --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.enabled=$POSTGRESQL_ENABLED --set postgresql.postgresUser=heroes --set postgresql.postgresDatabase=heroes --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
 
-review:
+deploy-review:
   <<: *deploy
-  stage: review
+  stage: deploy-review
   variables:
     APP_HOST: ash-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
     POSTGRESQL_ENABLED: "false"
@@ -60,9 +61,29 @@ review:
   except:
     - master
 
-production:
+acceptence-tests:
+  image: cypress/base:10
+  stage: acceptence-tests
+  variables:
+    CYPRESS_baseUrl: https://ash-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
+  before_script:
+    - cd heroes-acceptence-tests
+    - npm i
+  script:
+    - npm test
+  only:
+    - branches
+  except:
+    - master
+  artifacts:
+    expire_in: 1 week
+    when: always
+    paths:
+    - heroes-acceptence-tests/cypress/videos
+
+deploy-production:
   <<: *deploy
-  stage: production
+  stage: deploy-production
   variables:
     APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
     POSTGRESQL_ENABLED: "true"

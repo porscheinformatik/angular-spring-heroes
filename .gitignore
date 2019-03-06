@@ -8,6 +8,10 @@ tmp/
 node_modules/
 heroes-frontend/node/
 
+# Cypress
+heroes-acceptence-tests/package-lock.json
+heroes-acceptence-tests/cypress/videos/*
+
 # IDEs and editors
 /.idea
 .project

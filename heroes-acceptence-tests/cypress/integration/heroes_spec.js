@@ -24,18 +24,19 @@ describe('Open start page', function() {
 
     cy.contains('Save').click()
 
-    cy.contains('Back').click()
-
     cy.get('ul.heroes').last().contains('Another Superhero')
   })
 
   it('Remove hero from list', function() {
     cy.visit('/heroes')
 
-    cy.get('ul.heroes').children().last().find('.delete').click()
+    cy.get('ul.heroes').children().its('length').then(lengthBefore => {
 
-    expect(cy.get('ul.heroes').contains('Another Superhero').should('not.exist'))
+      cy.get('ul.heroes').children().last().find('.delete').click()
 
+      cy.get('ul.heroes').children().should('have.length', lengthBefore - 1)
+
+    })
   })
 
 })
