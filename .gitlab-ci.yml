@@ -9,7 +9,7 @@ stages:
 
 variables:
   OPENSHIFT_SERVER: https://manage.ocp.porscheinformatik.cloud:8443/
-  OPENSHIFT_DOMAIN: int.ocp.porscheinformatik.cloud
+  OPENSHIFT_DOMAIN: ext.ocp.porscheinformatik.cloud
   OPENSHIFT_PROJECT: poi-user-koc
   DOCKER_REGISTRY: docker.porscheinformatik.com
   # Configure these variables in Secure Variables:
