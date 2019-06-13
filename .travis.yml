@@ -1,21 +1,14 @@
-dist: trusty
-sudo: required
+services:
+  - docker
+
 language: bash
 
-stages:
-  - name: verify
-  - name: build
-    if: branch = master
+script:
+  - docker build -t $IMAGE_NAME .
+  - docker images
 
-jobs:
-  include:
-    - stage: verify
-      script:
-      - docker build -t angular-spring-heroes .
-      - docker images
-    - stage: build
-      script:
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t $DOCKER_ORG/angular-spring-heroes .
-      - docker images
-      - docker push $DOCKER_ORG/angular-spring-heroes
+deploy:
+  provider: script
+  script: bash docker_push
+  on:
+    branch: master
