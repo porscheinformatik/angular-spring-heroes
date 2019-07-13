@@ -32,7 +32,7 @@ describe('Open start page', function() {
   it('Remove hero from list', function() {
     cy.visit('/heroes')
 
-    cy.get('ul.heroes').children().last().find('.delete').click()
+    cy.get('ul.heroes').children().first().find('.delete').click()
 
     expect(cy.get('ul.heroes').contains('Another Superhero').should('not.exist'))
 

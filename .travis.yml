@@ -7,7 +7,10 @@ language: bash
 
 script:
   - docker build -t $IMAGE_NAME .
+  - docker build -t heroes-acceptence-tests heroes-acceptence-tests
   - docker images
+  - docker run -d --rm -p 8080:8080 $IMAGE_NAME
+  - docker run -it --rm --network host heroes-acceptence-tests
 
 deploy:
   provider: script
