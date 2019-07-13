@@ -9,8 +9,9 @@ script:
   - docker build -t $IMAGE_NAME .
   - docker build -t heroes-acceptence-tests heroes-acceptence-tests
   - docker images
-  - docker run -d --rm -p 8080:8080 $IMAGE_NAME
-  - docker run -it --rm --network host heroes-acceptence-tests
+  - docker run --name ash -d --rm -p 8080:8080 $IMAGE_NAME
+  - sleep 30
+  - docker run -it --rm --link ash heroes-acceptence-tests --config baseUrl=http://ash:8080
 
 deploy:
   provider: script

@@ -4,6 +4,6 @@ COPY . /tmp/heroes-acceptence-tests/
 
 WORKDIR /tmp/heroes-acceptence-tests
 
-RUN npm ci
+RUN CI=true npm ci
 
 ENTRYPOINT [ "./node_modules/.bin/cypress", "run" ]
