@@ -4,6 +4,7 @@
 .travis.yml
 
 charts/
+heroes-acceptance-tests/
 Dockerfile*
 
 # Build stuff

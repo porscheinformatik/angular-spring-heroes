@@ -18,7 +18,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.3.RELEASE</version>
+    <version>2.1.7.RELEASE</version>
   </parent>
 
   <modules>
@@ -35,14 +35,14 @@
           <artifactId>frontend-maven-plugin</artifactId>
           <version>1.7.6</version>
           <configuration>
-            <nodeVersion>v10.13.0</nodeVersion>
-            <npmVersion>6.4.1</npmVersion>
+            <nodeVersion>v10.16.0</nodeVersion>
+            <npmVersion>6.9.0</npmVersion>
           </configuration>
         </plugin>
         <plugin>
           <groupId>cz.habarta.typescript-generator</groupId>
           <artifactId>typescript-generator-maven-plugin</artifactId>
-          <version>2.12.476</version>
+          <version>2.15.527</version>
         </plugin>
       </plugins>
     </pluginManagement>
