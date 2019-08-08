@@ -1,4 +1,4 @@
-import {HttpModule} from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -15,13 +15,13 @@ import { DashboardComponent } from './heroes/dashboard/dashboard.component';
     AppComponent,
     HeroDetailComponent,
     HeroesComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpModule
+    HttpClientModule,
   ],
   providers: [HeroService],
   bootstrap: [AppComponent]

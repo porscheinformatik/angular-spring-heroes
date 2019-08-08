@@ -18,7 +18,7 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes() {
-    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
+    this.heroService.getHeroes().subscribe(heroes => this.heroes = heroes);
   }
 
   onSelect(hero: Hero) {
@@ -29,7 +29,7 @@ export class HeroesComponent implements OnInit {
     name = name.trim();
     if (!name) { return; }
     this.heroService.create(name)
-      .then(hero => {
+      .subscribe(hero => {
         this.heroes.push(hero);
         this.selectedHero = null;
       });
@@ -37,7 +37,7 @@ export class HeroesComponent implements OnInit {
 
   delete(hero: Hero) {
     this.heroService.delete(hero)
-      .then(() => this.getHeroes());
+      .subscribe(() => this.getHeroes());
   }
 
   gotoDetail() {

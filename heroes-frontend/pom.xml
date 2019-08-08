@@ -12,6 +12,10 @@
   <artifactId>heroes-frontend</artifactId>
   <name>Angular Spring Heroes - Frontend</name>
 
+  <properties>
+    <sonar.sources>src</sonar.sources>
+  </properties>
+
   <profiles>
     <profile>
       <id>developer</id>
