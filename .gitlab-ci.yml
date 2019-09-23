@@ -44,14 +44,14 @@ build-master:
         echo "ash-$name"
       }
   script:
-    - helm upgrade -i --tiller-namespace ${OPENSHIFT_PROJECT} $(deploy_name) --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.repository=$DOCKER_REGISTRY/koc/angular-spring-heroes --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.enabled=$POSTGRESQL_ENABLED --set postgresql.postgresUser=heroes --set postgresql.postgresDatabase=heroes --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" --set ports[0].name="jolokia" --set ports[0].containerPort=8778 porscheinformatik/web-application
+    - helm upgrade -i --tiller-namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
 
 deploy-review:
   <<: *deploy
   stage: deploy-review
   variables:
     APP_HOST: ash-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
-    POSTGRESQL_ENABLED: "false"
+    HELM_VALUES: "values-review.yaml"
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     url: https://ash-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
@@ -86,7 +86,7 @@ deploy-production:
   stage: deploy-production
   variables:
     APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
-    POSTGRESQL_ENABLED: "true"
+    HELM_VALUES: "values-prod.yaml"
   when: manual
   environment:
     name: production
