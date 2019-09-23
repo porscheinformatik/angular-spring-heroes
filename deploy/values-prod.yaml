@@ -1,0 +1,17 @@
+image:
+  repository: docker.porscheinformatik.com/koc/angular-spring-heroes
+  tag: master
+ports:
+- name: jolokia
+  containerPort: 8778
+postgresql:
+  enabled: true
+  postgresUser: heroes
+  postgresDatabase: heroes
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 20m
+    memory: 480Mi
