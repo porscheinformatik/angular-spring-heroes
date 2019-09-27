@@ -30,8 +30,7 @@ build-master:
   before_script:
     - oc login "$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN"
     - oc project $OPENSHIFT_PROJECT
-    - helm init --upgrade --tiller-namespace ${OPENSHIFT_PROJECT} --service-account tiller
-    - helm repo add porscheinformatik https://helm-charts.int.ocp.porscheinformatik.cloud
+    - helm3 repo add porscheinformatik https://helm-charts.int.ocp.porscheinformatik.cloud
     - |
       function deploy_name() {
         if [[ "$CI_COMMIT_REF_SLUG" == "master" ]]; then
@@ -44,7 +43,7 @@ build-master:
         echo "ash-$name"
       }
   script:
-    - helm upgrade -i --tiller-namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
+    - helm3 upgrade --install --atomic --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
 
 deploy-review:
   <<: *deploy
@@ -101,7 +100,7 @@ stop-review:
   variables:
     GIT_STRATEGY: none
   script:
-    - helm --tiller-namespace ${OPENSHIFT_PROJECT} delete $(deploy_name) --purge
+    - helm3 --namespace ${OPENSHIFT_PROJECT} delete $(deploy_name)
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     action: stop
