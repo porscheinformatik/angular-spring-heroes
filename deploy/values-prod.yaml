@@ -1,9 +1,6 @@
 image:
   repository: docker.porscheinformatik.com/koc/angular-spring-heroes
   tag: master
-ports:
-- name: jolokia
-  containerPort: 8778
 postgresql:
   enabled: true
   postgresUser: heroes

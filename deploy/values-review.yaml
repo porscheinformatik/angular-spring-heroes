@@ -1,9 +1,6 @@
 image:
   repository: docker.porscheinformatik.com/koc/angular-spring-heroes
   tag: add-review-tag-in-helm-install
-ports:
-- name: jolokia
-  containerPort: 8778
 resources:
   limits:
     cpu: 300m
