@@ -43,7 +43,7 @@ build-master:
         echo "ash-$name"
       }
   script:
-    - helm3 upgrade --install --atomic --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
+    - helm3 upgrade --install --atomic --history-max 5 --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
 
 deploy-review:
   <<: *deploy
