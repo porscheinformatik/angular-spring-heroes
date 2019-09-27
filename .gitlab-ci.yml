@@ -1,4 +1,4 @@
-image: docker.porscheinformatik.com/builders/default
+image: docker.porscheinformatik.com/eenv/builders/default:jdk-11
 
 stages:
   - build
