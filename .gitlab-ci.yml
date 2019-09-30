@@ -20,11 +20,14 @@ variables:
 before_script:
   - docker login -u "$DOCKER_REGISTRY_USER" -p "$DOCKER_REGISTRY_PASSWORD" $DOCKER_REGISTRY
 
-build-master:
+build:
   stage: build
   script:
     - docker build --pull -t "$DOCKER_REGISTRY/koc/angular-spring-heroes:$CI_COMMIT_REF_SLUG" .
     - docker push "$DOCKER_REGISTRY/koc/angular-spring-heroes:$CI_COMMIT_REF_SLUG"
+  only:
+    - merge_requests
+    - master
 
 .deploy: &deploy
   before_script:
@@ -49,31 +52,27 @@ deploy-review:
   <<: *deploy
   stage: deploy-review
   variables:
-    APP_HOST: ash-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
+    APP_HOST: ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
     HELM_VALUES: "values-review.yaml"
   environment:
     name: review/$CI_COMMIT_REF_SLUG
-    url: https://ash-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
+    url: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
     on_stop: stop-review
   only:
-    - branches
-  except:
-    - master
+    - merge_requests
 
 acceptence-tests:
   image: cypress/base:10
   stage: acceptence-tests
   variables:
-    CYPRESS_baseUrl: https://ash-$CI_COMMIT_REF_SLUG.$OPENSHIFT_DOMAIN
+    CYPRESS_baseUrl: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
   before_script:
     - cd heroes-acceptence-tests
     - npm i
   script:
     - npm test
   only:
-    - branches
-  except:
-    - master
+    - merge_requests
   artifacts:
     expire_in: 1 week
     when: always
@@ -105,6 +104,4 @@ stop-review:
     name: review/$CI_COMMIT_REF_SLUG
     action: stop
   only:
-    - branches
-  except:
-    - master
+    - merge_requests
