@@ -2,9 +2,9 @@ image: docker.porscheinformatik.com/eenv/builders/default:jdk-11
 
 stages:
   - build
-  - deploy-review
+  - deploy
   - acceptence-tests
-  - deploy-production
+  - deploy-idle
   - cleanup
 
 variables:
@@ -33,7 +33,6 @@ build:
   before_script:
     - oc login "$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN"
     - oc project $OPENSHIFT_PROJECT
-    - helm3 repo add porscheinformatik https://helm-charts.int.ocp.porscheinformatik.cloud
     - |
       function deploy_name() {
         if [[ "$CI_COMMIT_REF_SLUG" == "master" ]]; then
@@ -46,11 +45,12 @@ build:
         echo "ash-$name"
       }
   script:
+    - helm3 repo add porscheinformatik https://helm-charts.int.ocp.porscheinformatik.cloud
     - helm3 upgrade --install --atomic --history-max 5 --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
 
 deploy-review:
   <<: *deploy
-  stage: deploy-review
+  stage: deploy
   variables:
     APP_HOST: ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
     HELM_VALUES: "values-review.yaml"
@@ -81,7 +81,7 @@ acceptence-tests:
 
 deploy-production:
   <<: *deploy
-  stage: deploy-production
+  stage: deploy
   variables:
     APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
     HELM_VALUES: "values-prod.yaml"
@@ -91,6 +91,14 @@ deploy-production:
     url: https://$CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
   only:
     - master
+
+deploy-review-idle:
+  <<: *deploy
+  stage: deploy-idle
+  only:
+    - merge_requests
+  script:
+    - oc idle "$(deploy_name)-web-application"
 
 stop-review:
   <<: *deploy
