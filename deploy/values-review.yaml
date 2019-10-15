@@ -8,3 +8,4 @@ resources:
   requests:
     cpu: 10m
     memory: 480Mi
+livenessProbe: {}
