@@ -98,7 +98,8 @@ deploy-review-idle:
   only:
     - merge_requests
   script:
-    - oc idle "$(deploy_name)-web-application"
+    - webapp_name="$(deploy_name)-web-application"
+    - oc idle "${webapp_name:0:63}"
 
 stop-review:
   <<: *deploy
