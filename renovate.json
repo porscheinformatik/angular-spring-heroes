@@ -2,5 +2,5 @@
   "extends": [
     "github>porscheinformatik/renovate-config"
   ],
-  "major": { "masterIssueApproval": true }
+  "masterIssueApproval": true
 }
