@@ -1,4 +1,10 @@
 {
   "extends": ["github>porscheinformatik/renovate-config", "group:all"],
-  "labels": ["dependencies"]
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "packagePatterns": ["^typescript$","^core-js$"],
+      "enabled": false
+    }
+  ]
 }
