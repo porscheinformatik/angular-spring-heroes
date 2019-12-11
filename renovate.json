@@ -1,6 +1,4 @@
 {
-  "extends": [
-    "github>porscheinformatik/renovate-config"
-  ],
-  "group": "allNonMajor"
+  "extends": ["github>porscheinformatik/renovate-config", "group:all"],
+  "labels": ["dependencies"]
 }
