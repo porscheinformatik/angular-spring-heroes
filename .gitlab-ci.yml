@@ -11,25 +11,22 @@ variables:
   OPENSHIFT_SERVER: https://manage.ocp.porscheinformatik.cloud:8443/
   OPENSHIFT_DOMAIN: ext.ocp.porscheinformatik.cloud
   OPENSHIFT_PROJECT: poi-user-koc
-  DOCKER_REGISTRY: docker.porscheinformatik.com
   # Configure these variables in Secure Variables:
   # DOCKER_REGISTRY_USER
   # DOCKER_REGISTRY_PASSWORD
   # OPENSHIFT_TOKEN
 
-before_script:
-  - docker login -u "$DOCKER_REGISTRY_USER" -p "$DOCKER_REGISTRY_PASSWORD" $DOCKER_REGISTRY
-
 build:
   stage: build
+  variables:
+    MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -Djib.from.auth.username=$DOCKER_REGISTRY_USER -Djib.from.auth.password=$DOCKER_REGISTRY_PASSWORD -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PASSWORD"
   script:
-    - docker build --pull -t "$DOCKER_REGISTRY/koc/angular-spring-heroes:$CI_COMMIT_REF_SLUG" .
-    - docker push "$DOCKER_REGISTRY/koc/angular-spring-heroes:$CI_COMMIT_REF_SLUG"
+    - mvn $MAVEN_CLI_OPTS package jib:build -Djib.container.creationTime=`git show -s --format=%cI $CI_COMMIT_SHA` -DimageTag=$CI_COMMIT_REF_SLUG
   only:
     - merge_requests
     - master
 
-.deploy: &deploy
+.deploy:
   before_script:
     - oc login "$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN"
     - oc project $OPENSHIFT_PROJECT
@@ -49,7 +46,7 @@ build:
     - helm3 upgrade --install --atomic --history-max 5 --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
 
 deploy-review:
-  <<: *deploy
+  extends: .deploy
   stage: deploy
   variables:
     APP_HOST: ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
@@ -80,7 +77,7 @@ acceptence-tests:
     - heroes-acceptence-tests/cypress/videos
 
 deploy-production:
-  <<: *deploy
+  extends: .deploy
   stage: deploy
   variables:
     APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
@@ -93,7 +90,7 @@ deploy-production:
     - master
 
 deploy-review-idle:
-  <<: *deploy
+  extends: .deploy
   stage: deploy-idle
   only:
     - merge_requests
@@ -102,7 +99,7 @@ deploy-review-idle:
     - oc idle "${webapp_name:0:63}"
 
 stop-review:
-  <<: *deploy
+  extends: .deploy
   stage: cleanup
   when: manual
   variables:
