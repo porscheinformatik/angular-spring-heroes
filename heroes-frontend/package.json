@@ -23,7 +23,7 @@
     "@angular/router": "8.2.14",
     "core-js": "3.4.2",
     "rxjs": "6.5.3",
-    "rxjs-compat": "6.5.3",
+    "rxjs-compat": "6.5.4",
     "tslib": "1.10.0",
     "zone.js": "0.10.2"
   },
