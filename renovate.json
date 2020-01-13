@@ -1,6 +1,10 @@
 {
-  "extends": [
-    "config:base"
-  ],
-  "labels": ["dependencies"]
+  "extends": ["config:base", "group:allNonMajor"],
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "packagePatterns": ["^typescript$","^core-js$"],
+      "enabled": false
+    }
+  ]
 }
