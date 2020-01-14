@@ -14,7 +14,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
     <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
-    <typescript-generator.version>2.18.565</typescript-generator.version>
+    <typescript-generator.version>2.19.577</typescript-generator.version>
   </properties>
 
   <parent>
