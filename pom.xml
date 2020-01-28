@@ -13,7 +13,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
-    <jib-maven-plugin.version>1.8.0</jib-maven-plugin.version>
+    <jib-maven-plugin.version>2.0.0</jib-maven-plugin.version>
     <jib.skip>true</jib.skip>
     <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
     <typescript-generator.version>2.19.577</typescript-generator.version>
