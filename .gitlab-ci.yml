@@ -11,6 +11,7 @@ variables:
   OPENSHIFT_SERVER: https://manage.ocp.porscheinformatik.cloud:8443/
   OPENSHIFT_DOMAIN: ext.ocp.porscheinformatik.cloud
   OPENSHIFT_PROJECT: poi-user-koc
+  CI: "true"
   # Configure these variables in Secure Variables:
   # DOCKER_REGISTRY_USER
   # DOCKER_REGISTRY_PASSWORD
