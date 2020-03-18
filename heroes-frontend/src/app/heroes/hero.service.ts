@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { Hero } from '../../model/hero';
 
 @Injectable()
 export class HeroService {
@@ -20,7 +21,7 @@ export class HeroService {
   }
 
   create(name: string) {
-    return this.http.post<Hero>('api/heroes', {name: name});
+    return this.http.post<Hero>('api/heroes', { name: name });
   }
 
   delete(hero: Hero) {

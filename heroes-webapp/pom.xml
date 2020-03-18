@@ -43,8 +43,11 @@
     </dependency>
   </dependencies>
 
+  <properties>
+    <jib.skip>false</jib.skip>
+  </properties>
+
   <build>
-    <finalName>heroes-webapp</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
@@ -56,6 +59,24 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <configuration>
+          <from>
+            <image>gcr.io/distroless/java:11</image>
+          </from>
+          <to>
+            <image>porscheinformatik/angular-spring-heroes:${imageTag}</image>
+          </to>
+          <container>
+            <jvmFlags>
+              <jvmFlag>-XX:MaxRAMPercentage=60</jvmFlag>
+              <jvmFlag>-Xss512k</jvmFlag>
+            </jvmFlags>
+          </container>
+        </configuration>
       </plugin>
     </plugins>
   </build>
