@@ -3,13 +3,15 @@ if: type != push OR branch = master
 services:
   - docker
 
-language: bash
+language: java
+jdk:
+  - openjdk11
 
 script:
-  - docker build -t $IMAGE_NAME .
+  - mvn $MAVEN_CLI_OPTS package jib:dockerBuild
   - docker build -t heroes-acceptence-tests heroes-acceptence-tests
   - docker images
-  - docker run --name ash -d --rm -p 8080:8080 $IMAGE_NAME
+  - docker run --name ash -d --rm -p 8080:8080 porscheinformatik/angular-spring-heroes
   - sleep 30
   - docker run -it --rm --link ash heroes-acceptence-tests --config baseUrl=http://ash:8080
 
