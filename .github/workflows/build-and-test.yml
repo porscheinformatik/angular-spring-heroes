@@ -19,12 +19,15 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Build Application
+      - name: Build application
         run: mvn -B package jib:dockerBuild
-      - name: Build Acceptance Tests
+      - name: Build acceptance tests
         run: docker build -t heroes-acceptence-tests heroes-acceptence-tests
-      - name: Run Tests
-        run: |
-          docker run --name ash -d --rm -p 8080:8080 porscheinformatik/angular-spring-heroes
-          sleep 30
-          docker run -it --rm --link ash heroes-acceptence-tests --config baseUrl=http://ash:8080
+      - name: Run app for tests
+        run: docker run --name ash -d --rm -p 8080:8080 porscheinformatik/angular-spring-heroes
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '30s'
+      - name: Run tests
+        run: docker run -it --rm --link ash heroes-acceptence-tests --config baseUrl=http://ash:8080
