@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-    tags:
-      - v*
   pull_request:
     branches:
       - master
@@ -28,3 +26,12 @@ jobs:
           docker run --name ash -d --rm -p 8080:8080 porscheinformatik/angular-spring-heroes
           sleep 30
           docker run -i --rm --link ash heroes-acceptence-tests --config baseUrl=http://ash:8080
+      - name: Docker Login
+        if: github.ref == 'refs/heads/integration' && github.event_name == 'push'
+        uses: Azure/docker-login@v1
+        with:
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Push image
+        if: github.ref == 'refs/heads/integration' && github.event_name == 'push'
+        run: docker push porscheinformatik/angular-spring-heroes
