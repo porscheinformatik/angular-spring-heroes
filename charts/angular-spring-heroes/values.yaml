@@ -12,7 +12,7 @@ service:
   port: 8080
 
 route:
-  enabled: true
+  enabled: false
   # host: fullhostname.example.com
   # basename: example.com
 
