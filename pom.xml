@@ -16,14 +16,14 @@
     <jib-maven-plugin.version>2.2.0</jib-maven-plugin.version>
     <jib.skip>true</jib.skip>
     <frontend-maven-plugin.version>1.10.0</frontend-maven-plugin.version>
-    <typescript-generator.version>2.22.595</typescript-generator.version>
+    <typescript-generator.version>2.23.603</typescript-generator.version>
     <imageTag>latest</imageTag>
   </properties>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.7.RELEASE</version>
+    <version>2.3.0.RELEASE</version>
   </parent>
 
   <modules>
