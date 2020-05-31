@@ -47,4 +47,4 @@ jobs:
         run: |
           echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > /tmp/kubeconfig
           helm ls --kubeconfig /tmp/kubeconfig
-          helm upgrade --kubeconfig /tmp/kubeconfig -i --atomic angular-spring-heroes charts/angular-spring-heroes
+          helm upgrade --kubeconfig /tmp/kubeconfig -i --atomic --set postgresql.postgresPassword=${{ secrets.POSTGRESQL_PASSWORD }} angular-spring-heroes charts/angular-spring-heroes
