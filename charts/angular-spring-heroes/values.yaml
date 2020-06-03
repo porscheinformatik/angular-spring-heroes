@@ -18,8 +18,10 @@ route:
 
 postgresql:
   enabled: false
-  postgresUser: heroes
-  postgresDatabase: heroes
+  postgresqlUsername: heroes
+  postgresqlDatabase: heroes
+  persistence:
+    size: 100Mi
 
 resources:
   limits:

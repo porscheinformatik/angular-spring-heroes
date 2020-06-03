@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "angular-spring-heroes.fullname" . }}
@@ -32,7 +32,7 @@ spec:
           command:
             - "sh"
             - "-c"
-            - "until nc {{ include "postgresql.fullname" . }} 5432 -z; do echo waiting for {{ include "postgresql.fullname" . }}; sleep 2; done;"
+            - "until nc {{ .Release.Name }}-postgresql 5432 -z; do echo waiting for {{ .Release.Name }}-postgresql; sleep 2; done;"
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -41,17 +41,14 @@ spec:
           {{- if .Values.postgresql.enabled }}
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://{{ include "postgresql.fullname" . }}/{{ .Values.postgresql.postgresDatabase }}
+              value: jdbc:postgresql://{{ .Release.Name }}-postgresql/{{ .Values.postgresql.postgresDatabase }}
             - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  key: postgres-user
-                  name: {{ include "postgresql.fullname" . }}
+              value: {{ .Values.postgresql.postgresqlUsername }}
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: postgres-password
-                  name: {{ include "postgresql.fullname" . }}
+                  key: postgresql-password
+                  name: {{ .Release.Name }}-postgresql
           {{- end }}
           ports:
             - name: http
