@@ -14,9 +14,9 @@ The application can be run via `java -jar heroes-webapp.jar`.
 
 The frontend is written in Angular and built with [Angular CLI](https://github.com/angular/angular-cli).
 
-### Running Frontend Server for Development
+### Running Frontend Build for Development
 
-Run `npm start` in heroes-frontend for a dev server. Navigate to [`http://localhost:4200/`](http://localhost:4200/). The app will automatically reload if you change any of the source files. This server proxies calls to `/api` to the backend server `http://localhost:8080/`.
+Run `npm dev` in heroes-frontend for continuously building the app. Also run the backend to access the webapp (see below).
 
 ### Code Scaffolding
 
@@ -32,7 +32,7 @@ The backend is written in Spring Boot. The whole backend code is located under h
 
 ### Running Backend Server for Development
 
-Run the main class `heroes.HeroesApplication` from your favourite IDE. The application will be available via [`http://localhost:8080/`](http://localhost:8080/).
+Run the main class `heroes.HeroesApplication` from your favorite IDE - please include the Spring Boot profile "dev". The application will be available via [`http://localhost:8080/`](http://localhost:8080/).
 
 ## Deployment to Kubernetes/OpenShift
 
