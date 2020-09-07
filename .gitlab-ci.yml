@@ -10,68 +10,54 @@ stages:
 variables:
   OPENSHIFT_SERVER: https://manage.ocp.porscheinformatik.cloud:8443/
   OPENSHIFT_DOMAIN: ext.ocp.porscheinformatik.cloud
-  # OPENSHIFT_PROJECT: poi-user-koc
+  OPENSHIFT_PROJECT: poi-user-koc
   CI: "true"
   # Configure these variables in Secure Variables:
   # DOCKER_REGISTRY_USER
   # DOCKER_REGISTRY_PASSWORD
   # OPENSHIFT_TOKEN
 
-# build:
-#   stage: build
-#   variables:
-#     MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -Djib.from.auth.username=$DOCKER_REGISTRY_USER -Djib.from.auth.password=$DOCKER_REGISTRY_PASSWORD -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PASSWORD"
-#   script:
-#     - mvn $MAVEN_CLI_OPTS package jib:build -Djib.container.creationTime=`git show -s --format=%cI $CI_COMMIT_SHA` -DimageTag=$CI_COMMIT_REF_SLUG
-#   only:
-#     - merge_requests
-#     - master
-
-# .deploy:
-#   before_script:
-#     - oc login "$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN"
-#     - oc project $OPENSHIFT_PROJECT
-#     - |
-#       function deploy_name() {
-#         if [[ "$CI_COMMIT_REF_SLUG" == "master" ]]; then
-#           name='prod'
-#         else
-#           name="$CI_COMMIT_REF_SLUG"
-#         fi
-#         name=${name:0:45}
-#         name=${name%-}
-#         echo "ash-$name"
-#       }
-#   script:
-#     - helm3 repo add porscheinformatik https://helm-charts.int.ocp.porscheinformatik.cloud
-#     - helm3 upgrade --install --atomic --history-max 5 --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
-
-# deploy-review:
-#   extends: .deploy
-#   stage: deploy
-#   variables:
-#     APP_HOST: ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
-#     HELM_VALUES: "values-review.yaml"
-#   environment:
-#     name: review/$CI_COMMIT_REF_SLUG
-#     url: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
-#     on_stop: stop-review
-#   only:
-#     - merge_requests
-
-sast:
-  stage: acceptence-tests
-  trigger:
-    include: "SAST.gitlab-ci.yml"
-    strategy: depend
-
-maven-test:
-  stage: acceptence-tests
+build:
+  stage: build
+  variables:
+    MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -Djib.from.auth.username=$DOCKER_REGISTRY_USER -Djib.from.auth.password=$DOCKER_REGISTRY_PASSWORD -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PASSWORD"
   script:
-    - mvn test
-  artifacts:
-    reports:
-      junit: junit5-demo/target/surefire-reports/TEST-jcg.zheng.demo.junit5.SomeClassTest.xml
+    - mvn $MAVEN_CLI_OPTS package jib:build -Djib.container.creationTime=`git show -s --format=%cI $CI_COMMIT_SHA` -DimageTag=$CI_COMMIT_REF_SLUG
+  only:
+    - merge_requests
+    - master
+
+.deploy:
+  before_script:
+    - oc login "$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN"
+    - oc project $OPENSHIFT_PROJECT
+    - |
+      function deploy_name() {
+        if [[ "$CI_COMMIT_REF_SLUG" == "master" ]]; then
+          name='prod'
+        else
+          name="$CI_COMMIT_REF_SLUG"
+        fi
+        name=${name:0:45}
+        name=${name%-}
+        echo "ash-$name"
+      }
+  script:
+    - helm3 repo add porscheinformatik https://helm-charts.int.ocp.porscheinformatik.cloud
+    - helm3 upgrade --install --atomic --history-max 5 --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
+
+deploy-review:
+  extends: .deploy
+  stage: deploy
+  variables:
+    APP_HOST: ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
+    HELM_VALUES: "values-review.yaml"
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
+    on_stop: stop-review
+  only:
+    - merge_requests
 
 acceptence-tests:
   image: cypress/base:10
@@ -83,46 +69,46 @@ acceptence-tests:
     - npm i
   script:
     - npm test
-  # only:
-  #   - merge_requests
+  only:
+    - merge_requests
   artifacts:
-    expire_in: 1 hours
+    expire_in: 1 week
     when: always
     paths:
     - heroes-acceptence-tests/cypress/videos
 
-# deploy-production:
-#   extends: .deploy
-#   stage: deploy
-#   variables:
-#     APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
-#     HELM_VALUES: "values-prod.yaml"
-#   when: manual
-#   environment:
-#     name: production
-#     url: https://$CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
-#   only:
-#     - master
+deploy-production:
+  extends: .deploy
+  stage: deploy
+  variables:
+    APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
+    HELM_VALUES: "values-prod.yaml"
+  when: manual
+  environment:
+    name: production
+    url: https://$CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
+  only:
+    - master
 
-# deploy-review-idle:
-#   extends: .deploy
-#   stage: deploy-idle
-#   only:
-#     - merge_requests
-#   script:
-#     - webapp_name="$(deploy_name)-web-application"
-#     - oc idle "${webapp_name:0:63}"
+deploy-review-idle:
+  extends: .deploy
+  stage: deploy-idle
+  only:
+    - merge_requests
+  script:
+    - webapp_name="$(deploy_name)-web-application"
+    - oc idle "${webapp_name:0:63}"
 
-# stop-review:
-#   extends: .deploy
-#   stage: cleanup
-#   when: manual
-#   variables:
-#     GIT_STRATEGY: none
-#   script:
-#     - helm3 --namespace ${OPENSHIFT_PROJECT} delete $(deploy_name)
-#   environment:
-#     name: review/$CI_COMMIT_REF_SLUG
-#     action: stop
-#   only:
-#     - merge_requests
+stop-review:
+  extends: .deploy
+  stage: cleanup
+  when: manual
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - helm3 --namespace ${OPENSHIFT_PROJECT} delete $(deploy_name)
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    action: stop
+  only:
+    - merge_requests
