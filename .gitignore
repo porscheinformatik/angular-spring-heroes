@@ -17,6 +17,7 @@ heroes-acceptence-tests/cypress/videos/*
 /.idea
 .project
 .classpath
+.factorypath
 .c9/
 *.launch
 .settings/
