@@ -23,6 +23,7 @@ build:
     MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -Djib.from.auth.username=$DOCKER_REGISTRY_USER -Djib.from.auth.password=$DOCKER_REGISTRY_PASSWORD -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PASSWORD"
   script:
     - mvn $MAVEN_CLI_OPTS package jib:build -Djib.container.creationTime=`git show -s --format=%cI $CI_COMMIT_SHA` -DimageTag=$CI_COMMIT_REF_SLUG
+    - if [[ "$CI_PIPELINE_SOURCE" != "merge_request_event" ]]; then mvn $MAVEN_CLI_OPTS sonar:sonar; fi
   only:
     - merge_requests
     - master
