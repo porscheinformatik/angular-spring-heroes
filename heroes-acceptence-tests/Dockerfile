@@ -1,4 +1,4 @@
-FROM cypress/browsers:node10.11.0-chrome75
+FROM cypress/base:12
 
 COPY . /tmp/heroes-acceptence-tests/
 
