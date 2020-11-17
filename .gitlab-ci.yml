@@ -38,12 +38,10 @@ build-sonarqube:
 build-sonarqube-qa:
   stage: build
   allow_failure: true
-  variables:
-    SONAR_HOST_URL: $SONAR_QA_HOST_URL
-    SONAR_TOKEN: $SONAR_QA_TOKEN
   script:
+    - cat /usr/share/maven/conf/settings.xml
     - mvn -B clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=false
-    - mvn -B -P '!sonar' sonar:sonar
+    - SONAR_HOST_URL=$SONAR_QA_HOST_URL SONAR_TOKEN=$SONAR_QA_TOKEN mvn -B sonar:sonar
   only:
     - master
 
