@@ -15,7 +15,7 @@
     <java.version>11</java.version>
     <jib-maven-plugin.version>2.6.0</jib-maven-plugin.version>
     <jib.skip>true</jib.skip>
-    <frontend-maven-plugin.version>1.10.3</frontend-maven-plugin.version>
+    <frontend-maven-plugin.version>1.10.4</frontend-maven-plugin.version>
     <typescript-generator.version>2.27.744</typescript-generator.version>
     <imageTag>latest</imageTag>
   </properties>
