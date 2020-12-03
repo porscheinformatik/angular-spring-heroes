@@ -2,6 +2,7 @@ image: docker.porscheinformatik.com/eenv/builders/default:jdk-11
 
 stages:
   - build
+  - test
   - deploy
   - acceptence-tests
   - deploy-idle
@@ -44,6 +45,14 @@ build-sonarqube-qa:
     - SONAR_HOST_URL=$SONAR_QA_HOST_URL SONAR_TOKEN=$SONAR_QA_TOKEN mvn -B sonar:sonar
   only:
     - master
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
 .deploy:
   before_script:
