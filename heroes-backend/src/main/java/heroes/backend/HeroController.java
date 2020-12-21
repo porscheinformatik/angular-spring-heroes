@@ -1,4 +1,4 @@
-package heroes.backend.web;
+package heroes.backend;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import heroes.backend.Hero;
-import heroes.backend.HeroRepository;
-
 /**
  * HeroController
  */
@@ -19,40 +16,35 @@ import heroes.backend.HeroRepository;
 @RequestMapping("/api/heroes")
 public class HeroController {
 
-  private final HeroRepository heroRepository;
+  private final HeroService heroService;
 
-  public HeroController(HeroRepository heroRepository) {
-    super();
-    this.heroRepository = heroRepository;
+  public HeroController(HeroService heroService) {
+    this.heroService = heroService;
   }
 
   @GetMapping
   public Iterable<Hero> listHeroes() {
-    return heroRepository.findAllByOrderByName();
+    return heroService.listHeroes();
   }
 
   @GetMapping("/{id}")
   public Hero get(@PathVariable("id") Integer id) {
-    return heroRepository.findById(id).orElse(null);
+    return heroService.getHero(id);
   }
 
   @PostMapping
   public Hero create(@RequestBody Hero hero) {
-    return heroRepository.save(hero);
+    return heroService.save(hero);
   }
 
   @PutMapping("/{id}")
   public Hero change(@PathVariable("id") Integer id, @RequestBody Hero hero) {
-    return heroRepository.save(hero);
+    return heroService.save(hero);
   }
 
   @DeleteMapping("/{id}")
   public Hero delete(@PathVariable("id") Integer id) {
-    Hero hero = heroRepository.findById(id).orElse(null);
-    if (hero != null) {
-      heroRepository.delete(hero);
-    }
-    return hero;
+    return heroService.deleteHero(id);
   }
 
 }
