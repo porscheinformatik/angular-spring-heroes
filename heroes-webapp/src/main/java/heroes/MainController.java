@@ -18,7 +18,7 @@ public class MainController implements ApplicationContextAware {
   @GetMapping({"/", "/heroes", "/dashboard", "/detail/*"})
   public ModelAndView index() {
     Map<String, Object> model = new HashMap<>();
-    model.put("azureInstrumentationKey", System.getenv("APPSETTING_APPINSIGHTS_INSTRUMENTATIONKEY"));
+    model.put("azureInstrumentationKey", System.getenv("APPINSIGHTS_INSTRUMENTATIONKEY"));
     model.put("devToolsProperties", devToolsProperties);
     return new ModelAndView("index", model);
   }
