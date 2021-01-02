@@ -3,7 +3,7 @@
 replicaCount: 1
 
 image:
-  repository: porscheinformatik/angular-spring-heroes
+  repository: ghcr.io/porscheinformatik/angular-spring-heroes
   tag: latest
   pullPolicy: Always
 

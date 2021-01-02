@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build, Test and Deploy
 
 on:
   push:
@@ -9,6 +9,7 @@ on:
       - master
 
 jobs:
+
   build-test-and-push:
     runs-on: ubuntu-latest
     steps:
@@ -40,3 +41,16 @@ jobs:
           echo ${{ secrets.GHCR_PASSWORD }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
           docker tag porscheinformatik/angular-spring-heroes ghcr.io/porscheinformatik/angular-spring-heroes
           docker push ghcr.io/porscheinformatik/angular-spring-heroes
+
+  deploy:
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    needs: build-test-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Azure/setup-helm@v1
+      - name: Deploy to Okteto
+        run: |
+          echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > /tmp/kubeconfig
+          helm ls --kubeconfig /tmp/kubeconfig
+          helm upgrade --kubeconfig /tmp/kubeconfig --install --atomic --set postgresql.enabled=true --set postgresql.postgresPassword=${{ secrets.POSTGRESQL_PASSWORD }} heroes charts/angular-spring-heroes
