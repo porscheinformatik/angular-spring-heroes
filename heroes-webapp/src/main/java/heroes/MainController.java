@@ -1,6 +1,5 @@
 package heroes;
 
-import org.springframework.beans.BeansException;
 import org.springframework.boot.devtools.autoconfigure.DevToolsProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -13,6 +12,7 @@ import java.util.Map;
 
 @Controller
 public class MainController implements ApplicationContextAware {
+
   private Object devToolsProperties;
 
   @GetMapping({"/", "/heroes", "/dashboard", "/detail/*"})
@@ -29,7 +29,7 @@ public class MainController implements ApplicationContextAware {
   }
 
   @Override
-  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+  public void setApplicationContext(ApplicationContext applicationContext) {
     try {
       Class.forName("org.springframework.boot.devtools.autoconfigure.DevToolsProperties");
       this.devToolsProperties = applicationContext.getBean(DevToolsProperties.class);

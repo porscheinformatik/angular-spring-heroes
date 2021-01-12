@@ -16,7 +16,7 @@ The frontend is written in Angular and built with [Angular CLI](https://github.c
 
 ### Running Frontend Build for Development
 
-Run `npm dev` in heroes-frontend for continuously building the app. Also run the backend to access the webapp (see below).
+Run `npm run dev` in heroes-frontend for continuously building the app. Also run the backend to access the webapp (see below).
 
 ### Code Scaffolding
 

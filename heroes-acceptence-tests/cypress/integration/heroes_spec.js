@@ -18,7 +18,7 @@ describe('Open start page', function() {
 
     cy.get('ul.heroes').children().last().click()
 
-    cy.get('button').contains('View Details').click()
+    cy.get('button').contains('View details').click()
 
     cy.get('#heroName').type('{selectall}Another Superhero')
 

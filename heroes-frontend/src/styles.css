@@ -14,14 +14,14 @@ body {
 }
 body, input[text], button {
   color: #888;
-  font-family: Cambria, Georgia;
+  font-family: Cambria, Georgia, sans-serif;
 }
 a {
   cursor: pointer;
   cursor: hand;
 }
 button {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background-color: #eee;
   border: none;
   padding: 5px 10px;
@@ -62,4 +62,8 @@ nav a.active {
 /* everywhere else */
 * {
   font-family: Arial, Helvetica, sans-serif;
+}
+
+label, input, button {
+  margin-right: .3rem;
 }

@@ -1,10 +1,10 @@
 <div *ngIf="hero">
-  <h2>{{hero.name}} details!</h2>
-  <div><label>id: </label>{{hero.id}}</div>
+  <h2 translate [translateParams]="{name: hero.name}">page.hero-detail</h2>
+  <div><label translate>label.id</label>{{hero.id}}</div>
   <div>
-    <label for="heroName">Name: </label>
+    <label for="heroName" translate>label.hero-name</label>
     <input [(ngModel)]="hero.name" placeholder="name" id="heroName" />
   </div>
-  <button (click)="onSave()">Save</button>
-  <button (click)="goBack()">Back</button>
+  <button (click)="onSave()" translate>button.save</button>
+  <button (click)="goBack()" translate>button.back</button>
 </div>
