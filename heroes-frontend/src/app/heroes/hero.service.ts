@@ -20,7 +20,7 @@ export class HeroService {
   }
 
   create(name: string) {
-    return this.http.post<Hero>('api/heroes', { name: name });
+    return this.http.post<Hero>('api/heroes', { name });
   }
 
   delete(hero: Hero) {

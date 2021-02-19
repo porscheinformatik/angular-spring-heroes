@@ -13,9 +13,7 @@ import {DashboardComponent} from './heroes/dashboard/dashboard.component';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 // AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/api/translations/', '.json');
-}
+export const HTTP_LOADER_FACTORY = (http: HttpClient) => new TranslateHttpLoader(http, '/api/translations/', '.json');
 
 @NgModule({
   declarations: [
@@ -32,7 +30,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: HTTP_LOADER_FACTORY,
         deps: [HttpClient]
       },
     }),
