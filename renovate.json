@@ -1,10 +1,4 @@
 {
-  "extends": ["config:base", "group:allNonMajor"],
-  "labels": ["dependencies"],
-  "packageRules": [
-    {
-      "packagePatterns": ["^typescript$","^core-js$"],
-      "enabled": false
-    }
-  ]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["local>eenv/renovate/renovate-config", "group:allNonMajor"]
 }
