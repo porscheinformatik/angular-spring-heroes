@@ -16,6 +16,11 @@ route:
   # host: fullhostname.example.com
   # basename: example.com
 
+ingress:
+  enabled: false
+  tls: true
+  # host: fullhostname.example.com
+
 postgresql:
   enabled: false
   postgresqlUsername: heroes

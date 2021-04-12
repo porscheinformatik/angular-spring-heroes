@@ -46,6 +46,9 @@ jobs:
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     needs: build-test-and-push
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://ash.k8s.derkoe.dev
     steps:
       - uses: actions/checkout@v2
       - uses: Azure/setup-helm@v1
@@ -53,4 +56,4 @@ jobs:
         run: |
           echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > /tmp/kubeconfig
           helm ls --kubeconfig /tmp/kubeconfig
-          helm upgrade --kubeconfig /tmp/kubeconfig --install --atomic --set postgresql.enabled=true --set postgresql.postgresPassword=${{ secrets.POSTGRESQL_PASSWORD }} heroes charts/angular-spring-heroes
+          helm upgrade --kubeconfig /tmp/kubeconfig --install --atomic --set ingress.enabled=true --set ingress.host=ash.k8s.derkoe.dev --set postgresql.enabled=true --set postgresql.postgresPassword=${{ secrets.POSTGRESQL_PASSWORD }} ash charts/angular-spring-heroes
