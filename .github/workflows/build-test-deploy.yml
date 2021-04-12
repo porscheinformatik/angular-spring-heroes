@@ -52,7 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: Azure/setup-helm@v1
-      - name: Deploy to Okteto
+      - name: Deploy to Kubernetes
         run: |
           echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 --decode > /tmp/kubeconfig
           helm ls --kubeconfig /tmp/kubeconfig
