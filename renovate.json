@@ -1,5 +1,5 @@
 {
-  "extends": ["config:base", "group:allNonMajor"],
+  "extends": ["config:base", ":maintainLockFilesWeekly", "group:allNonMajor"],
   "labels": ["dependencies"],
   "packageRules": [
     {
