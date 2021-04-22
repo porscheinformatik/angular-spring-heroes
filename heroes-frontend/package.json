@@ -22,7 +22,7 @@
     "@angular/router": "11.2.11",
     "@ngx-translate/core": "13.0.0",
     "@ngx-translate/http-loader": "6.0.0",
-    "core-js": "3.10.2",
+    "core-js": "3.11.0",
     "rxjs": "6.6.7",
     "rxjs-compat": "6.6.7",
     "tslib": "2.2.0",
