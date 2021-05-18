@@ -87,7 +87,7 @@ deploy-review:
     - merge_requests
 
 acceptence-tests:
-  image: cypress/base:10
+  image: docker.porscheinformatik.com/docker-proxy-dockerhub/cypress/base:14.16.0
   stage: acceptence-tests
   variables:
     CYPRESS_baseUrl: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
