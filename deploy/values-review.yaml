@@ -8,4 +8,13 @@ resources:
   requests:
     cpu: 10m
     memory: 480Mi
-livenessProbe: {}
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: http
+  initialDelaySeconds: 60
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: http
+  initialDelaySeconds: 30
