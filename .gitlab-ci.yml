@@ -18,7 +18,7 @@ build:
   variables:
     MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -Djib.from.auth.username=$DOCKER_REGISTRY_USER -Djib.from.auth.password=$DOCKER_REGISTRY_PASSWORD -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PASSWORD"
   script:
-    - mvn $MAVEN_CLI_OPTS package jib:build -Djib.container.creationTime=`git show -s --format=%cI $CI_COMMIT_SHA` -DimageTag=$CI_COMMIT_REF_SLUG
+    - mvn $MAVEN_CLI_OPTS package jib:build -DfromImage=docker.porscheinformatik.com/eenv/openjdk:11-jre -Dentrypoint=/usr/local/bin/run-java.sh -Djib.container.creationTime=`git show -s --format=%cI $CI_COMMIT_SHA` -DimageTag=$CI_COMMIT_REF_SLUG
 
 build-sonarqube:
   rules:

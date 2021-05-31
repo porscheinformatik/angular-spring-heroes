@@ -57,6 +57,9 @@
 
   <properties>
     <jib.skip>false</jib.skip>
+    <fromImage>gcr.io/distroless/java:11</fromImage>
+    <imageTag>latest</imageTag>
+    <entrypoint></entrypoint>
   </properties>
 
   <build>
@@ -80,7 +83,7 @@
         <artifactId>jib-maven-plugin</artifactId>
         <configuration>
           <from>
-            <image>docker.porscheinformatik.com/eenv/openjdk:11-jre</image>
+            <image>${fromImage}</image>
           </from>
           <to>
             <image>docker.porscheinformatik.com/koc/angular-spring-heroes:${imageTag}</image>
@@ -89,7 +92,7 @@
             <environment>
               <JAVA_MAIN_CLASS>heroes.HeroesApplication</JAVA_MAIN_CLASS>
             </environment>
-            <entrypoint>/usr/local/bin/run-java.sh</entrypoint>
+            <entrypoint>${entrypoint}</entrypoint>
           </container>
         </configuration>
       </plugin>
