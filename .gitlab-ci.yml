@@ -2,7 +2,6 @@ image: docker.porscheinformatik.com/eenv/builders/default:jdk-11
 
 stages:
   - build
-  - test
   - deploy
   - acceptence-tests
   - deploy-idle
@@ -12,32 +11,32 @@ variables:
   CI: "true"
 
 build:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   stage: build
   variables:
     MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -Djib.from.auth.username=$DOCKER_REGISTRY_USER -Djib.from.auth.password=$DOCKER_REGISTRY_PASSWORD -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PASSWORD"
   script:
     - mvn $MAVEN_CLI_OPTS package jib:build -Djib.container.creationTime=`git show -s --format=%cI $CI_COMMIT_SHA` -DimageTag=$CI_COMMIT_REF_SLUG
-  only:
-    - merge_requests
-    - master
 
 build-sonarqube:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   stage: build
   script:
     - mvn -B clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=false
     - mvn -B sonar:sonar
-  only:
-    - master
 
 build-sonarqube-qa:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   stage: build
   allow_failure: true
   script:
     - cat /usr/share/maven/conf/settings.xml
     - mvn -B clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=false
     - SONAR_HOST_URL=$SONAR_QA_HOST_URL SONAR_TOKEN=$SONAR_QA_TOKEN mvn -B sonar:sonar
-  only:
-    - master
 
 include:
   - template: Code-Quality.gitlab-ci.yml
@@ -46,6 +45,7 @@ code_quality:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  stage: build
 
 .deploy:
   before_script:
@@ -67,6 +67,8 @@ code_quality:
     - helm3 upgrade --install --atomic --history-max 5 --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
 
 deploy-review:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   extends: .deploy
   stage: deploy
   variables:
@@ -76,10 +78,10 @@ deploy-review:
     name: review/$CI_COMMIT_REF_SLUG
     url: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
     on_stop: stop-review
-  only:
-    - merge_requests
 
 acceptence-tests:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   image: docker.porscheinformatik.com/docker-proxy-dockerhub/cypress/base:14.16.0
   stage: acceptence-tests
   variables:
@@ -89,8 +91,6 @@ acceptence-tests:
     - npm i
   script:
     - npm test
-  only:
-    - merge_requests
   artifacts:
     expire_in: 1 week
     when: always
@@ -98,31 +98,34 @@ acceptence-tests:
     - heroes-acceptence-tests/cypress/videos
 
 deploy-production:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: manual
   extends: .deploy
   stage: deploy
   variables:
     APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
     HELM_VALUES: "values-prod.yaml"
-  when: manual
   environment:
     name: production
     url: https://$CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
-  only:
-    - master
 
 deploy-review-idle:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   extends: .deploy
   stage: deploy-idle
-  only:
-    - merge_requests
   script:
     - webapp_name="$(deploy_name)-web-application"
     - oc idle "${webapp_name:0:63}"
 
 stop-review:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: manual
+      allow_failure: true
   extends: .deploy
   stage: cleanup
-  when: manual
   variables:
     GIT_STRATEGY: none
   script:
@@ -130,5 +133,3 @@ stop-review:
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     action: stop
-  only:
-    - merge_requests
