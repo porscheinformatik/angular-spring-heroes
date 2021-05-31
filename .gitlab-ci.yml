@@ -53,7 +53,7 @@ code_quality:
     - oc project $OPENSHIFT_PROJECT
     - |
       function deploy_name() {
-        if [[ "$CI_COMMIT_REF_SLUG" == "master" ]]; then
+        if [[ "$CI_COMMIT_REF_SLUG" == "main" ]]; then
           name='prod'
         else
           name="$CI_COMMIT_REF_SLUG"
