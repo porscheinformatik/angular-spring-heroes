@@ -9,14 +9,7 @@ stages:
   - cleanup
 
 variables:
-  OPENSHIFT_SERVER: https://nonprod1-manage.ocp.porscheinformatik.cloud:8443/
-  OPENSHIFT_DOMAIN: nonprod1.ocp.porscheinformatik.cloud
-  OPENSHIFT_PROJECT: poi-user-koc
   CI: "true"
-  # Configure these variables in Secure Variables:
-  # DOCKER_REGISTRY_USER
-  # DOCKER_REGISTRY_PASSWORD
-  # OPENSHIFT_TOKEN
 
 build:
   stage: build
@@ -70,7 +63,7 @@ code_quality:
         echo "ash-$name"
       }
   script:
-    - helm3 repo add porscheinformatik https://helm-charts.int.ocp.porscheinformatik.cloud
+    - helm3 repo add porscheinformatik $HELM_CHART_REPO
     - helm3 upgrade --install --atomic --history-max 5 --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
 
 deploy-review:
