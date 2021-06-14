@@ -19,10 +19,8 @@ public class HeroesApplication {
   public AllPropertiesReloadableResourceBundleMessageSource messageSource() {
     var localMessageSource = new AllPropertiesReloadableResourceBundleMessageSource();
     localMessageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
-    localMessageSource.setBasename("messages");
+    localMessageSource.setBasename("classpath:messages");
     localMessageSource.setFallbackToSystemLocale(false);
-    localMessageSource.getAllProperties(Locale.ENGLISH);
-    localMessageSource.getAllProperties(Locale.GERMAN);
     return localMessageSource;
   }
 }
