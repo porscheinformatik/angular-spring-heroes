@@ -57,7 +57,7 @@
 
   <properties>
     <jib.skip>false</jib.skip>
-    <fromImage>gcr.io/distroless/java:11</fromImage>
+    <fromImage>openjdk:17-slim</fromImage>
     <imageTag>latest</imageTag>
     <entrypoint></entrypoint>
   </properties>

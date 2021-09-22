@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          java-version: 11
-          distribution: adopt
+          java-version: 17
+          distribution: zulu
       - name: Docker Login
         uses: Azure/docker-login@v1
         with:
@@ -29,10 +29,15 @@ jobs:
       - name: Build acceptance tests
         run: docker build -t heroes-acceptence-tests heroes-acceptence-tests
       - name: Run app for tests
-        run: |
-          docker run --name ash -d --rm -p 8080:8080 porscheinformatik/angular-spring-heroes
-          sleep 30
-          docker run -i --rm --link ash heroes-acceptence-tests --config baseUrl=http://ash:8080
+        run: docker run --name ash -d --rm -p 8080:8080 porscheinformatik/angular-spring-heroes
+      - name: Sleep for 20s
+        uses: juliangruber/sleep-action@v1
+        with:
+          time: 20s
+      - name: Run tests
+        run: docker run -i --rm --link ash heroes-acceptence-tests --config baseUrl=http://ash:8080
+      - name: Cleanup app for tests
+        run: docker stop ash
       - name: Push image to Docker Hub
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: docker push porscheinformatik/angular-spring-heroes
