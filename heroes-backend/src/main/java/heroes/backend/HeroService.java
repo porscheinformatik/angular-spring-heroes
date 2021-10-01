@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 @Transactional(readOnly = true)
 public class HeroService implements InitializingBean {
 
-  private static final String[] HEROES = {"Mr. Nice", "Narco", "Bombasto", "Celeritas", "Magneta", "RubberMan",
+  public static final String[] HEROES = {"Mr. Nice", "Narco", "Bombasto", "Celeritas", "Magneta", "RubberMan",
     "Dynama", "Dr IQ", "Magma", "Tornado"};
 
   private final HeroRepository heroRepository;
