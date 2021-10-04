@@ -82,7 +82,7 @@ deploy-review:
 acceptence-tests:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  image: docker.porscheinformatik.com/docker-proxy-dockerhub/cypress/base:14.17.3
+  image: docker.porscheinformatik.com/docker-proxy-dockerhub/cypress/base:16.5.0
   stage: acceptence-tests
   variables:
     CYPRESS_baseUrl: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
