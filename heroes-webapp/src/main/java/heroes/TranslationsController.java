@@ -1,5 +1,6 @@
 package heroes;
 
+import at.porscheinformatik.weblate.spring.AllPropertiesSource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +13,9 @@ import java.util.Properties;
 @RequestMapping("/api/translations")
 public class TranslationsController {
 
-  private final AllPropertiesReloadableResourceBundleMessageSource messageSource;
+  private final AllPropertiesSource messageSource;
 
-  public TranslationsController(AllPropertiesReloadableResourceBundleMessageSource messageSource) {
+  public TranslationsController(AllPropertiesSource messageSource) {
     this.messageSource = messageSource;
   }
 
