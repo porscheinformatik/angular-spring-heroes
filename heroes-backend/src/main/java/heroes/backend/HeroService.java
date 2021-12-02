@@ -24,29 +24,38 @@ public class HeroService implements InitializingBean {
   public void afterPropertiesSet() {
     Stream.of(HEROES)
       .filter(name -> heroRepository.findByName(name).isEmpty())
-      .map(Hero::new)
+      .map(HeroEntity::new)
       .forEach(heroRepository::save);
   }
 
   public Iterable<Hero> listHeroes() {
-    return heroRepository.findAllByOrderByName();
+    return heroRepository.findAllByOrderByName()
+      .map(HeroEntity::toHero)
+      .toList();
   }
 
   public Hero getHero(Integer id) {
-    return heroRepository.findById(id).orElse(null);
+    return heroRepository.findById(id).map(HeroEntity::toHero).orElse(null);
   }
 
   @Transactional
   public Hero save(Hero hero) {
-    return heroRepository.save(hero);
+    if (hero.id() == null) {
+      return heroRepository.save(new HeroEntity(hero.name())).toHero();
+    } else {
+      HeroEntity dbHero = heroRepository.getById(hero.id());
+      dbHero.setName(hero.name());
+      return dbHero.toHero();
+    }
   }
 
   @Transactional
   public Hero deleteHero(Integer id) {
-    Hero hero = heroRepository.findById(id).orElse(null);
-    if (hero != null) {
-      heroRepository.delete(hero);
+    HeroEntity dbHero = heroRepository.findById(id).orElse(null);
+    if (dbHero == null) {
+      return null;
     }
-    return hero;
+    heroRepository.delete(dbHero);
+    return dbHero.toHero();
   }
 }
