@@ -15,6 +15,7 @@ build:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   stage: build
+  interruptible: true
   variables:
     MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -Djib.from.auth.username=$DOCKER_REGISTRY_USER -Djib.from.auth.password=$DOCKER_REGISTRY_PASSWORD -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PASSWORD"
   script:
@@ -25,6 +26,7 @@ build-sonarqube:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   stage: build
+  interruptible: true
   script:
     - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent install org.jacoco:jacoco-maven-plugin:report
     - mvn -B sonar:sonar
@@ -33,19 +35,11 @@ build-sonarqube-qa:
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   stage: build
+  interruptible: true
   allow_failure: true
   script:
     - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent install org.jacoco:jacoco-maven-plugin:report
     - SONAR_HOST_URL=$SONAR_QA_HOST_URL SONAR_TOKEN=$SONAR_QA_TOKEN mvn -B sonar:sonar
-
-include:
-  - template: Code-Quality.gitlab-ci.yml
-
-code_quality:
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-  stage: build
 
 .deploy:
   before_script:
@@ -84,6 +78,7 @@ acceptence-tests:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   image: docker.porscheinformatik.com/docker-proxy-dockerhub/cypress/base:16.13.0
   stage: acceptence-tests
+  interruptible: true
   variables:
     CYPRESS_baseUrl: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
   before_script:
