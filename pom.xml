@@ -16,7 +16,7 @@
     <jib-maven-plugin.version>3.1.4</jib-maven-plugin.version>
     <jib.skip>true</jib.skip>
     <frontend-maven-plugin.version>1.12.0</frontend-maven-plugin.version>
-    <typescript-generator.version>2.33.956</typescript-generator.version>
+    <typescript-generator.version>2.34.976</typescript-generator.version>
   </properties>
 
   <parent>
