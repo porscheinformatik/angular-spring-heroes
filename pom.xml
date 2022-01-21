@@ -13,7 +13,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>17</java.version>
-    <jib-maven-plugin.version>3.1.4</jib-maven-plugin.version>
+    <jib-maven-plugin.version>3.2.0</jib-maven-plugin.version>
     <jib.skip>true</jib.skip>
     <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
     <typescript-generator.version>2.34.976</typescript-generator.version>
@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.6.2</version>
+    <version>2.6.3</version>
   </parent>
 
   <modules>
