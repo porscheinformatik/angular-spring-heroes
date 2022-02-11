@@ -57,7 +57,7 @@ build-sonarqube-qa:
         echo "ash-$name"
       }
   script:
-    - helm repo add porscheinformatik $HELM_CHART_REPO
+    - helm repo add porscheinformatik ${HELM_REPO_URL} --username ${HELM_REPO_USER} --password ${HELM_REPO_PASSWORD}
     - helm upgrade --install --atomic --history-max 5 --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
 
 deploy-review:
