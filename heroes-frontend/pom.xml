@@ -13,7 +13,7 @@
   <name>Angular Spring Heroes - Frontend</name>
 
   <properties>
-    <sonar.sources>src</sonar.sources>
+    <sonar.sources>src,package.json</sonar.sources>
   </properties>
 
   <dependencies>
