@@ -49,7 +49,7 @@
     "typescript": "4.4.4",
     "eslint": "8.14.0",
     "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-jsdoc": "39.2.8",
+    "eslint-plugin-jsdoc": "39.2.9",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "@angular-eslint/builder": "13.2.1",
     "@angular-eslint/eslint-plugin": "13.2.1",
