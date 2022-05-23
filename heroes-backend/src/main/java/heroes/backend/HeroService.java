@@ -43,7 +43,7 @@ public class HeroService implements InitializingBean {
     if (hero.id() == null) {
       return heroRepository.save(new HeroEntity(hero.name())).toHero();
     } else {
-      HeroEntity dbHero = heroRepository.getById(hero.id());
+      HeroEntity dbHero = heroRepository.getReferenceById(hero.id());
       dbHero.setName(hero.name());
       return dbHero.toHero();
     }
