@@ -103,5 +103,7 @@
       }
     }
   },
-  "defaultProject": "heroes-frontend"
+  "cli": {
+    "analytics": false
+  }
 }
