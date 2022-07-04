@@ -1,4 +1,4 @@
-FROM cypress/base:14
+FROM cypress/base:16
 
 COPY . /tmp/heroes-acceptence-tests/
 
