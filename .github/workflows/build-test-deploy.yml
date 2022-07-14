@@ -13,12 +13,13 @@ jobs:
   build-test-and-push:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: zulu
+          distribution: temurin
       - name: Docker Login
         uses: Azure/docker-login@v1
         with:
