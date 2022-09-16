@@ -13,10 +13,10 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>17</java.version>
-    <jib-maven-plugin.version>3.2.1</jib-maven-plugin.version>
+    <jib-maven-plugin.version>3.3.0</jib-maven-plugin.version>
     <jib.skip>true</jib.skip>
     <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
-    <typescript-generator.version>2.36.1070</typescript-generator.version>
+    <typescript-generator.version>2.37.1128</typescript-generator.version>
   </properties>
 
   <parent>
