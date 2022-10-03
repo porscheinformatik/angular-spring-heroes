@@ -22,7 +22,7 @@
     "@angular/router": "14.2.4",
     "@ngx-translate/core": "14.0.0",
     "@ngx-translate/http-loader": "7.0.0",
-    "core-js": "3.25.3",
+    "core-js": "3.25.5",
     "rxjs": "7.5.7",
     "rxjs-compat": "6.6.7",
     "tslib": "2.4.0",
@@ -35,7 +35,7 @@
     "@angular/language-service": "14.2.4",
     "@types/jasmine": "4.3.0",
     "@types/jasminewd2": "2.0.10",
-    "@types/node": "16.11.62",
+    "@types/node": "16.11.64",
     "codelyzer": "6.0.2",
     "jasmine-core": "4.4.0",
     "jasmine-spec-reporter": "7.0.0",
@@ -55,7 +55,7 @@
     "@angular-eslint/eslint-plugin-template": "14.1.2",
     "@angular-eslint/schematics": "14.1.2",
     "@angular-eslint/template-parser": "14.1.2",
-    "@typescript-eslint/eslint-plugin": "5.38.1",
-    "@typescript-eslint/parser": "5.38.1"
+    "@typescript-eslint/eslint-plugin": "5.39.0",
+    "@typescript-eslint/parser": "5.39.0"
   }
 }
