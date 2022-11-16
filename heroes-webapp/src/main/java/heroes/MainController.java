@@ -33,7 +33,7 @@ public class MainController implements ApplicationContextAware {
     try {
       Class.forName("org.springframework.boot.devtools.autoconfigure.DevToolsProperties");
       this.devToolsProperties = applicationContext.getBean(DevToolsProperties.class);
-    } catch (ClassNotFoundException e) {
+    } catch (Exception e) {
       // ignore
     }
   }

@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Repository for Heroes
  */
 public interface HeroRepository extends JpaRepository<HeroEntity, Integer> {
-    Stream<HeroEntity> findAllByOrderByName();
-    Optional<HeroEntity> findByName(String name);
+  Stream<HeroEntity> findAllByOrderByName();
+  Optional<HeroEntity> findByName(String name);
 }
