@@ -35,7 +35,7 @@
     "@angular/language-service": "15.0.3",
     "@types/jasmine": "4.3.1",
     "@types/jasminewd2": "2.0.10",
-    "@types/node": "18.11.11",
+    "@types/node": "18.11.15",
     "codelyzer": "6.0.2",
     "jasmine-core": "4.5.0",
     "jasmine-spec-reporter": "7.0.0",
@@ -55,7 +55,7 @@
     "@angular-eslint/eslint-plugin-template": "15.1.0",
     "@angular-eslint/schematics": "15.1.0",
     "@angular-eslint/template-parser": "15.1.0",
-    "@typescript-eslint/eslint-plugin": "5.46.0",
-    "@typescript-eslint/parser": "5.46.0"
+    "@typescript-eslint/eslint-plugin": "5.46.1",
+    "@typescript-eslint/parser": "5.46.1"
   }
 }
