@@ -50,7 +50,7 @@ build-sonarqube-qa:
         if [[ "$CI_COMMIT_REF_SLUG" == "main" ]]; then
           name='prod'
         else
-          name="$CI_COMMIT_REF_SLUG"
+          name="mr-$CI_MERGE_REQUEST_ID"
         fi
         name=${name:0:45}
         name=${name%-}
@@ -69,7 +69,7 @@ deploy-review:
     APP_HOST: ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
     HELM_VALUES: "values-review.yaml"
   environment:
-    name: review/$CI_COMMIT_REF_SLUG
+    name: review/mr-$CI_MERGE_REQUEST_ID
     url: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
     on_stop: stop-review
 
@@ -126,5 +126,5 @@ stop-review:
   script:
     - helm3 --namespace ${OPENSHIFT_PROJECT} delete $(deploy_name)
   environment:
-    name: review/$CI_COMMIT_REF_SLUG
+    name: review/mr-$CI_MERGE_REQUEST_ID
     action: stop
