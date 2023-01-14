@@ -19,6 +19,7 @@ public class HeroesApplication {
   public AllPropertiesSource messageSource(WeblateProperties weblate) {
     if (weblate.getBaseUrl() != null) {
       var weblateMessageSource = new WeblateMessageSource();
+      weblateMessageSource.setAsync(true);
       weblateMessageSource.setBaseUrl(weblate.getBaseUrl());
       weblateMessageSource.setProject(weblate.getProject());
       weblateMessageSource.setComponent(weblate.getComponent());
