@@ -11,6 +11,17 @@ import {HeroService} from './heroes/hero.service';
 import {HeroesComponent} from './heroes/heroes/heroes.component';
 import {DashboardComponent} from './heroes/dashboard/dashboard.component';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatCardModule} from '@angular/material/card';
+import {LayoutModule} from '@angular/cdk/layout';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatIconModule} from '@angular/material/icon';
+import {MatListModule} from '@angular/material/list';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatTableModule} from '@angular/material/table';
 
 // AoT requires an exported function for factories
 export const HTTP_LOADER_FACTORY = (http: HttpClient) => new TranslateHttpLoader(http, '/api/translations/', '.json');
@@ -34,8 +45,18 @@ export const HTTP_LOADER_FACTORY = (http: HttpClient) => new TranslateHttpLoader
         deps: [HttpClient]
       },
     }),
+    BrowserAnimationsModule,
+    MatCardModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatInputModule,
+    MatTableModule,
   ],
-  providers: [HeroService],
+  providers: [HeroService, {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

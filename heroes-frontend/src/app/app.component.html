@@ -1,6 +1,8 @@
-<h1>{{ 'site-title' | translate }}</h1>
-<nav>
-  <a routerLink="/dashboard" translate>nav.dashboard</a>
-  <a routerLink="/heroes" translate>nav.heroes</a>
-</nav>
-<router-outlet></router-outlet>
+<mat-toolbar color="primary">
+  <span class="app-name">{{ 'site-title' | translate }}</span>
+  <a routerLink="/dashboard" mat-button>{{ 'nav.dashboard' | translate }}</a>
+  <a routerLink="/heroes" mat-button>{{ 'nav.heroes' |translate }}</a>
+</mat-toolbar>
+<main class="app-main">
+  <router-outlet></router-outlet>
+</main>

@@ -1,17 +1,34 @@
-<h2 translate>page.my-heroes</h2>
-<div>
-  <label for="heroName" translate>label.hero-name</label>
-  <input id="heroName" #heroName (keyup.enter)="add(heroName.value); heroName.value=''">
-  <button (click)="add(heroName.value); heroName.value=''" translate>button.add</button>
-</div>
+<h2>{{ 'page.my-heroes' | translate }}</h2>
+<section class="add-section">
+  <mat-form-field>
+    <mat-label>{{'label.hero-name'|translate}}</mat-label>
+    <input matInput #heroName id="heroName" (keyup.enter)="add(heroName.value); heroName.value=''">
+  </mat-form-field>
+  <button (click)="add(heroName.value); heroName.value=''" mat-raised-button
+          color="primary">{{'button.add'|translate}}</button>
+</section>
 
-<ul class="heroes">
-  <li *ngFor="let hero of heroes" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
-    <span class="badge">{{hero.id}}</span> {{hero.name}}
-    <button class="delete" (click)="delete(hero); $event.stopPropagation()">x</button>
-  </li>
-</ul>
-<div *ngIf="selectedHero">
-  <h2 translate [translateParams]="{name: selectedHero.name | uppercase}">is-my-hero</h2>
-  <button (click)="gotoDetail()" translate>button.view-details</button>
-</div>
+<table mat-table [dataSource]="heroes$" class="heroes">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>{{'label.id'|translate}}</th>
+    <td mat-cell *matCellDef="let hero"> {{hero.id}} </td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>{{'label.hero-name'|translate}}</th>
+    <td mat-cell *matCellDef="let hero"> {{hero.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>{{'label.actions'|translate}}</th>
+    <td mat-cell *matCellDef="let hero">
+      <button mat-icon-button [attr.aria-label]="'button.view-details' | translate" (click)="gotoDetail(hero)" class="edit">
+        <mat-icon fontIcon="edit"></mat-icon>
+      </button>
+      <button mat-icon-button [attr.aria-label]="'button.delete-hero' | translate" (click)="delete(hero)" class="delete">
+        <mat-icon fontIcon="delete"></mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

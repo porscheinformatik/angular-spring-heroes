@@ -1,10 +1,14 @@
 <div *ngIf="hero">
   <h2 translate [translateParams]="{name: hero.name}">page.hero-detail</h2>
-  <div><label translate>label.id</label>{{hero.id}}</div>
-  <div>
-    <label for="heroName" translate>label.hero-name</label>
-    <input [(ngModel)]="hero.name" placeholder="name" id="heroName" />
+  <div class="id-info">
+    ({{'label.id'|translate}}: {{hero.id}})
   </div>
-  <button (click)="onSave()" translate>button.save</button>
-  <button (click)="goBack()" translate>button.back</button>
+  <mat-form-field>
+    <mat-label>{{'label.hero-name'|translate}}</mat-label>
+    <input matInput id="heroName" [(ngModel)]="hero.name" [placeholder]="'label.name'|translate"/>
+  </mat-form-field>
+  <div>
+    <button mat-raised-button color="primary" (click)="onSave()">{{'button.save'|translate}}</button>
+    <button mat-raised-button (click)="goBack()">{{'button.back'|translate}}</button>
+  </div>
 </div>

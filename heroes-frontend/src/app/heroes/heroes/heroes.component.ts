@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { HeroService } from '../hero.service';
-import { Router } from '@angular/router';
-import { Hero } from '../../../model/hero';
+import {Component, OnInit} from '@angular/core';
+import {HeroService} from '../hero.service';
+import {Router} from '@angular/router';
+import {Hero} from '../../../model/hero';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-heroes',
@@ -9,21 +10,18 @@ import { Hero } from '../../../model/hero';
   styleUrls: ['./heroes.component.css']
 })
 export class HeroesComponent implements OnInit {
-  heroes!: Hero[];
-  selectedHero?: Hero;
+  heroes$ = new BehaviorSubject<Hero[]>([]);
+  displayedColumns = ['id', 'name', 'actions'];
 
-  constructor(private heroService: HeroService, private router: Router) { }
+  constructor(private heroService: HeroService, private router: Router) {
+  }
 
   ngOnInit(): void {
-     this.getHeroes();
+    this.getHeroes();
   }
 
   getHeroes() {
-    this.heroService.getHeroes().subscribe(heroes => this.heroes = heroes);
-  }
-
-  onSelect(hero: Hero) {
-    this.selectedHero = hero;
+    this.heroes$ = this.heroService.getHeroes();
   }
 
   add(name: string): void {
@@ -31,20 +29,15 @@ export class HeroesComponent implements OnInit {
     if (!name) {
       return;
     }
-    this.heroService.create(name)
-      .subscribe(hero => {
-        this.heroes.push(hero);
-        delete this.selectedHero;
-      });
+    this.heroService.create(name).subscribe();
   }
 
   delete(hero: Hero) {
-    this.heroService.delete(hero)
-      .subscribe(() => this.getHeroes());
+    this.heroService.delete(hero).subscribe();
   }
 
-  gotoDetail() {
-    this.router.navigate(['/detail', this.selectedHero?.id]);
+  gotoDetail(hero: Hero) {
+    this.router.navigate(['/detail', hero.id]);
   }
 
 }
