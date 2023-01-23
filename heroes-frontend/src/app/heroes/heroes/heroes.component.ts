@@ -9,8 +9,8 @@ import { Hero } from '../../../model/hero';
   styleUrls: ['./heroes.component.css']
 })
 export class HeroesComponent implements OnInit {
-  heroes: Hero[];
-  selectedHero: Hero;
+  heroes!: Hero[];
+  selectedHero?: Hero;
 
   constructor(private heroService: HeroService, private router: Router) { }
 
@@ -34,7 +34,7 @@ export class HeroesComponent implements OnInit {
     this.heroService.create(name)
       .subscribe(hero => {
         this.heroes.push(hero);
-        this.selectedHero = null;
+        delete this.selectedHero;
       });
   }
 
@@ -44,7 +44,7 @@ export class HeroesComponent implements OnInit {
   }
 
   gotoDetail() {
-    this.router.navigate(['/detail', this.selectedHero.id]);
+    this.router.navigate(['/detail', this.selectedHero?.id]);
   }
 
 }
