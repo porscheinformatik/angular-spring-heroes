@@ -13,13 +13,10 @@ describe('HeroService', () => {
     });
   });
 
-  it('should return heroes', inject(
-    [HeroService],
-    (service: HeroService, done) => {
-      service.getHeroes().subscribe((heroes) => {
-        expect(heroes).toBe(HEROES);
-        done();
-      });
-    }
-  ));
+  it('should return heroes', inject([HeroService], (service: HeroService, done) => {
+    service.getHeroes().subscribe((heroes) => {
+      expect(heroes).toBe(HEROES);
+      done();
+    });
+  }));
 });

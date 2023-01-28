@@ -2,7 +2,6 @@ package heroes.backend;
 
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

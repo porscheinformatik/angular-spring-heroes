@@ -46,5 +46,4 @@ public class HeroController {
   public Hero delete(@PathVariable("id") Integer id) {
     return heroService.deleteHero(id);
   }
-
 }

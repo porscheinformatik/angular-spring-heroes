@@ -1,5 +1,7 @@
 package heroes;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.boot.devtools.autoconfigure.DevToolsProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -7,15 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Controller
 public class MainController implements ApplicationContextAware {
 
   private Object devToolsProperties;
 
-  @GetMapping({"/", "/heroes", "/dashboard", "/detail/*"})
+  @GetMapping({ "/", "/heroes", "/dashboard", "/detail/*" })
   public ModelAndView index() {
     Map<String, Object> model = new HashMap<>();
     model.put("azureInstrumentationKey", System.getenv("APPINSIGHTS_INSTRUMENTATIONKEY"));

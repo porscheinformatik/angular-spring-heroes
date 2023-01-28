@@ -1,13 +1,12 @@
 package heroes;
 
 import at.porscheinformatik.weblate.spring.AllPropertiesSource;
+import java.util.Locale;
+import java.util.Properties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Locale;
-import java.util.Properties;
 
 @RestController
 @RequestMapping("/api/translations")

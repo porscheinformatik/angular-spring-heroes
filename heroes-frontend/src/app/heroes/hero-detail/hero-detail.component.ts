@@ -7,17 +7,21 @@ import { Hero } from '../../../model/hero';
 @Component({
   selector: 'hero-detail',
   templateUrl: './hero-detail.component.html',
-  styleUrls: ['./hero-detail.component.css']
+  styleUrls: ['./hero-detail.component.css'],
 })
 export class HeroDetailComponent implements OnInit {
   @Input() hero?: Hero;
 
-  constructor(private heroService: HeroService, private route: ActivatedRoute,
-    private location: Location) { }
+  constructor(
+    private heroService: HeroService,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
-    this.heroService.getHero(+this.route.snapshot.params.id)
-      .subscribe(hero => this.hero = hero);
+    this.heroService
+      .getHero(+this.route.snapshot.params.id)
+      .subscribe((hero) => (this.hero = hero));
   }
 
   goBack() {
@@ -26,9 +30,7 @@ export class HeroDetailComponent implements OnInit {
 
   onSave() {
     if (this.hero) {
-      this.heroService.update(this.hero)
-        .subscribe(() => this.goBack());
+      this.heroService.update(this.hero).subscribe(() => this.goBack());
     }
   }
-
 }

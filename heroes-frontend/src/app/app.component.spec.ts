@@ -9,13 +9,9 @@ import { HeroService } from './heroes/hero.service';
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule, FormsModule
-      ],
-      declarations: [
-        AppComponent, HeroDetailComponent
-      ],
-      providers: [HeroService]
+      imports: [RouterTestingModule, FormsModule],
+      declarations: [AppComponent, HeroDetailComponent],
+      providers: [HeroService],
     }).compileComponents();
   }));
 

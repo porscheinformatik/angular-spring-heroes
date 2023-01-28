@@ -14,8 +14,7 @@ public class HeroEntity {
   @Column(length = 100)
   private String name;
 
-  protected HeroEntity() {
-  }
+  protected HeroEntity() {}
 
   public HeroEntity(String name) {
     this.name = name;
