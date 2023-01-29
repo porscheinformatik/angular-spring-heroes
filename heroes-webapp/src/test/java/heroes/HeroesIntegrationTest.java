@@ -14,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class HeroesIntegrationTest {
+class HeroesIntegrationTest {
 
   @LocalServerPort
   private int port;
@@ -23,12 +23,12 @@ public class HeroesIntegrationTest {
   private DevToolsProperties devToolsProperties;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     RestAssured.port = port;
   }
 
   @Test
-  public void heroesApiWorks() {
-    get("/api/heroes").then().statusCode(200).body("size()", is(HeroService.HEROES.length));
+  void heroesApiWorks() {
+    get("/api/heroes").then().statusCode(200).body("size()", is(HeroService.HEROES.size()));
   }
 }

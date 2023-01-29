@@ -55,6 +55,8 @@ export class HeroService {
   }
 
   private updateList(heroes: Hero[]) {
-    this.heroes$.next(heroes.sort((a, b) => a.name.localeCompare(b.name)));
+    const newHeroes = [...heroes];
+    newHeroes.sort((a, b) => a.name.localeCompare(b.name));
+    this.heroes$.next(newHeroes);
   }
 }

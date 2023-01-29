@@ -1,6 +1,6 @@
 package heroes.backend;
 
-import java.util.stream.Stream;
+import java.util.List;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class HeroService implements InitializingBean {
 
-  public static final String[] HEROES = {
+  public static final List<String> HEROES = List.of(
     "Mr. Nice",
     "Narco",
     "Bombasto",
@@ -19,8 +19,8 @@ public class HeroService implements InitializingBean {
     "Dynama",
     "Dr IQ",
     "Magma",
-    "Tornado",
-  };
+    "Tornado"
+  );
 
   private final HeroRepository heroRepository;
 
@@ -31,8 +31,8 @@ public class HeroService implements InitializingBean {
   @Override
   @Transactional
   public void afterPropertiesSet() {
-    Stream
-      .of(HEROES)
+    HEROES
+      .stream()
       .filter(name -> heroRepository.findByName(name).isEmpty())
       .map(HeroEntity::new)
       .forEach(heroRepository::save);
