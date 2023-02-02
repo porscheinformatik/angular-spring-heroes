@@ -1,5 +1,5 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>porscheinformatik/renovate-config", "group:allNonMajor", "workarounds:all"],
+  "extends": ["config:base", "group:allNonMajor", "workarounds:all"],
   "npmrc": "registry=https://registry.npmjs.org/"
 }
