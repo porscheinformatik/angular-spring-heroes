@@ -1,9 +1,0 @@
-gitops:
-  charts:
-    - release_name: test1
-      source:
-        project:
-          id: eenv/helm/helm-charts
-          path: charts/web-application
-      namespace: poi-user-koc
-      max_history: 5
