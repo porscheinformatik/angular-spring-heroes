@@ -1,0 +1,9 @@
+{{- if .Values.customDomains }}
+The application URLs are:
+{{- range $domains := .Values.customDomains }}
+  https://{{.url}}
+{{- end }}
+{{- else  }}
+Get the application URL by running these command:
+  kubectl get ksvc {{ include "knative-application.fullname" . }}
+{{- end }}

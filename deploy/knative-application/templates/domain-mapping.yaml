@@ -1,0 +1,14 @@
+{{- range $index, $oneRoute := .Values.customDomains }}
+---
+apiVersion: serving.knative.dev/v1alpha1
+kind: DomainMapping
+metadata:
+  name: {{ .url }}
+  labels:
+    {{- include "knative-application.labels" $ | nindent 4 }}
+spec:
+  ref:
+    name: {{ include "knative-application.fullname" $ }}
+    kind: Service
+    apiVersion: serving.knative.dev/v1
+{{- end }}

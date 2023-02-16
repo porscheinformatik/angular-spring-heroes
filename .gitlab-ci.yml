@@ -1,10 +1,24 @@
-image: docker.porscheinformatik.com/eenv/builders/default:jdk-17
+default:
+  image: docker.porscheinformatik.com/eenv/builders/default:jdk-17
+  before_script:
+    - export MR_TAG="${CI_MERGE_REQUEST_IID:+mr-${CI_MERGE_REQUEST_IID}}"
+    - export IMAGE_TAG="${MR_TAG:-${CI_COMMIT_REF_SLUG}}"
+    - |
+      function deploy_name() {
+        if [[ "$CI_COMMIT_REF_SLUG" == "main" ]]; then
+          name='prod'
+        else
+          name="mr-$CI_MERGE_REQUEST_IID"
+        fi
+        name=${name:0:45}
+        name=${name%-}
+        echo "ash-$name"
+      }
 
 stages:
   - build
   - deploy
   - acceptence-tests
-  - deploy-idle
   - cleanup
 
 build:
@@ -19,7 +33,7 @@ build:
     - npm ci
     - mvn $MAVEN_CLI_OPTS compile
     - npm run build
-    - mvn $MAVEN_CLI_OPTS package jib:build -DfromImage=docker.porscheinformatik.com/eenv/service-java:17 -Dentrypoint=INHERIT -Djib.container.creationTime=`git show -s --format=%cI $CI_COMMIT_SHA` -DimageTag=$CI_COMMIT_REF_SLUG
+    - mvn $MAVEN_CLI_OPTS package jib:build -DfromImage=docker.porscheinformatik.com/eenv/service-java:17 -Dentrypoint=INHERIT -Djib.container.creationTime=`git show -s --format=%cI $CI_COMMIT_SHA` -DimageTag=${IMAGE_TAG}
 
 build-sonarqube:
   rules:
@@ -44,23 +58,8 @@ build-sonarqube-qa:
     - SONAR_HOST_URL=$SONAR_QA_HOST_URL SONAR_TOKEN=$SONAR_QA_TOKEN mvn -B sonar:sonar
 
 .deploy:
-  before_script:
-    - oc login "$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN"
-    - oc project $OPENSHIFT_PROJECT
-    - |
-      function deploy_name() {
-        if [[ "$CI_COMMIT_REF_SLUG" == "main" ]]; then
-          name='prod'
-        else
-          name="mr-$CI_MERGE_REQUEST_ID"
-        fi
-        name=${name:0:45}
-        name=${name%-}
-        echo "ash-$name"
-      }
   script:
-    - helm repo add porscheinformatik ${HELM_REPO_URL} --username ${HELM_REPO_USER} --password ${HELM_REPO_PASSWORD}
-    - helm upgrade --install --atomic --history-max 5 --namespace ${OPENSHIFT_PROJECT} $(deploy_name) -f deploy/${HELM_VALUES} --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=$CI_COMMIT_REF_SLUG --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}" porscheinformatik/web-application
+    - helm-deploy ${OPENSHIFT_SERVER} ${OPENSHIFT_TOKEN} ${OPENSHIFT_PROJECT} deploy/${HELM_VALUES} $(deploy_name) porscheinformatik/web-application --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=${IMAGE_TAG} --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}"
 
 deploy-review:
   rules:
@@ -68,12 +67,14 @@ deploy-review:
   extends: .deploy
   stage: deploy
   variables:
-    APP_HOST: ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
+    APP_HOST: ash-mr-$CI_MERGE_REQUEST_IID.$OPENSHIFT_DOMAIN
     HELM_VALUES: 'values-review.yaml'
   environment:
-    name: review/mr-$CI_MERGE_REQUEST_ID
-    url: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
+    name: review/mr-$CI_MERGE_REQUEST_IID
+    url: https://ash-mr-$CI_MERGE_REQUEST_IID.$OPENSHIFT_DOMAIN
     on_stop: stop-review
+  script:
+    - helm-deploy ${OPENSHIFT_SERVER} ${OPENSHIFT_TOKEN} ${OPENSHIFT_PROJECT} deploy/${HELM_VALUES} $(deploy_name) deploy/knative-application --set service.image.tag=${IMAGE_TAG} --set "customDomains[0].url=$APP_HOST"
 
 acceptence-tests:
   rules:
@@ -82,11 +83,13 @@ acceptence-tests:
   stage: acceptence-tests
   interruptible: true
   variables:
-    CYPRESS_baseUrl: https://ash-mr-$CI_MERGE_REQUEST_ID.$OPENSHIFT_DOMAIN
-  before_script:
+    CYPRESS_baseUrl: https://ash-mr-$CI_MERGE_REQUEST_IID.$OPENSHIFT_DOMAIN
+  script:
+    - apt update
+    - apt install -y curl
+    - curl -v -o /dev/null "${CYPRESS_baseUrl}" & # warmup request
     - cd heroes-acceptence-tests
     - npm i
-  script:
     - npm test
   artifacts:
     expire_in: 1 week
@@ -107,15 +110,6 @@ deploy-production:
     name: production
     url: https://$CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
 
-deploy-review-idle:
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  extends: .deploy
-  stage: deploy-idle
-  script:
-    - webapp_name="$(deploy_name)-web-application"
-    - oc idle "${webapp_name:0:63}"
-
 stop-review:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -126,9 +120,9 @@ stop-review:
   variables:
     GIT_STRATEGY: none
   script:
-    - helm3 --namespace ${OPENSHIFT_PROJECT} delete $(deploy_name)
+    - helm --namespace ${OPENSHIFT_PROJECT} delete $(deploy_name)
   environment:
-    name: review/mr-$CI_MERGE_REQUEST_ID
+    name: review/mr-$CI_MERGE_REQUEST_IID
     action: stop
 
 frogbot-scan:
