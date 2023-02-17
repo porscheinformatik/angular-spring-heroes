@@ -120,6 +120,7 @@ stop-review:
   variables:
     GIT_STRATEGY: none
   script:
+    - oc login "$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN"
     - helm --namespace ${OPENSHIFT_PROJECT} delete $(deploy_name)
   environment:
     name: review/mr-$CI_MERGE_REQUEST_IID
