@@ -127,9 +127,9 @@
             <entrypoint>${entrypoint}</entrypoint>
             <labels>
               <org.opencontainers.image.title>${project.parent.name}</org.opencontainers.image.title>
-              <org.opencontainers.image.description>{project.parent.description}</org.opencontainers.image.description>
+              <org.opencontainers.image.description>${project.parent.description}</org.opencontainers.image.description>
               <org.opencontainers.image.created>${maven.build.timestamp}</org.opencontainers.image.created>
-              <org.opencontainers.image.source>${env.CI_REPOSITORY_URL}</org.opencontainers.image.source>
+              <org.opencontainers.image.source>${env.CI_PROJECT_URL}</org.opencontainers.image.source>
               <org.opencontainers.image.revision>${env.CI_COMMIT_SHA}</org.opencontainers.image.revision>
               <org.opencontainers.image.base.name>${fromImage}</org.opencontainers.image.base.name>
             </labels>
