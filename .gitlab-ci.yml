@@ -59,7 +59,7 @@ build-sonarqube-qa:
 
 .deploy:
   script:
-    - helm-deploy ${OPENSHIFT_SERVER} ${OPENSHIFT_TOKEN} ${OPENSHIFT_PROJECT} deploy/${HELM_VALUES} $(deploy_name) porscheinformatik/web-application --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=${IMAGE_TAG} --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}"
+    - helm-deploy ${OPENSHIFT_SERVER} ${OPENSHIFT_TOKEN} ${OPENSHIFT_PROJECT} deploy/${HELM_VALUES} $(deploy_name) porscheinformatik/web-application --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set "podLabels.tags\.datadoghq\.com/version=1.0.0.${CI_COMMIT_SHORT_SHA}" --set image.tag=${IMAGE_TAG} --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}"
 
 deploy-review:
   rules:
