@@ -87,7 +87,7 @@ acceptence-tests:
   script:
     - apt update
     - apt install -y curl
-    - curl -v -o /dev/null "${CYPRESS_baseUrl}" & # warmup request
+    - curl -v --max-time 300 -o /dev/null "${CYPRESS_baseUrl}"
     - cd heroes-acceptence-tests
     - npm i
     - npm test
