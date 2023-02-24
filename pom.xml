@@ -20,7 +20,7 @@
     <jib.skip>true</jib.skip>
     <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
     <typescript-generator.version>3.1.1185</typescript-generator.version>
-    <sonar.sources>package.json,pom.xml,src/main</sonar.sources>
+    <sonar.sources>package.json,pom.xml</sonar.sources>
   </properties>
 
   <parent>

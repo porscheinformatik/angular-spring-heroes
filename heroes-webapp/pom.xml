@@ -85,7 +85,7 @@
     <fromImage>openjdk:17-slim</fromImage>
     <imageTag>latest</imageTag>
     <entrypoint />
-    <sonar.sources>src/main</sonar.sources>
+    <sonar.sources>pom.xml,src/main</sonar.sources>
   </properties>
 
   <build>

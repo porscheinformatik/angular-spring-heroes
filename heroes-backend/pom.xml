@@ -15,7 +15,7 @@
   <name>Angular Spring Heroes - Backend</name>
 
   <properties>
-    <sonar.sources>src/main</sonar.sources>
+    <sonar.sources>pom.xml,src/main</sonar.sources>
   </properties>
 
   <dependencies>
