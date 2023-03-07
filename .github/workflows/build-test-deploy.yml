@@ -11,6 +11,7 @@ on:
 env:
   CI_PROJECT_URL: ${{ github.github.server_url }}/${{ github.repository }}
   CI_COMMIT_SHA: ${{ github.sha }}
+  MAVEN_CLI_OPTS: '--batch-mode --errors --fail-at-end --show-version'
 
 jobs:
   build-test-and-push:
@@ -29,7 +30,10 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - name: Build application
-        run: mvn -B package jib:dockerBuild -Dimage=porscheinformatik/angular-spring-heroes
+        run: |
+          mvn $MAVEN_CLI_OPTS compile
+          npm run build
+          mvn $MAVEN_CLI_OPTS package jib:dockerBuild -Dimage=porscheinformatik/angular-spring-heroes
       - name: Build acceptance tests
         run: docker build -t heroes-acceptence-tests heroes-acceptence-tests
       - name: Run app for tests
