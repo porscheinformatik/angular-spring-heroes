@@ -1,11 +1,11 @@
 {
-  "$schema": "../node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": "node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "heroes-frontend": {
-      "root": "",
-      "sourceRoot": "src",
+      "root": "heroes-frontend",
+      "sourceRoot": "heroes-frontend/src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {},
@@ -13,15 +13,15 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "target/classes/static",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "outputPath": "heroes-frontend/target/classes/static",
+            "index": "heroes-frontend/src/index.html",
+            "main": "heroes-frontend/src/main.ts",
+            "polyfills": "heroes-frontend/src/polyfills.ts",
+            "tsConfig": "heroes-frontend/tsconfig.app.json",
+            "assets": ["heroes-frontend/src/favicon.ico", "heroes-frontend/src/assets"],
             "styles": [
-              "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "heroes-frontend/src/styles.css"
             ],
             "scripts": [],
             "vendorChunk": true,
@@ -41,8 +41,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "heroes-frontend/src/environments/environment.ts",
+                  "with": "heroes-frontend/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -75,22 +75,22 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "main": "heroes-frontend/src/test.ts",
+            "polyfills": "heroes-frontend/src/polyfills.ts",
+            "tsConfig": "heroes-frontend/tsconfig.spec.json",
+            "karmaConfig": "heroes-frontend/src/karma.conf.js",
             "styles": [
-              "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "heroes-frontend/src/styles.css"
             ],
             "scripts": [],
-            "assets": ["src/favicon.ico", "src/assets"]
+            "assets": ["heroes-frontend/src/favicon.ico", "heroes-frontend/src/assets"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": ["heroes-frontend/src/**/*.ts", "heroes-frontend/src/**/*.html"]
           }
         }
       }

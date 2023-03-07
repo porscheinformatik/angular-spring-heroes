@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "cd heroes-frontend && ng build --watch",
-    "build": "cd heroes-frontend && ng lint && ng build --configuration production",
+    "build": "ng build --configuration production",
+    "lint": "ng lint",
     "test": "cd heroes-frontend && ng test",
     "prettier": "prettier -c .",
     "prettier-fix": "prettier -w ."

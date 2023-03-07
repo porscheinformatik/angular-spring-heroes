@@ -31,8 +31,6 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - name: Build application
         run: |
-          mvn $MAVEN_CLI_OPTS compile
-          npm run build
           mvn $MAVEN_CLI_OPTS package jib:dockerBuild -Dimage=porscheinformatik/angular-spring-heroes
       - name: Build acceptance tests
         run: docker build -t heroes-acceptence-tests heroes-acceptence-tests

@@ -21,6 +21,7 @@
     <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
     <typescript-generator.version>3.1.1185</typescript-generator.version>
     <sonar.sources>package.json,pom.xml</sonar.sources>
+    <npm-install-command>install</npm-install-command>
   </properties>
 
   <parent>
@@ -43,8 +44,8 @@
           <artifactId>frontend-maven-plugin</artifactId>
           <version>${frontend-maven-plugin.version}</version>
           <configuration>
-            <nodeVersion>v18.12.1</nodeVersion>
-	          <npmVersion>9.1.2</npmVersion>
+            <nodeVersion>v18.14.2</nodeVersion>
+            <npmVersion>9.5.0</npmVersion>
             <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
           </configuration>
         </plugin>
@@ -67,6 +68,45 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <phase>generate-resources</phase>
+          </execution>
+          <execution>
+            <id>npm ci</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>${npm-install-command}</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>CI</id>
+      <activation>
+        <property>
+          <name>env.CI</name>
+        </property>
+      </activation>
+      <properties>
+        <npm-install-command>ci</npm-install-command>
+      </properties>
+    </profile>
+  </profiles>
 
 </project>

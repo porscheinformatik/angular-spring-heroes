@@ -6,10 +6,10 @@ tmp/
 
 # dependencies
 node_modules/
-heroes-frontend/node/
+node/
+.angular/
 heroes-frontend/out-tsc/
 heroes-frontend/src/model/
-heroes-frontend/.angular/
 
 # Cypress
 heroes-acceptence-tests/package-lock.json

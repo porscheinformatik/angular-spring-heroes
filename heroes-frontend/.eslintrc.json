@@ -5,7 +5,7 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["tsconfig.json"],
+        "project": ["heroes-frontend/tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
