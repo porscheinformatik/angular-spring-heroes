@@ -110,8 +110,9 @@
         <configuration>
           <pluginExtensions>
             <pluginExtension>
-              <implementation
-              >com.google.cloud.tools.jib.maven.extension.springboot.JibSpringBootExtension</implementation>
+              <implementation>
+                com.google.cloud.tools.jib.maven.extension.springboot.JibSpringBootExtension
+              </implementation>
             </pluginExtension>
           </pluginExtensions>
           <from>

@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+env:
+  CI_PROJECT_URL: ${{ github.github.server_url }}/${{ github.repository }}
+  CI_COMMIT_SHA: ${{ github.sha }}
+
 jobs:
   build-test-and-push:
     runs-on: ubuntu-latest
