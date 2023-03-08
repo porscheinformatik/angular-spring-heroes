@@ -83,7 +83,7 @@ acceptence-tests:
     CYPRESS_baseUrl: https://ash-mr-$CI_MERGE_REQUEST_IID.$OPENSHIFT_DOMAIN
   script:
     - apt update
-    - apt install -y curl
+    - apt install -y ca-certificates curl
     - curl -v --max-time 300 -o /dev/null "${CYPRESS_baseUrl}"
     - cd heroes-acceptence-tests
     - npm i
