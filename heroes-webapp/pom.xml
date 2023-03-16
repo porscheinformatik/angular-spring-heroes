@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
->
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -81,10 +80,9 @@
   </dependencies>
 
   <properties>
-    <jib.skip>false</jib.skip>
-    <fromImage>openjdk:17-slim</fromImage>
-    <imageTag>latest</imageTag>
-    <entrypoint />
+    <spring-boot.build-image.skip>false</spring-boot.build-image.skip>
+    <image.tag>latest</image.tag>
+    <image.push>false</image.push>
     <sonar.sources>pom.xml,src/main</sonar.sources>
   </properties>
 
@@ -95,49 +93,58 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <excludeDevtools>true</excludeDevtools>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>repackage</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.google.cloud.tools</groupId>
-        <artifactId>jib-maven-plugin</artifactId>
-        <configuration>
-          <pluginExtensions>
-            <pluginExtension>
-              <implementation>
-                com.google.cloud.tools.jib.maven.extension.springboot.JibSpringBootExtension
-              </implementation>
-            </pluginExtension>
-          </pluginExtensions>
-          <from>
-            <image>${fromImage}</image>
-          </from>
-          <to>
-            <image>docker.porscheinformatik.com/koc/angular-spring-heroes:${imageTag}</image>
-          </to>
-          <container>
-            <environment>
-              <JAVA_MAIN_CLASS>heroes.HeroesApplication</JAVA_MAIN_CLASS>
-            </environment>
-            <entrypoint>${entrypoint}</entrypoint>
-            <labels>
-              <org.opencontainers.image.title>${project.parent.name}</org.opencontainers.image.title>
-              <org.opencontainers.image.description>${project.parent.description}</org.opencontainers.image.description>
-              <org.opencontainers.image.created>${maven.build.timestamp}</org.opencontainers.image.created>
-              <org.opencontainers.image.source>${env.CI_PROJECT_URL}</org.opencontainers.image.source>
-              <org.opencontainers.image.revision>${env.CI_COMMIT_SHA}</org.opencontainers.image.revision>
-              <org.opencontainers.image.base.name>${fromImage}</org.opencontainers.image.base.name>
-            </labels>
-          </container>
+          <docker>
+            <builderRegistry>
+              <username>${env.DOCKER_REGISTRY_USER}</username>
+              <password>${env.DOCKER_REGISTRY_PASSWORD}</password>
+            </builderRegistry>
+            <publishRegistry>
+              <username>${env.DOCKER_REGISTRY_USER}</username>
+              <password>${env.DOCKER_REGISTRY_PASSWORD}</password>
+            </publishRegistry>
+          </docker>
+          <image>
+            <name>docker.porscheinformatik.com/koc/angular-spring-heroes:${image.tag}</name>
+            <builder>docker.porscheinformatik.com/eenv/paketo-buildpacks/builder:base</builder>
+            <runImage>docker.porscheinformatik.com/eenv/paketo-buildpacks/run</runImage>
+            <pullPolicy>IF_NOT_PRESENT</pullPolicy>
+            <publish>${image.push}</publish>
+            <bindings>
+              <binding>${project.basedir}/src/main/bindings/ca-certs:/platform/bindings/ca-certs</binding>
+            </bindings>
+            <env>
+              <BP_OCI_TITLE>${project.parent.name}</BP_OCI_TITLE>
+              <BP_OCI_DESCRIPTION>${project.parent.description}</BP_OCI_DESCRIPTION>
+              <BP_OCI_CREATED>${maven.build.timestamp}</BP_OCI_CREATED>
+              <BP_OCI_SOURCE>${env.CI_PROJECT_URL}</BP_OCI_SOURCE>
+              <BP_OCI_REVISION>${env.CI_COMMIT_SHA}</BP_OCI_REVISION>
+            </env>
+          </image>
         </configuration>
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>poi</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <configuration>
+              <from>
+                <image>docker.porscheinformatik.com/eenv/service-java:17</image>
+              </from>
+              <container>
+                <entrypoint>INHERIT</entrypoint>
+              </container>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

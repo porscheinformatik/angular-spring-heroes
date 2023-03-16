@@ -39,7 +39,7 @@ public class HeroService implements InitializingBean {
   }
 
   public Iterable<Hero> listHeroes() {
-    return heroRepository.findAllByOrderByName().map(HeroEntity::toHero).toList();
+    return heroRepository.findAllByOrderByName().stream().map(HeroEntity::toHero).toList();
   }
 
   public Hero getHero(Integer id) {

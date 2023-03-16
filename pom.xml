@@ -16,12 +16,11 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>17</java.version>
-    <jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
-    <jib.skip>true</jib.skip>
     <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
     <typescript-generator.version>3.1.1185</typescript-generator.version>
     <sonar.sources>package.json,pom.xml</sonar.sources>
     <npm-install-command>install</npm-install-command>
+    <spring-boot.build-image.skip>true</spring-boot.build-image.skip>
   </properties>
 
   <parent>
@@ -54,21 +53,13 @@
           <artifactId>typescript-generator-maven-plugin</artifactId>
           <version>${typescript-generator.version}</version>
         </plugin>
-        <plugin>
-          <groupId>com.google.cloud.tools</groupId>
-          <artifactId>jib-maven-plugin</artifactId>
-          <version>${jib-maven-plugin.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>com.google.cloud.tools</groupId>
-              <artifactId>jib-spring-boot-extension-maven</artifactId>
-              <version>0.1.0</version>
-            </dependency>
-          </dependencies>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.graalvm.buildtools</groupId>
+        <artifactId>native-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
@@ -106,6 +97,31 @@
       <properties>
         <npm-install-command>ci</npm-install-command>
       </properties>
+    </profile>
+    <profile>
+      <id>native</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.hibernate.orm.tooling</groupId>
+            <artifactId>hibernate-enhance-maven-plugin</artifactId>
+            <version>${hibernate.version}</version>
+            <executions>
+              <execution>
+                <id>enhance</id>
+                <goals>
+                  <goal>enhance</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <enableLazyInitialization>true</enableLazyInitialization>
+              <enableDirtyTracking>true</enableDirtyTracking>
+              <enableAssociationManagement>true</enableAssociationManagement>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 
