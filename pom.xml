@@ -17,7 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>17</java.version>
     <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
-    <typescript-generator.version>3.1.1185</typescript-generator.version>
+    <typescript-generator.version>3.2.1263</typescript-generator.version>
     <sonar.sources>package.json,pom.xml</sonar.sources>
     <npm-install-command>install</npm-install-command>
     <spring-boot.build-image.skip>true</spring-boot.build-image.skip>
