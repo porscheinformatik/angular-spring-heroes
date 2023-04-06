@@ -17,6 +17,7 @@ public class LiquibaseNativeHints implements RuntimeHintsRegistrar {
      registerConstructor(hints, liquibase.sql.visitor.PrependSqlVisitor.class);
      registerConstructor(hints, liquibase.sql.visitor.RegExpReplaceSqlVisitor.class);
      registerConstructor(hints, liquibase.sql.visitor.ReplaceSqlVisitor.class);
+     registerConstructor(hints, java.util.ArrayList.class);
 
      registerPublicMethods(hints, liquibase.change.core.AlterSequenceChange.class);
      registerPublicMethods(hints, liquibase.change.core.CreateIndexChange.class);
