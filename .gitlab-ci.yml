@@ -74,7 +74,7 @@ deploy-review:
     url: https://ash-mr-$CI_MERGE_REQUEST_IID.$OPENSHIFT_DOMAIN
     on_stop: stop-review
   script:
-    - helm-deploy ${OPENSHIFT_SERVER} ${OPENSHIFT_TOKEN} ${OPENSHIFT_PROJECT} deploy/${HELM_VALUES} $(deploy_name) deploy/knative-application --set service.image.tag=${IMAGE_TAG} --set "customDomains[0].url=$APP_HOST"
+    - helm-deploy ${OPENSHIFT_SERVER} ${OPENSHIFT_TOKEN} ${OPENSHIFT_PROJECT} deploy/${HELM_VALUES} $(deploy_name) deploy/knative-application --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set service.image.tag=${IMAGE_TAG} --set "customDomains[0].url=$APP_HOST"
 
 acceptence-tests:
   rules:

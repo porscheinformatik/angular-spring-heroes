@@ -8,6 +8,9 @@
     "fullnameOverride": {
       "type": "string"
     },
+    "appVersion": {
+      "type": "string"
+    },
     "service": {
       "additionalProperties": false,
       "description": "Settings for the deployed service",

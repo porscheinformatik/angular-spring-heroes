@@ -6,6 +6,9 @@ metadata:
     {{- include "knative-application.labels" . | nindent 4 }}
 spec:
   template:
+    metadata:
+      labels:
+        {{- include "knative-application.labels" . | nindent 8 }}
     spec:
       containers:
         - image: "{{ .Values.service.image.repository }}:{{ .Values.service.image.tag | default .Chart.AppVersion }}"

@@ -4,11 +4,12 @@
 
 nameOverride: ""
 fullnameOverride: ""
+# appVersion: "1.0.0"
 
 service:
   image:
     repository: nginxinc/nginx-unprivileged
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     tag: ""
   # livenessProbe:
   #   httpGet:

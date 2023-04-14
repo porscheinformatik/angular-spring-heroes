@@ -35,12 +35,10 @@ Run the main class `heroes.HeroesApplication` from your favorite IDE - please in
 
 ## Deployment to Kubernetes/OpenShift
 
-The application can be deployed to [Kubernetes](https://kubernetes.io/) (or [OpenShift](https://www.openshift.org/)) via [Helm](https://helm.sh/).
+The application can be deployed to [Kubernetes](https://kubernetes.io/) (or [OpenShift](https://www.openshift.org/)) via [Helm](https://helm.sh/) and [Knative](https://knative.dev/).
 
-Setup your cluster and [install Helm (and Tiller)](https://docs.helm.sh/using_helm/). Then you can install the Helm chart with (this uses H2 db):
+Setup your cluster and install Knative Serving to your cluster (see [Installing Knative](https://knative.dev/docs/install/)).
 
-    helm install charts/angular-spring-heroes
+Then install the application using Helm with:
 
-If you want to user PostgreSQL install with:
-
-    helm install --set postgresql.enabled=true charts/angular-spring-heroes
+    helm install deploy/knative-application --set service.image.tag=${IMAGE_TAG} --set "customDomains[0].url=$APP_HOST"
