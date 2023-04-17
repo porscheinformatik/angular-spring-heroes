@@ -18,6 +18,8 @@ podLabels:
   tags.datadoghq.com/version: 1.0.0
   admission.datadoghq.com/enabled: 'true'
 env:
+  - name: SPRING_MAIN_CLOUD_PLATFORM
+    value: 'KUBERNETES'
   - name: ENABLE_DD_AGENT
     value: '1'
   - name: DD_ENV
