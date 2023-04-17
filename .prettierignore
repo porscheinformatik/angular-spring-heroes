@@ -3,3 +3,4 @@ node_modules/
 .angular/
 .idea/
 heroes-frontend/src/model/
+deploy/knative-application/templates/
