@@ -125,26 +125,3 @@ stop-review:
   environment:
     name: review/mr-$CI_MERGE_REQUEST_IID
     action: stop
-
-frogbot-scan:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-      variables:
-        FROGBOT_CMD: "scan-pull-request"
-        JF_GIT_BASE_BRANCH: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      variables:
-        FROGBOT_CMD: "create-fix-pull-requests"
-        JF_GIT_BASE_BRANCH: $CI_COMMIT_BRANCH
-  stage: build
-  variables:
-    JF_INSTALL_DEPS_CMD: "npm ci"
-    JF_GIT_PROVIDER: gitlab
-    JF_GIT_API_ENDPOINT: $CI_SERVER_URL
-    JF_GIT_OWNER: $CI_PROJECT_NAMESPACE
-    JF_GIT_REPO: $CI_PROJECT_NAME
-    JF_GIT_PULL_REQUEST_ID: $CI_MERGE_REQUEST_IID
-
-  script:
-    - curl -fLg "https://releases.jfrog.io/artifactory/frogbot/v2/2.6.1/getFrogbot.sh" | sh
-    - ./frogbot ${FROGBOT_CMD}
