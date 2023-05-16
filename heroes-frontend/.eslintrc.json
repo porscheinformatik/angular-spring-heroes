@@ -1,11 +1,17 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*"],
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "parserOptions": {
-        "project": ["heroes-frontend/tsconfig.json"],
+        "project": [
+          "heroes-frontend/tsconfig.json"
+        ],
         "createDefaultProgram": true
       },
       "extends": [
@@ -49,16 +55,26 @@
             }
           }
         ],
-        "@typescript-eslint/semi": ["off", null],
-        "brace-style": ["error", "1tbs"],
+        "@typescript-eslint/semi": [
+          "off",
+          null
+        ],
+        "brace-style": [
+          "error",
+          "1tbs"
+        ],
         "id-blacklist": "off",
         "id-match": "off",
         "no-underscore-dangle": "off"
       }
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
       "rules": {}
     }
   ]
