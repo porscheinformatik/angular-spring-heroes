@@ -28,7 +28,7 @@ build:
   stage: build
   interruptible: true
   variables:
-    MAVEN_CLI_OPTS: '--batch-mode --errors --fail-at-end --show-version -Ddocker.builderRegistry.username=$DOCKER_REGISTRY_USER -Ddocker.builderRegistry.password=$DOCKER_REGISTRY_PASSWORD -Ddocker.publishRegistry.username=$DOCKER_REGISTRY_USER -Ddocker.publishRegistry.password=$DOCKER_REGISTRY_PASSWORD'
+    MAVEN_CLI_OPTS: '-Ppoi --batch-mode --errors --fail-at-end --show-version -Ddocker.builderRegistry.username=$DOCKER_REGISTRY_USER -Ddocker.builderRegistry.password=$DOCKER_REGISTRY_PASSWORD -Ddocker.publishRegistry.username=$DOCKER_REGISTRY_USER -Ddocker.publishRegistry.password=$DOCKER_REGISTRY_PASSWORD'
   services:
     - name: docker.porscheinformatik.com/docker-proxy-dockerhub/docker:dind
       alias: docker

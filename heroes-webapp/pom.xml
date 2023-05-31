@@ -81,6 +81,7 @@
 
   <properties>
     <spring-boot.build-image.skip>false</spring-boot.build-image.skip>
+    <image.name>docker.io/porscheinformatik/angular-spring-heroes</image.name>
     <image.tag>latest</image.tag>
     <image.push>false</image.push>
     <sonar.sources>pom.xml,src/main</sonar.sources>
@@ -104,9 +105,9 @@
             </publishRegistry>
           </docker>
           <image>
-            <name>docker.porscheinformatik.com/koc/angular-spring-heroes:${image.tag}</name>
-            <builder>docker.porscheinformatik.com/eenv/paketo-buildpacks/builder:base</builder>
-            <runImage>docker.porscheinformatik.com/eenv/paketo-buildpacks/run</runImage>
+            <name>${image.name}:${image.tag}</name>
+            <builder>${buildpack.builder}</builder>
+            <runImage>${buildpack.runImage}</runImage>
             <pullPolicy>IF_NOT_PRESENT</pullPolicy>
             <publish>${image.push}</publish>
             <bindings>
@@ -128,22 +129,11 @@
   <profiles>
     <profile>
       <id>poi</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.google.cloud.tools</groupId>
-            <artifactId>jib-maven-plugin</artifactId>
-            <configuration>
-              <from>
-                <image>docker.porscheinformatik.com/eenv/service-java:17</image>
-              </from>
-              <container>
-                <entrypoint>INHERIT</entrypoint>
-              </container>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <properties>
+        <image.name>docker.porscheinformatik.com/koc/angular-spring-heroes</image.name>
+        <buildpack.builder>docker.porscheinformatik.com/eenv/paketo-buildpacks/builder:base</buildpack.builder>
+        <buildpack.runImage>docker.porscheinformatik.com/eenv/paketo-buildpacks/run</buildpack.runImage>
+      </properties>
     </profile>
   </profiles>
 
