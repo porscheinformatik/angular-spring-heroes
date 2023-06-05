@@ -5,6 +5,8 @@ postgresql:
   enabled: true
   postgresUser: heroes
   postgresDatabase: heroes
+  persistence:
+    storageClass: thin-csi
 resources:
   limits:
     cpu: 500m
