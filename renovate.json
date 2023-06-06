@@ -3,7 +3,8 @@
   "extends": [
     "config:base",
     "group:allNonMajor",
-    "workarounds:all"
+    "workarounds:all",
+    "github>whitesource/merge-confidence:beta"
   ],
   "npmrc": "registry=https://registry.npmjs.org/",
   "packageRules": [
