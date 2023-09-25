@@ -9,6 +9,10 @@
   "npmrc": "registry=https://registry.npmjs.org/",
   "packageRules": [
     {
+      "packagePatterns": ["^typescript$","^core-js$"],
+      "enabled": false
+    },
+    {
       "matchPackageNames": ["org.springframework.boot:spring-boot-starter-parent"],
       "matchUpdateTypes": ["patch", "minor"],
       "groupName": "Spring Boot (minor)"
