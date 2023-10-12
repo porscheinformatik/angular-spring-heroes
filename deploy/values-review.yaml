@@ -1,11 +1,10 @@
-service:
-  image:
-    repository: docker.porscheinformatik.com/koc/angular-spring-heroes
-    tag: add-review-tag-in-helm-install
-  resources:
-    limits:
-      cpu: 300m
-      memory: 512Mi
-    requests:
-      cpu: 10m
-      memory: 480Mi
+image:
+  repository: docker.porscheinformatik.com/koc/angular-spring-heroes
+  tag: add-review-tag-in-helm-install
+resources:
+  limits:
+    cpu: 300m
+    memory: 512Mi
+  requests:
+    cpu: 10m
+    memory: 480Mi
