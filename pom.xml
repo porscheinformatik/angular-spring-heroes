@@ -59,7 +59,7 @@
       <plugin>
         <groupId>org.graalvm.buildtools</groupId>
         <artifactId>native-maven-plugin</artifactId>
-        <version>0.9.27</version> <!-- TODO remove this after update to 3.0.7 -->
+        <version>0.9.28</version> <!-- TODO remove this after update to 3.0.7 -->
       </plugin>
       <plugin>
         <groupId>com.github.eirslett</groupId>
