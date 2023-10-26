@@ -79,7 +79,7 @@ deploy-review:
 acceptence-tests:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  image: docker.io/cypress/base:20.6.1
+  image: docker.io/cypress/base:20.9.0
   stage: acceptence-tests
   interruptible: true
   variables:
