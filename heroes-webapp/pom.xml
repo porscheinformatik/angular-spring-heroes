@@ -84,6 +84,7 @@
     <image.name>docker.io/porscheinformatik/angular-spring-heroes</image.name>
     <image.tag>latest</image.tag>
     <image.push>false</image.push>
+    <buildpack.builder>paketobuildpacks/builder-jammy-base:latest</buildpack.builder>
     <sonar.sources>pom.xml,src/main</sonar.sources>
   </properties>
 

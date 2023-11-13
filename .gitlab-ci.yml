@@ -1,5 +1,5 @@
 default:
-  image: docker.porscheinformatik.com/eenv/builders/default:jdk-17
+  image: docker.porscheinformatik.com/eenv/builders/default:jdk-21
   before_script:
     - export MR_TAG="${CI_MERGE_REQUEST_IID:+mr-snapshot-${CI_MERGE_REQUEST_IID}}"
     - export IMAGE_TAG="${MR_TAG:-${CI_COMMIT_REF_SLUG}}"
