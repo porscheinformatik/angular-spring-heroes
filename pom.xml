@@ -15,7 +15,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>17</java.version>
+    <java.version>21</java.version>
     <frontend-maven-plugin.version>1.14.2</frontend-maven-plugin.version>
     <typescript-generator.version>3.2.1263</typescript-generator.version>
     <sonar.sources>package.json,pom.xml</sonar.sources>
@@ -43,8 +43,8 @@
           <artifactId>frontend-maven-plugin</artifactId>
           <version>${frontend-maven-plugin.version}</version>
           <configuration>
-            <nodeVersion>v18.14.2</nodeVersion>
-            <npmVersion>9.5.0</npmVersion>
+            <nodeVersion>v20.9.0</nodeVersion>
+            <npmVersion>10.1.0</npmVersion>
             <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
           </configuration>
         </plugin>
