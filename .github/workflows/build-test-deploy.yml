@@ -27,14 +27,15 @@ jobs:
       - name: Docker Login
         uses: Azure/docker-login@v1
         with:
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+          login-server: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_PASSWORD }}
       - name: Build application
-        run: mvn $MAVEN_CLI_OPTS install spring-boot:build-image -Pnative -Dimage.name=docker.io/porscheinformatik/angular-spring-heroes
+        run: mvn $MAVEN_CLI_OPTS install spring-boot:build-image -Pnative -Dimage.name=ghcr.io/porscheinformatik/angular-spring-heroes
       - name: Build acceptance tests
         run: docker build -t heroes-acceptence-tests heroes-acceptence-tests
       - name: Run app for tests
-        run: docker run --name ash -d --rm -p 8080:8080 docker.io/porscheinformatik/angular-spring-heroes
+        run: docker run --name ash -d --rm -p 8080:8080 ghcr.io/porscheinformatik/angular-spring-heroes
       - name: Sleep for 20s
         uses: juliangruber/sleep-action@v1
         with:
@@ -43,12 +44,7 @@ jobs:
         run: docker run -i --rm --link ash heroes-acceptence-tests --config baseUrl=http://ash:8080
       - name: Cleanup app for tests
         run: docker stop ash
-      - name: Push image to Docker Hub
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: docker push docker.io/porscheinformatik/angular-spring-heroes
       - name: Push image to ghcr.io
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          echo ${{ secrets.GHCR_PASSWORD }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
-          docker tag docker.io/porscheinformatik/angular-spring-heroes ghcr.io/porscheinformatik/angular-spring-heroes
           docker push ghcr.io/porscheinformatik/angular-spring-heroes
