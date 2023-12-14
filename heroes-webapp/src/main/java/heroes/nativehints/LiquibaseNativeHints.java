@@ -15,6 +15,7 @@ public class LiquibaseNativeHints implements RuntimeHintsRegistrar {
     registerConstructor(hints, java.util.ArrayList.class);
     hints.resources().registerPattern("db/changelog/*.xml");
 
+    registerConstructor(hints, liquibase.changelog.ChangeLogHistoryServiceFactory.class);
     registerPublicMethods(hints, liquibase.plugin.AbstractPlugin.class);
     registerPublicMethods(hints, liquibase.change.core.CreateViewChange.class);
     registerPublicMethods(hints, liquibase.change.core.DeleteDataChange.class);
@@ -66,12 +67,11 @@ public class LiquibaseNativeHints implements RuntimeHintsRegistrar {
     registerPublicMethods(hints, liquibase.change.core.CreateProcedureChange.class);
 
     hints
-      .reflection()
-      .registerType(
-        liquibase.change.ConstraintsConfig.class,
-        MemberCategory.DECLARED_FIELDS,
-        MemberCategory.INVOKE_PUBLIC_METHODS
-      );
+        .reflection()
+        .registerType(
+            liquibase.change.ConstraintsConfig.class,
+            MemberCategory.DECLARED_FIELDS,
+            MemberCategory.INVOKE_PUBLIC_METHODS);
   }
 
   private static <T> void registerConstructor(RuntimeHints hints, Class<T> clazz) {
