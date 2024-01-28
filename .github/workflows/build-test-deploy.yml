@@ -37,7 +37,7 @@ jobs:
       - name: Run app for tests
         run: docker run --name ash -d --rm -p 8080:8080 ghcr.io/porscheinformatik/angular-spring-heroes
       - name: Sleep for 20s
-        uses: juliangruber/sleep-action@v1
+        uses: juliangruber/sleep-action@v2
         with:
           time: 20s
       - name: Run tests
