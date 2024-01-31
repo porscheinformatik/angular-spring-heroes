@@ -12,10 +12,13 @@ import { map, shareReplay } from 'rxjs/operators';
 export class AppComponent {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map((result) => result.matches),
-    shareReplay()
+    shareReplay(),
   );
 
-  constructor(translate: TranslateService, private breakpointObserver: BreakpointObserver) {
+  constructor(
+    translate: TranslateService,
+    private breakpointObserver: BreakpointObserver,
+  ) {
     translate.use(translate.getBrowserLang() || 'en');
   }
 }

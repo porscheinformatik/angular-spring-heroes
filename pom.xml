@@ -83,6 +83,15 @@
               <arguments>${npm-install-command}</arguments>
             </configuration>
           </execution>
+          <execution>
+            <id>prettier</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run prettier</arguments>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>

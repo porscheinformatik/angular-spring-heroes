@@ -34,7 +34,7 @@ export class HeroService {
           changedHero,
           ...currentList.slice(changedIdx + 1),
         ]);
-      })
+      }),
     );
   }
 
@@ -42,7 +42,7 @@ export class HeroService {
     return this.http.post<Hero>('api/heroes', { name }).pipe(
       tap((hero) => {
         this.updateList([hero, ...this.heroes$.value]);
-      })
+      }),
     );
   }
 
@@ -50,7 +50,7 @@ export class HeroService {
     return this.http.delete<Hero>(`api/heroes/${hero.id}`).pipe(
       tap((_) => {
         this.heroes$.next(this.heroes$.value.filter((h) => h.id !== hero.id));
-      })
+      }),
     );
   }
 

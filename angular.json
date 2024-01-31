@@ -11,12 +11,11 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "heroes-frontend/target/classes/static",
             "index": "heroes-frontend/src/index.html",
-            "main": "heroes-frontend/src/main.ts",
-            "polyfills": "heroes-frontend/src/polyfills.ts",
+            "polyfills": ["heroes-frontend/src/polyfills.ts"],
             "tsConfig": "heroes-frontend/tsconfig.app.json",
             "assets": ["heroes-frontend/src/favicon.ico", "heroes-frontend/src/assets"],
             "styles": [
@@ -24,12 +23,16 @@
               "heroes-frontend/src/styles.css"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "heroes-frontend/src/main.ts",
+            "server": "heroes-frontend/src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "heroes-frontend/server.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -49,9 +52,7 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "extractLicenses": true
             }
           }
         },

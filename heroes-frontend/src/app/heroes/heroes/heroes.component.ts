@@ -13,7 +13,10 @@ export class HeroesComponent implements OnInit {
   heroes$ = new BehaviorSubject<Hero[]>([]);
   displayedColumns = ['id', 'name', 'actions'];
 
-  constructor(private heroService: HeroService, private router: Router) {}
+  constructor(
+    private heroService: HeroService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.getHeroes();

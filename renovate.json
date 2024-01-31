@@ -9,7 +9,7 @@
   "npmrc": "registry=https://registry.npmjs.org/",
   "packageRules": [
     {
-      "packagePatterns": ["^typescript$","^core-js$","^zone.js"],
+      "packagePatterns": ["^typescript$", "^core-js$", "^zone.js"],
       "enabled": false
     },
     {

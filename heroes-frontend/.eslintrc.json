@@ -1,22 +1,15 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "heroes-frontend/tsconfig.json"
-        ],
+        "project": ["tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
@@ -34,7 +27,6 @@
             "prefix": "camelCase"
           }
         ],
-        "@typescript-eslint/consistent-type-definitions": "error",
         "@typescript-eslint/dot-notation": "off",
         "@typescript-eslint/explicit-member-accessibility": [
           "off",
@@ -55,26 +47,16 @@
             }
           }
         ],
-        "@typescript-eslint/semi": [
-          "off",
-          null
-        ],
-        "brace-style": [
-          "error",
-          "1tbs"
-        ],
+        "@typescript-eslint/semi": ["off", null],
+        "brace-style": ["error", "1tbs"],
         "id-blacklist": "off",
         "id-match": "off",
         "no-underscore-dangle": "off"
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     }
   ]

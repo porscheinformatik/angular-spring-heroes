@@ -42,7 +42,6 @@ build-sonarqube:
   stage: build
   interruptible: true
   script:
-    - npm ci
     - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent install org.jacoco:jacoco-maven-plugin:report
     - mvn -B sonar:sonar
 
@@ -53,7 +52,6 @@ build-sonarqube-qa:
   interruptible: true
   allow_failure: true
   script:
-    - npm ci
     - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent install org.jacoco:jacoco-maven-plugin:report
     - SONAR_HOST_URL=$SONAR_QA_HOST_URL SONAR_TOKEN=$SONAR_QA_TOKEN mvn -B sonar:sonar
 
