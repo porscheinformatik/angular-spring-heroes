@@ -21,12 +21,13 @@
     <sonar.sources>package.json,pom.xml</sonar.sources>
     <npm-install-command>install</npm-install-command>
     <spring-boot.build-image.skip>true</spring-boot.build-image.skip>
+    <hibernate.version>6.4.2.Final</hibernate.version>
   </properties>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.2.1</version>
+    <version>3.2.3</version>
     <relativePath />
   </parent>
 
