@@ -31,8 +31,7 @@ public class HeroService implements InitializingBean {
   @Override
   @Transactional
   public void afterPropertiesSet() {
-    HEROES
-      .stream()
+    HEROES.stream()
       .filter(name -> heroRepository.findByName(name).isEmpty())
       .map(HeroEntity::new)
       .forEach(heroRepository::save);
