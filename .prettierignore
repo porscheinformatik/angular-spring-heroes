@@ -4,3 +4,4 @@ node_modules/
 .idea/
 heroes-frontend/src/model/
 deploy/knative-application/templates/
+acceptence-tests/playwright-report/
