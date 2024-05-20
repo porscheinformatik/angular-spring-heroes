@@ -21,7 +21,7 @@
     <sonar.sources>package.json,pom.xml</sonar.sources>
     <npm-install-command>install</npm-install-command>
     <spring-boot.build-image.skip>true</spring-boot.build-image.skip>
-    <hibernate.version>6.5.0.Final</hibernate.version>
+    <hibernate.version>6.5.1.Final</hibernate.version>
   </properties>
 
   <parent>
@@ -61,7 +61,7 @@
       <plugin>
         <groupId>org.graalvm.buildtools</groupId>
         <artifactId>native-maven-plugin</artifactId>
-        <version>0.10.1</version> <!-- TODO remove this after update to 3.0.7 -->
+        <version>0.10.2</version> <!-- TODO remove this after update to 3.0.7 -->
       </plugin>
       <plugin>
         <groupId>com.github.eirslett</groupId>
