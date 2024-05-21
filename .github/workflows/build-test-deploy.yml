@@ -25,7 +25,7 @@ jobs:
           java-version: 21
           distribution: temurin
       - name: Docker Login
-        uses: Azure/docker-login@v1
+        uses: Azure/docker-login@v2
         with:
           login-server: ghcr.io
           username: ${{ secrets.GHCR_USERNAME }}
