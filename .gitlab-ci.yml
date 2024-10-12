@@ -98,7 +98,7 @@ acceptence-tests-cypress:
 acceptence-tests-playwright:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  image: docker.porscheinformatik.com/docker-proxy-mcr/playwright:v1.47.2-jammy
+  image: docker.porscheinformatik.com/docker-proxy-mcr/playwright:v1.48.0-jammy
   stage: acceptence-tests
   interruptible: true
   variables:
