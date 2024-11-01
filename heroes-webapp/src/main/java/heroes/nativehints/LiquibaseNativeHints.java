@@ -16,6 +16,13 @@ public class LiquibaseNativeHints implements RuntimeHintsRegistrar {
     hints.resources().registerPattern("db/changelog/*.xml");
 
     registerConstructor(hints, liquibase.changelog.ChangeLogHistoryServiceFactory.class);
+    registerConstructor(hints, liquibase.ui.LoggerUIService.class);
+    registerConstructor(hints, liquibase.database.LiquibaseTableNamesFactory.class);
+    registerConstructor(hints, liquibase.report.ShowSummaryGeneratorFactory.class);
+    registerConstructor(hints, liquibase.configuration.LiquibaseConfiguration.class);
+    registerConstructor(hints, liquibase.logging.core.LogServiceFactory.class);
+    registerConstructor(hints, liquibase.configuration.ConfiguredValueModifierFactory.class);
+
     registerPublicMethods(hints, liquibase.plugin.AbstractPlugin.class);
     registerPublicMethods(hints, liquibase.change.core.CreateViewChange.class);
     registerPublicMethods(hints, liquibase.change.core.DeleteDataChange.class);

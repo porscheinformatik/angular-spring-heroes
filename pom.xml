@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.2.5</version>
+    <version>3.3.5</version>
     <relativePath />
   </parent>
 
@@ -61,7 +61,6 @@
       <plugin>
         <groupId>org.graalvm.buildtools</groupId>
         <artifactId>native-maven-plugin</artifactId>
-        <version>0.10.3</version> <!-- TODO remove this after update to 3.0.7 -->
       </plugin>
       <plugin>
         <groupId>com.github.eirslett</groupId>
