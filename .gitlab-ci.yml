@@ -1,6 +1,7 @@
 default:
-  image: docker.porscheinformatik.com/eenv/builders/default:jdk-21
+  image: docker.porscheinformatik.com/eenv/builders/mise
   before_script:
+    - command -v mise >/dev/null 2>&1 && mise install --yes
     - export MR_TAG="${CI_MERGE_REQUEST_IID:+mr-snapshot-${CI_MERGE_REQUEST_IID}}"
     - export IMAGE_TAG="${MR_TAG:-${CI_COMMIT_REF_SLUG}}"
     - |
