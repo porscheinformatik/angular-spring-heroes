@@ -21,7 +21,7 @@
     <sonar.sources>package.json,pom.xml</sonar.sources>
     <npm-install-command>install</npm-install-command>
     <spring-boot.build-image.skip>true</spring-boot.build-image.skip>
-    <hibernate.version>6.6.1.Final</hibernate.version>
+    <hibernate.version>6.6.2.Final</hibernate.version>
   </properties>
 
   <parent>
