@@ -29,7 +29,10 @@
             "namedChunks": true,
             "browser": "heroes-frontend/src/main.ts",
             "server": "heroes-frontend/src/main.server.ts",
-            "prerender": true,
+            "prerender": {
+              "discoverRoutes": false,
+              "routesFile": "heroes-frontend/prerender-routes.txt"
+            },
             "ssr": {
               "entry": "heroes-frontend/server.ts"
             }
