@@ -22,6 +22,8 @@ public class LiquibaseNativeHints implements RuntimeHintsRegistrar {
     registerConstructor(hints, liquibase.configuration.LiquibaseConfiguration.class);
     registerConstructor(hints, liquibase.logging.core.LogServiceFactory.class);
     registerConstructor(hints, liquibase.configuration.ConfiguredValueModifierFactory.class);
+    registerConstructor(hints, liquibase.changelog.FastCheckService.class);
+    registerConstructor(hints, liquibase.changelog.visitor.ValidatingVisitorGeneratorFactory.class);
 
     registerPublicMethods(hints, liquibase.plugin.AbstractPlugin.class);
     registerPublicMethods(hints, liquibase.change.core.CreateViewChange.class);
