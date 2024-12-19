@@ -26,7 +26,7 @@
     "@angular/router": "19.0.0",
     "@angular/ssr": "19.0.0",
     "@ngx-translate/core": "16.0.3",
-    "@ngx-translate/http-loader": "8.0.0",
+    "@ngx-translate/http-loader": "16.0.1",
     "core-js": "3.37.1",
     "express": "4.21.1",
     "rxjs": "7.8.1",
