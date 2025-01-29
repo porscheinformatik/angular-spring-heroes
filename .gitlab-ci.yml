@@ -78,7 +78,7 @@ deploy-review:
 acceptence-tests-cypress:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  image: docker.porscheinformatik.com/docker-proxy-dockerhub/cypress/base:22.13.0
+  image: docker.porscheinformatik.com/docker-proxy-dockerhub/cypress/base:22.13.1
   stage: acceptence-tests
   interruptible: true
   variables:
@@ -99,7 +99,7 @@ acceptence-tests-cypress:
 acceptence-tests-playwright:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  image: docker.porscheinformatik.com/docker-proxy-mcr/playwright:v1.49.1-jammy
+  image: docker.porscheinformatik.com/docker-proxy-mcr/playwright:v1.50.0-jammy
   stage: acceptence-tests
   interruptible: true
   variables:
