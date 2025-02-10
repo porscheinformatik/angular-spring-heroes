@@ -139,3 +139,10 @@ stop-review:
   environment:
     name: review/mr-$CI_MERGE_REQUEST_IID
     action: stop
+
+include:
+  - component: $CI_SERVER_FQDN/eenv/ci-cd-components/ai/mr-review@0.1.0-rc18
+    inputs:
+      version: '0.1.0-rc18'
+      stage: build
+      gitlab_token: $AI_CODE_REVIEW_TOKEN
