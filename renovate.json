@@ -16,6 +16,10 @@
       "matchPackageNames": ["org.springframework.boot:spring-boot-starter-parent"],
       "matchUpdateTypes": ["patch", "minor"],
       "groupName": "Spring Boot (minor)"
+    },
+    {
+      "matchDatasources": ["maven"],
+      "allowedVersions": "!/-(atlassian|pre|alpha|beta)/"
     }
   ]
 }
