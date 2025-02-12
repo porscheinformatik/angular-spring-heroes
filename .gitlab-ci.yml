@@ -78,7 +78,7 @@ deploy-review:
 acceptence-tests-cypress:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  image: docker.porscheinformatik.com/docker-proxy-dockerhub/cypress/base:22.13.1
+  image: docker.porscheinformatik.com/docker-proxy-dockerhub/cypress/base:22.14.0
   stage: acceptence-tests
   interruptible: true
   variables:
