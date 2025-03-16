@@ -141,8 +141,8 @@ stop-review:
     action: stop
 
 include:
-  - component: $CI_SERVER_FQDN/eenv/ci-cd-components/ai/mr-review@0.1.0-rc18
+  - component: $CI_SERVER_FQDN/eenv/ci-cd-components/ai/mr-review@0.2.0-alpha1
     inputs:
-      version: '0.1.0-rc18'
+      version: '0.2.0-alpha1'
       stage: build
       gitlab_token: $AI_CODE_REVIEW_TOKEN
