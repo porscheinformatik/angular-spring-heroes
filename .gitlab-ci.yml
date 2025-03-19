@@ -141,7 +141,7 @@ stop-review:
     action: stop
 
 include:
-  - component: $CI_SERVER_FQDN/eenv/ci-cd-components/ai/mr-review@0.2.0-alpha11
+  - component: $CI_SERVER_FQDN/eenv/ci-cd-components/ai/mr-review@0.2.0-alpha13
     inputs:
-      version: '0.2.0-alpha11'
+      version: '0.2.0-alpha13'
       stage: build
