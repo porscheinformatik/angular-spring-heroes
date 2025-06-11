@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -15,15 +15,16 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   imports: [MatToolbar, MatAnchor, RouterLink, RouterOutlet, TranslatePipe],
 })
 export class AppComponent {
+  private breakpointObserver = inject(BreakpointObserver);
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map((result) => result.matches),
     shareReplay(),
   );
 
-  constructor(
-    translate: TranslateService,
-    private breakpointObserver: BreakpointObserver,
-  ) {
+  constructor() {
+    const translate = inject(TranslateService);
+
     translate.use(translate.getBrowserLang() || 'en');
   }
 }

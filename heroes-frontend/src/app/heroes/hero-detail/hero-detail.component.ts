@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, input, Input, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Location, NgIf } from '@angular/common';
 import { HeroService } from '../hero.service';
 import { Hero } from '../../../model/hero';
@@ -26,13 +26,11 @@ import { MatButton } from '@angular/material/button';
   ],
 })
 export class HeroDetailComponent implements OnInit {
-  hero?: Hero;
+  private heroService = inject(HeroService);
+  private route = inject(ActivatedRoute);
+  private location = inject(Location);
 
-  constructor(
-    private heroService: HeroService,
-    private route: ActivatedRoute,
-    private location: Location,
-  ) {}
+  hero?: Hero;
 
   ngOnInit(): void {
     this.heroService

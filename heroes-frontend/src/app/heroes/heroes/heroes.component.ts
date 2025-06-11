@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HeroService } from '../hero.service';
 import { Router } from '@angular/router';
 import { Hero } from '../../../model/hero';
@@ -47,13 +47,11 @@ import { TranslatePipe } from '@ngx-translate/core';
   ],
 })
 export class HeroesComponent implements OnInit {
+  private heroService = inject(HeroService);
+  private router = inject(Router);
+
   heroes$ = new BehaviorSubject<Hero[]>([]);
   displayedColumns = ['id', 'name', 'actions'];
-
-  constructor(
-    private heroService: HeroService,
-    private router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.getHeroes();

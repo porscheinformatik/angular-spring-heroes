@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Hero } from '../../model/hero';
 import { BehaviorSubject, tap } from 'rxjs';
 
 @Injectable()
 export class HeroService {
+  private http = inject(HttpClient);
+
   private heroes$ = new BehaviorSubject<Hero[]>([]);
   private loaded = false;
-
-  constructor(private http: HttpClient) {}
 
   getHeroes() {
     if (!this.loaded) {

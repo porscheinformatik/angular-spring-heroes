@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HeroService } from '../hero.service';
 import { Hero } from '../../../model/hero';
 import { NgFor } from '@angular/common';
@@ -35,9 +35,9 @@ import { TranslatePipe } from '@ngx-translate/core';
   ],
 })
 export class DashboardComponent implements OnInit {
-  heroes!: Hero[];
+  private heroService = inject(HeroService);
 
-  constructor(private heroService: HeroService) {}
+  heroes!: Hero[];
 
   ngOnInit() {
     this.heroService.getHeroes().subscribe((heroes) => (this.heroes = heroes.slice(0, 4)));
