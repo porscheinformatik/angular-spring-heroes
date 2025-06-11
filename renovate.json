@@ -13,9 +13,7 @@
       "enabled": false
     },
     {
-      "matchPackageNames": [
-        "org.springframework.boot:spring-boot-starter-parent"
-      ],
+      "matchPackageNames": ["org.springframework.boot:spring-boot-starter-parent"],
       "matchUpdateTypes": ["patch", "minor"],
       "groupName": "Spring Boot (minor)"
     },
