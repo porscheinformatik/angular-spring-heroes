@@ -1,16 +1,18 @@
 <h2>{{ 'page.top-heroes' | translate }}</h2>
 <div class="hero-cards">
-  <mat-card *ngFor="let hero of heroes">
-    <mat-card-header>
-      <mat-card-title>{{ hero.name }}</mat-card-title>
-      <mat-card-subtitle>Hero</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image alt="" src="assets/hero.png" />
-    <mat-card-content>
-      <p>{{ hero.name }} is one of our top heroes!</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <a [routerLink]="['/detail', hero.id]" mat-button>Detail</a>
-    </mat-card-actions>
-  </mat-card>
+  @for (hero of heroes; track hero.id) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ hero.name }}</mat-card-title>
+        <mat-card-subtitle>Hero</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image alt="" src="assets/hero.png" />
+      <mat-card-content>
+        <p>{{ hero.name }} is one of our top heroes!</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <a [routerLink]="['/detail', hero.id]" mat-button>Detail</a>
+      </mat-card-actions>
+    </mat-card>
+  }
 </div>

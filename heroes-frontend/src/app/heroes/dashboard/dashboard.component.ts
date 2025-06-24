@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { HeroService } from '../hero.service';
 import { Hero } from '../../../model/hero';
-import { NgFor } from '@angular/common';
 import {
   MatCard,
   MatCardHeader,
@@ -21,7 +20,6 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrls: ['./dashboard.component.css'],
   standalone: true,
   imports: [
-    NgFor,
     MatCard,
     MatCardHeader,
     MatCardTitle,
