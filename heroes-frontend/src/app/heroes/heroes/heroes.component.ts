@@ -47,8 +47,8 @@ import { TranslatePipe } from '@ngx-translate/core';
   ],
 })
 export class HeroesComponent implements OnInit {
-  private heroService = inject(HeroService);
-  private router = inject(Router);
+  private readonly heroService = inject(HeroService);
+  private readonly router = inject(Router);
 
   heroes$ = new BehaviorSubject<Hero[]>([]);
   displayedColumns = ['id', 'name', 'actions'];

@@ -15,7 +15,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   imports: [MatToolbar, MatAnchor, RouterLink, RouterOutlet, TranslatePipe],
 })
 export class AppComponent {
-  private breakpointObserver = inject(BreakpointObserver);
+  private readonly breakpointObserver = inject(BreakpointObserver);
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map((result) => result.matches),

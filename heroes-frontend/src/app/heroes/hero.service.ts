@@ -5,9 +5,8 @@ import { BehaviorSubject, tap } from 'rxjs';
 
 @Injectable()
 export class HeroService {
-  private http = inject(HttpClient);
-
-  private heroes$ = new BehaviorSubject<Hero[]>([]);
+  private readonly http = inject(HttpClient);
+  private readonly heroes$ = new BehaviorSubject<Hero[]>([]);
   private loaded = false;
 
   getHeroes() {
@@ -48,7 +47,7 @@ export class HeroService {
 
   delete(hero: Hero) {
     return this.http.delete<Hero>(`api/heroes/${hero.id}`).pipe(
-      tap((_) => {
+      tap(() => {
         this.heroes$.next(this.heroes$.value.filter((h) => h.id !== hero.id));
       }),
     );

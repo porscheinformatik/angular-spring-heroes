@@ -35,7 +35,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   ],
 })
 export class DashboardComponent implements OnInit {
-  private heroService = inject(HeroService);
+  private readonly heroService = inject(HeroService);
 
   heroes!: Hero[];
 

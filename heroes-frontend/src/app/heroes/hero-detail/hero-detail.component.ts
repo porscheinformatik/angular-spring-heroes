@@ -26,9 +26,9 @@ import { MatButton } from '@angular/material/button';
   ],
 })
 export class HeroDetailComponent implements OnInit {
-  private heroService = inject(HeroService);
-  private route = inject(ActivatedRoute);
-  private location = inject(Location);
+  private readonly heroService = inject(HeroService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly location = inject(Location);
 
   hero?: Hero;
 
