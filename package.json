@@ -32,7 +32,7 @@
     "rxjs": "7.8.2",
     "rxjs-compat": "6.6.7",
     "tslib": "2.8.1",
-    "zone.js": "0.15.0"
+    "zone.js": "0.15.1"
   },
   "devDependencies": {
     "@angular-eslint/builder": "20.1.1",
@@ -45,6 +45,8 @@
     "@angular/compiler-cli": "20.0.6",
     "@angular/language-service": "20.0.6",
     "@prettier/plugin-xml": "3.4.1",
+    "@stagewise-plugins/angular": "^0.4.7",
+    "@stagewise/toolbar": "^0.4.9",
     "@types/express": "^5.0.0",
     "@types/jasmine": "5.1.8",
     "@types/jasminewd2": "2.0.13",

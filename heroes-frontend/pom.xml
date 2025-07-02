@@ -33,6 +33,7 @@
         <artifactId>typescript-generator-maven-plugin</artifactId>
         <executions>
           <execution>
+            <?m2e ignore?>
             <id>generate</id>
             <goals>
               <goal>generate</goal>
@@ -65,6 +66,7 @@
             </configuration>
           </execution>
           <execution>
+            <?m2e ignore?>
             <id>npm run build</id>
             <goals>
               <goal>npm</goal>
