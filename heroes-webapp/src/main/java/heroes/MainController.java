@@ -14,19 +14,9 @@ public class MainController implements ApplicationContextAware {
 
   private Object devToolsProperties;
 
-  @GetMapping({ "/", "/detail/*" })
+  @GetMapping({ "/", "/detail/*", "/dashboard", "/heroes" })
   public ModelAndView index() {
-    return createModelAndView("index.csr");
-  }
-
-  @GetMapping("/dashboard")
-  public ModelAndView dashboard() {
-    return createModelAndView("dashboard/index");
-  }
-
-  @GetMapping("/heroes")
-  public ModelAndView heroes() {
-    return createModelAndView("heroes/index");
+    return createModelAndView("index");
   }
 
   private ModelAndView createModelAndView(String viewName) {

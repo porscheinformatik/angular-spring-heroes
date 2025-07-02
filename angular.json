@@ -27,15 +27,7 @@
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true,
-            "browser": "heroes-frontend/src/main.ts",
-            "server": "heroes-frontend/src/main.server.ts",
-            "prerender": {
-              "discoverRoutes": false,
-              "routesFile": "heroes-frontend/prerender-routes.txt"
-            },
-            "ssr": {
-              "entry": "heroes-frontend/server.ts"
-            }
+            "browser": "heroes-frontend/src/main.ts"
           },
           "configurations": {
             "production": {
