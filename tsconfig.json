@@ -13,7 +13,8 @@
     "target": "ES2022",
     "module": "es2020",
     "lib": ["es2018", "dom"],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
