@@ -5,7 +5,7 @@ import { appConfig } from './app.config';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 import { initToolbar } from '@stagewise/toolbar';
-import { AngularPlugin } from '@stagewise-plugins/angular';
+import AngularPlugin from '@stagewise-plugins/angular';
 
 if (environment.production) {
   enableProdMode();
