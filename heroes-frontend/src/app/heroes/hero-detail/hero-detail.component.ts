@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, inject } from '@angular/core';
-import { Location, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 import { HeroService } from '../hero.service';
 import { Hero } from '../../../model/hero';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
@@ -15,7 +15,6 @@ import { MatButton } from '@angular/material/button';
   styleUrls: ['./hero-detail.component.css'],
   standalone: true,
   imports: [
-    NgIf,
     TranslateDirective,
     MatFormField,
     MatLabel,
