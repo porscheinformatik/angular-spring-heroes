@@ -1,19 +1,16 @@
 // AoT requires an exported function for factories
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, Routes, withComponentInputBinding } from '@angular/router';
-import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DashboardComponent } from './app/heroes/dashboard/dashboard.component';
 import { HeroDetailComponent } from './app/heroes/hero-detail/hero-detail.component';
 import { HeroesComponent } from './app/heroes/heroes/heroes.component';
 import { HeroService } from './app/heroes/hero.service';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-
-export const HTTP_LOADER_FACTORY = (http: HttpClient) =>
-  new TranslateHttpLoader(http, '/api/translations/', '.json');
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -26,11 +23,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     provideTranslateService({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HTTP_LOADER_FACTORY,
-        deps: [HttpClient],
-      },
+      fallbackLang: 'en',
+      loader: provideTranslateHttpLoader({ prefix: '/api/translations/', suffix: '.json' }),
     }),
     HeroService,
     {
