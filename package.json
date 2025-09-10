@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "20.1.6",
     "@angular/platform-server": "20.1.6",
     "@angular/router": "20.1.6",
-    "@angular/ssr": "20.1.5",
+    "@angular/ssr": "20.3.0",
     "@ngx-translate/core": "16.0.4",
     "@ngx-translate/http-loader": "16.0.1",
     "core-js": "3.37.1",
