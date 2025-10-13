@@ -104,7 +104,6 @@ acceptence-tests-playwright:
   interruptible: true
   variables:
     BASE_URL: https://ash-mr-$CI_MERGE_REQUEST_IID.$OPENSHIFT_DOMAIN
-  before_script:
   script:
     - curl -v -o /dev/null "${CYPRESS_baseUrl}" & # warmup request
     - cd acceptence-tests
@@ -127,8 +126,6 @@ deploy-production:
 stop-review:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-      allow_failure: true
   extends: .deploy
   stage: cleanup
   variables:
