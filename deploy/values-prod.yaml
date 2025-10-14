@@ -18,6 +18,7 @@ datadog:
   apm:
     enabled: true
   application: angular-spring-heroes
+  component: app
   enabled: true
   env: qa
   team: fcs-cto-eenv
