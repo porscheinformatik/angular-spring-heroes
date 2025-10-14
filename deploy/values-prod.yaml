@@ -20,7 +20,7 @@ datadog:
   application: angular-spring-heroes
   component: app
   enabled: true
-  env: qa
+  env: prod
   team: fcs-cto-eenv
 env:
   - name: DD_LOGS_INJECTION
