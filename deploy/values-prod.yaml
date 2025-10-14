@@ -22,26 +22,7 @@ datadog:
   enabled: true
   env: qa
   team: fcs-cto-eenv
-podLabels:
-  tags.datadoghq.com/env: prod
-  tags.datadoghq.com/service: angular-spring-heroes
-  tags.datadoghq.com/version: 1.0.0
-  admission.datadoghq.com/enabled: 'true'
 env:
-  - name: ENABLE_DD_AGENT
-    value: '1'
-  - name: DD_ENV
-    valueFrom:
-      fieldRef:
-        fieldPath: "metadata.labels['tags.datadoghq.com/env']"
-  - name: DD_SERVICE
-    valueFrom:
-      fieldRef:
-        fieldPath: "metadata.labels['tags.datadoghq.com/service']"
-  - name: DD_VERSION
-    valueFrom:
-      fieldRef:
-        fieldPath: "metadata.labels['tags.datadoghq.com/version']"
   - name: DD_LOGS_INJECTION
     value: 'true'
   - name: DD_PROFILING_ENABLED
