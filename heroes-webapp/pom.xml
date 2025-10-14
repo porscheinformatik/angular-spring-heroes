@@ -137,6 +137,10 @@
           </to>
           <container>
             <entrypoint>INHERIT</entrypoint>
+            <environment>
+              <DD_GIT_REPOSITORY_URL>${env.CI_PROJECT_URL}.git</DD_GIT_REPOSITORY_URL>
+              <DD_GIT_COMMIT_SHA>${env.CI_COMMIT_SHA}</DD_GIT_COMMIT_SHA>
+            </environment>
             <labels>
               <name>${project.name}</name>
               <groupId>${project.groupId}</groupId>
