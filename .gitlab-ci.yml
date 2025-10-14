@@ -29,12 +29,12 @@ build:
   stage: build
   interruptible: true
   variables:
-    MAVEN_CLI_OPTS: '-Ppoi --batch-mode --errors --fail-at-end --show-version -Ddocker.builderRegistry.username=$DOCKER_REGISTRY_USER -Ddocker.builderRegistry.password=$DOCKER_REGISTRY_PASSWORD -Ddocker.publishRegistry.username=$DOCKER_REGISTRY_USER -Ddocker.publishRegistry.password=$DOCKER_REGISTRY_PASSWORD'
+    MAVEN_CLI_OPTS: '-Ppoi --batch-mode --errors --fail-at-end --show-version -Djib.from.auth.username=$DOCKER_REGISTRY_USER -Djib.from.auth.password=$DOCKER_REGISTRY_PASSWORD -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PASSWORD'
   services:
     - name: docker.porscheinformatik.com/docker-proxy-dockerhub/docker:dind
       alias: docker
   script:
-    - mvn $MAVEN_CLI_OPTS install spring-boot:build-image -Pnative -Dimage.tag=${IMAGE_TAG} -Dimage.push=true
+    - mvn $MAVEN_CLI_OPTS install jib:build -Dimage.tag=${IMAGE_TAG}
 
 build-sonarqube:
   rules:

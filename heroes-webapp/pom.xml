@@ -81,7 +81,8 @@
 
   <properties>
     <spring-boot.build-image.skip>false</spring-boot.build-image.skip>
-    <image.name>docker.io/porscheinformatik/angular-spring-heroes</image.name>
+    <jib.skip>false</jib.skip>
+    <image.name>ghcr.io/porscheinformatik/angular-spring-heroes</image.name>
     <image.tag>latest</image.tag>
     <image.push>false</image.push>
     <buildpack.builder>paketobuildpacks/builder-jammy-base:latest</buildpack.builder>
@@ -122,6 +123,30 @@
               <BP_OCI_REVISION>${env.CI_COMMIT_SHA}</BP_OCI_REVISION>
             </env>
           </image>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <configuration>
+          <from>
+            <image>docker.porscheinformatik.com/eenv/service-java:21-ubi10</image>
+          </from>
+          <to>
+            <image>${image.name}:${image.tag}</image>
+          </to>
+          <container>
+            <entrypoint>INHERIT</entrypoint>
+            <labels>
+              <name>${project.name}</name>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>${project.artifactId}</artifactId>
+              <version>${project.version}</version>
+              <build-date>${maven.build.timestamp}</build-date>
+              <vendor>Porsche Informatik</vendor>
+              <distribution-scope>private</distribution-scope>
+            </labels>
+          </container>
         </configuration>
       </plugin>
     </plugins>
