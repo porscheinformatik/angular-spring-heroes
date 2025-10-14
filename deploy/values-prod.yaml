@@ -18,7 +18,7 @@ datadog:
   apm:
     enabled: true
   application: angular-spring-heroes
-  component: app
+  service: angular-spring-heroes
   enabled: true
   env: prod
   team: fcs-cto-eenv
@@ -27,3 +27,15 @@ env:
     value: 'true'
   - name: DD_PROFILING_ENABLED
     value: 'true'
+  - name: DD_ENV
+    valueFrom:
+      fieldRef:
+        fieldPath: "metadata.labels['tags.datadoghq.com/env']"
+  - name: DD_SERVICE
+    valueFrom:
+      fieldRef:
+        fieldPath: "metadata.labels['tags.datadoghq.com/service']"
+  - name: DD_VERSION
+    valueFrom:
+      fieldRef:
+        fieldPath: "metadata.labels['tags.datadoghq.com/version']"
