@@ -14,6 +14,13 @@ resources:
   requests:
     cpu: 20m
     memory: 480Mi
+datadog:
+  apm:
+    enabled: true
+  application: angular-spring-heroes
+  enabled: true
+  env: qa
+  team: fcs-cto-eenv
 podLabels:
   tags.datadoghq.com/env: prod
   tags.datadoghq.com/service: angular-spring-heroes

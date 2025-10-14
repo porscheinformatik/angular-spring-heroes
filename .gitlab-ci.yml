@@ -4,17 +4,6 @@ default:
     - command -v mise >/dev/null 2>&1 && mise install --yes
     - export MR_TAG="${CI_MERGE_REQUEST_IID:+mr-snapshot-${CI_MERGE_REQUEST_IID}}"
     - export IMAGE_TAG="${MR_TAG:-${CI_COMMIT_REF_SLUG}}"
-    - |
-      function deploy_name() {
-        if [[ "$CI_COMMIT_REF_SLUG" == "main" ]]; then
-          name='prod'
-        else
-          name="mr-$CI_MERGE_REQUEST_IID"
-        fi
-        name=${name:0:45}
-        name=${name%-}
-        echo "ash-$name"
-      }
 
 stages:
   - build
@@ -56,14 +45,9 @@ build-sonarqube-qa:
     - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent install org.jacoco:jacoco-maven-plugin:report
     - SONAR_HOST_URL=$SONAR_QA_HOST_URL SONAR_TOKEN=$SONAR_QA_TOKEN mvn -B sonar:sonar
 
-.deploy:
-  script:
-    - helm-deploy ${OPENSHIFT_SERVER} ${OPENSHIFT_TOKEN} ${OPENSHIFT_PROJECT} deploy/${HELM_VALUES} $(deploy_name) porscheinformatik/web-application --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set "podLabels.tags\.datadoghq\.com/version=1.0.0.${CI_COMMIT_SHORT_SHA}" --set image.tag=${IMAGE_TAG} --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}"
-
 deploy-review:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  extends: .deploy
   stage: deploy
   variables:
     APP_HOST: ash-mr-$CI_MERGE_REQUEST_IID.$OPENSHIFT_DOMAIN
@@ -73,7 +57,7 @@ deploy-review:
     url: https://ash-mr-$CI_MERGE_REQUEST_IID.$OPENSHIFT_DOMAIN
     on_stop: stop-review
   script:
-    - helm-deploy ${OPENSHIFT_SERVER} ${OPENSHIFT_TOKEN} ${OPENSHIFT_PROJECT} deploy/${HELM_VALUES} $(deploy_name) porscheinformatik/web-application --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=${IMAGE_TAG} --set "route.host=$APP_HOST"
+    - helm-deploy ${OPENSHIFT_SERVER} ${OPENSHIFT_TOKEN} ${OPENSHIFT_PROJECT} deploy/${HELM_VALUES} ash-mr-$CI_MERGE_REQUEST_IID porscheinformatik/web-application --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set image.tag=${IMAGE_TAG} --set "route.host=$APP_HOST"
 
 acceptence-tests-cypress:
   rules:
@@ -114,7 +98,6 @@ deploy-production:
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
       when: manual
-  extends: .deploy
   stage: deploy
   variables:
     APP_HOST: $CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
@@ -122,17 +105,18 @@ deploy-production:
   environment:
     name: production
     url: https://$CI_PROJECT_NAME.$OPENSHIFT_DOMAIN
+  script:
+    - helm-deploy ${OPENSHIFT_SERVER} ${OPENSHIFT_TOKEN} ${OPENSHIFT_PROJECT} deploy/${HELM_VALUES} ash-prod porscheinformatik/web-application --set appVersion="v`date +'%Y%m%d-%H%M%S'`" --set datadog.version="`date +'%Y%m%d-%H%M%S'`" --set "podLabels.tags\.datadoghq\.com/version=1.0.0.${CI_COMMIT_SHORT_SHA}" --set image.tag=${IMAGE_TAG} --set route.host=$APP_HOST --set postgresql.postgresPassword="${POSTGRESQL_PASSWORD}"
 
 stop-review:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  extends: .deploy
   stage: cleanup
   variables:
     GIT_STRATEGY: none
   script:
     - oc login "$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN"
-    - helm --namespace ${OPENSHIFT_PROJECT} delete $(deploy_name)
+    - helm --namespace ${OPENSHIFT_PROJECT} delete ash-mr-$CI_MERGE_REQUEST_IID
   environment:
     name: review/mr-$CI_MERGE_REQUEST_IID
     action: stop
