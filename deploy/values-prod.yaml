@@ -23,9 +23,13 @@ datadog:
   env: prod
   team: fcs-cto-eenv
 env:
+  - name: DD_TRACE_ENABLED
+    value: 'true'
   - name: DD_LOGS_INJECTION
     value: 'true'
   - name: DD_PROFILING_ENABLED
+    value: 'true'
+  - name: DD_CODE_ORIGIN_FOR_SPANS_ENABLED
     value: 'true'
   - name: DD_ENV
     valueFrom:
