@@ -35,11 +35,11 @@
     "zone.js": "0.15.1"
   },
   "devDependencies": {
-    "@angular-eslint/builder": "20.7.0",
-    "@angular-eslint/eslint-plugin": "20.7.0",
-    "@angular-eslint/eslint-plugin-template": "20.7.0",
-    "@angular-eslint/schematics": "20.7.0",
-    "@angular-eslint/template-parser": "20.7.0",
+    "@angular-eslint/builder": "21.1.0",
+    "@angular-eslint/eslint-plugin": "21.1.0",
+    "@angular-eslint/eslint-plugin-template": "21.1.0",
+    "@angular-eslint/schematics": "21.1.0",
+    "@angular-eslint/template-parser": "21.1.0",
     "@angular/build": "21.1.1",
     "@angular/cli": "21.1.1",
     "@angular/compiler-cli": "21.1.0",
