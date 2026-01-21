@@ -77,11 +77,7 @@ public class LiquibaseNativeHints implements RuntimeHintsRegistrar {
 
     hints
       .reflection()
-      .registerType(
-        liquibase.change.ConstraintsConfig.class,
-        MemberCategory.DECLARED_FIELDS,
-        MemberCategory.INVOKE_PUBLIC_METHODS
-      );
+      .registerType(liquibase.change.ConstraintsConfig.class, MemberCategory.INVOKE_PUBLIC_METHODS);
   }
 
   private static <T> void registerConstructor(RuntimeHints hints, Class<T> clazz) {

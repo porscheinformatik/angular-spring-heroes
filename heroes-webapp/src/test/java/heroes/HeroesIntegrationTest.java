@@ -1,17 +1,18 @@
 package heroes;
 
-import static io.restassured.RestAssured.get;
-import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import heroes.backend.HeroService;
-import io.restassured.RestAssured;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.devtools.autoconfigure.DevToolsProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.client.RestTestClient;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class HeroesIntegrationTest {
@@ -19,16 +20,29 @@ class HeroesIntegrationTest {
   @LocalServerPort
   private int port;
 
-  @MockBean
+  @MockitoBean
   private DevToolsProperties devToolsProperties;
+
+  private RestTestClient client;
 
   @BeforeEach
   void setup() {
-    RestAssured.port = port;
+    client = RestTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
   }
 
   @Test
   void heroesApiWorks() {
-    get("/api/heroes").then().statusCode(200).body("size()", is(HeroService.HEROES.size()));
+    client
+      .get()
+      .uri("/api/heroes")
+      .exchange()
+      .expectStatus()
+      .isOk()
+      .expectBody(List.class)
+      .consumeWith(result -> {
+        List<?> body = result.getResponseBody();
+        assertNotNull(body);
+        assertEquals(HeroService.HEROES.size(), body.size());
+      });
   }
 }
