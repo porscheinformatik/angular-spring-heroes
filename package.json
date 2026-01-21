@@ -46,7 +46,7 @@
     "@angular/language-service": "21.1.0",
     "@prettier/plugin-xml": "3.4.2",
     "@types/express": "^5.0.0",
-    "@types/jasmine": "5.1.13",
+    "@types/jasmine": "6.0.0",
     "@types/jasminewd2": "2.0.13",
     "@types/node": "^24.0.0",
     "@typescript-eslint/eslint-plugin": "^8.33.1",
