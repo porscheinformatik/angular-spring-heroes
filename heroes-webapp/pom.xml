@@ -130,7 +130,7 @@
         <artifactId>jib-maven-plugin</artifactId>
         <configuration>
           <from>
-            <image>docker.porscheinformatik.com/eenv/service-java:21-ubi10</image>
+            <image>docker.porscheinformatik.com/eenv/service-java:25-ubi10</image>
           </from>
           <to>
             <image>${image.name}:${image.tag}</image>
