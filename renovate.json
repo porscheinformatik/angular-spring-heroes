@@ -20,6 +20,10 @@
     {
       "matchDatasources": ["maven"],
       "allowedVersions": "!/-(atlassian|pre|alpha|beta)/"
+    },
+    {
+      "matchDatasources": ["java-version"],
+      "enabled": false
     }
   ]
 }
