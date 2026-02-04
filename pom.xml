@@ -69,6 +69,17 @@
         <artifactId>native-maven-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>org.hibernate.orm</groupId>
+        <artifactId>hibernate-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
         <inherited>false</inherited>
@@ -114,31 +125,6 @@
       <properties>
         <npm-install-command>ci</npm-install-command>
       </properties>
-    </profile>
-    <profile>
-      <id>native</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.hibernate.orm.tooling</groupId>
-            <artifactId>hibernate-enhance-maven-plugin</artifactId>
-            <version>${hibernate.version}</version>
-            <executions>
-              <execution>
-                <id>enhance</id>
-                <goals>
-                  <goal>enhance</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <enableLazyInitialization>true</enableLazyInitialization>
-              <enableDirtyTracking>true</enableDirtyTracking>
-              <enableAssociationManagement>true</enableAssociationManagement>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
   </profiles>
 
