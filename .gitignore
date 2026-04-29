@@ -25,6 +25,7 @@ heroes-acceptence-tests/cypress/videos/*
 .settings/
 *.sublime-workspace
 *.iml
+.mise
 
 # IDE - VSCode
 .vscode/*
