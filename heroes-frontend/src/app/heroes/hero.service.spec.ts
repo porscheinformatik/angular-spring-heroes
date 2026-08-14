@@ -1,22 +1,42 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { Hero } from 'src/model/hero';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { Hero } from '../../model/hero';
 import { HeroService } from './hero.service';
 
 const HEROES: Hero[] = [{ id: 1, name: 'Hero #1' }];
 
 describe('HeroService', () => {
+  let service: HeroService;
+  let httpTestingController: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      providers: [HeroService],
+      providers: [HeroService, provideHttpClient(), provideHttpClientTesting()],
     });
+
+    service = TestBed.inject(HeroService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
-  it('should return heroes', inject([HeroService], (service: HeroService, done) => {
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
+  it('should return heroes', () => {
+    let latestHeroes: Hero[] | undefined;
+
     service.getHeroes().subscribe((heroes) => {
-      expect(heroes).toBe(HEROES);
-      done();
+      latestHeroes = heroes;
     });
-  }));
+
+    expect(latestHeroes).toEqual([]);
+
+    const request = httpTestingController.expectOne('api/heroes');
+    expect(request.request.method).toBe('GET');
+
+    request.flush(HEROES);
+
+    expect(latestHeroes).toEqual(HEROES);
+  });
 });

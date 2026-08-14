@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { HeroService } from '../hero.service';
 import { Router } from '@angular/router';
 import { Hero } from '../../../model/hero';
@@ -26,6 +26,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './heroes.component.html',
   styleUrls: ['./heroes.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatFormField,
     MatLabel,

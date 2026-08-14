@@ -1,35 +1,41 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-
+import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { provideTranslateService } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
-import { HeroDetailComponent } from './heroes/hero-detail/hero-detail.component';
-import { FormsModule } from '@angular/forms';
-import { HeroService } from './heroes/hero.service';
 
 describe('AppComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, FormsModule, HeroDetailComponent, AppComponent],
-      providers: [HeroService],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [AppComponent],
+      providers: [provideRouter([]), provideTranslateService()],
     }).compileComponents();
-  }));
+  });
 
-  it('should create the app', waitForAsync(() => {
+  it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
+
     expect(app).toBeTruthy();
-  }));
+  });
 
-  it(`should have as title 'app'`, waitForAsync(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Tour of Heroes');
-  }));
-
-  it('should render title in a h1 tag', waitForAsync(() => {
+  it('should render the site title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Tour of Heroes');
-  }));
+
+    const compiled: HTMLElement = fixture.nativeElement;
+
+    expect(compiled.querySelector('.app-name')?.textContent).toContain('site-title');
+  });
+
+  it('should render the main navigation links', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+
+    const compiled: HTMLElement = fixture.nativeElement;
+    const linkTexts = Array.from(compiled.querySelectorAll('a')).map((link) =>
+      link.textContent?.trim(),
+    );
+
+    expect(linkTexts).toEqual(expect.arrayContaining(['nav.dashboard', 'nav.heroes']));
+  });
 });

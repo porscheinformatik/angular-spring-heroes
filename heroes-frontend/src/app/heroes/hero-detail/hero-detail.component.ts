@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { HeroService } from '../hero.service';
 import { Hero } from '../../../model/hero';
@@ -14,6 +14,7 @@ import { MatButton } from '@angular/material/button';
   templateUrl: './hero-detail.component.html',
   styleUrls: ['./hero-detail.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     TranslateDirective,
     MatFormField,

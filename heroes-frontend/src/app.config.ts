@@ -1,7 +1,7 @@
 // AoT requires an exported function for factories
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideClientHydration, withNoIncrementalHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, Routes, withComponentInputBinding } from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
@@ -31,8 +31,8 @@ export const appConfig: ApplicationConfig = {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
     },
-    provideClientHydration(),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideClientHydration(withNoIncrementalHydration()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
     provideAnimations(),
   ],
 };
