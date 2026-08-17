@@ -51,7 +51,7 @@
     "@types/node": "^24.0.0",
     "@typescript-eslint/eslint-plugin": "^8.67.0",
     "@typescript-eslint/parser": "^8.67.0",
-    "eslint": "^9.28.0",
+    "eslint": "^10.0.0",
     "eslint-plugin-jsdoc": "64.1.0",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "istanbul-lib-instrument": "^6.0.3",
