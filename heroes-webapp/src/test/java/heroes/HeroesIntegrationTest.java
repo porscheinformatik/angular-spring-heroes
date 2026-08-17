@@ -27,7 +27,9 @@ class HeroesIntegrationTest {
 
   @BeforeEach
   void setup() {
-    client = RestTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
+    client = RestTestClient.bindToServer()
+      .baseUrl("http://localhost:" + port)
+      .build();
   }
 
   @Test
