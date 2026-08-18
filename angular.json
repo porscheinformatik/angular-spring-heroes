@@ -75,10 +75,10 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
+            "coverage": true,
+            "coverageReporters": ["html", "lcovonly"],
             "tsConfig": "heroes-frontend/tsconfig.spec.json",
-            "reporters": ["default"],
-            "buildTarget": ":build:testing",
-            "runner": "vitest"
+            "buildTarget": ":build:testing"
           }
         },
         "lint": {

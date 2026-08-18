@@ -39,6 +39,7 @@ npm-debug.log
 debug.log
 testem.log
 yarn.lock
+coverage/
 
 # e2e
 /e2e/*.js
